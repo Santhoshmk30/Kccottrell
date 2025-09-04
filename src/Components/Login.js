@@ -53,8 +53,8 @@ function Login() {
       justifyContent: 'center',
       alignItems: 'center',
       height: '100vh',
-     backgroundImage: "url('/src/Components/background.jpg')", // 🔹 image path
-      backgroundSize: 'cover', // 🔹 fit full screen
+     backgroundImage: "url('/images/background.jpg')", 
+      backgroundSize: 'cover',
       backgroundPosition: 'center', 
       backgroundRepeat: 'no-repeat',
       padding: '20px',
@@ -158,6 +158,7 @@ function Login() {
 }
 
 export default Login;
+
 
 
 
