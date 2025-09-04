@@ -37,8 +37,11 @@ const Register = () => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      height: '100vh', // this ensures vertical centering
-      background: 'linear-gradient(to right, #74ebd5, #9face6)',
+      height: '100vh', 
+      backgroundImage: "url('/images/register.jpg')", 
+      backgroundSize: 'cover',
+      backgroundPosition: 'center', 
+      backgroundRepeat: 'no-repeat',
       padding: '20px',
     },
     card: {
@@ -173,4 +176,5 @@ const Register = () => {
 };
 
 export default Register;
+
 
