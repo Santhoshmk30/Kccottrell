@@ -114,7 +114,14 @@ function Login() {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h2 style={styles.heading}>Log</h2>
+     <div style={{ textAlign: "center", marginBottom: "20px" }}>
+    <img 
+      src="'./Components/logo.png"
+      alt="Logo"
+      style={{ width: "100px", height: "100px", objectFit: "contain" }}
+    />
+  </div>
+        <h2 style={styles.heading}>Login</h2>
         <form onSubmit={handleLogin}>
           <input
             type="email"
@@ -148,4 +155,5 @@ function Login() {
 }
 
 export default Login;
+
 
