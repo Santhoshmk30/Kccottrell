@@ -1,0 +1,150 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
+
+
+function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const form = new FormData();
+      form.append("email", email);
+      form.append("password", password);
+
+      const response = await axios.post(
+        'https://darkslategrey-shrew-424102.hostingersite.com/api/login.php',
+        form
+      );
+
+      const data = response.data;
+
+      if (data.success) {
+        const role = data.role.toLowerCase();
+
+        if (role === 'ceo') {
+          navigate('/approval');
+        } else if (role === 'manager') {
+          navigate('/certification');
+        } else if (role === 'employee') {
+          navigate('/request');
+        } else if (role === 'admin') {
+          navigate('/admin');
+        } else {
+          alert('Unknown role');
+        }
+      } else {
+        setMessage(data.message || 'Invalid credentials');
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage('Login failed. Please try again.');
+    }
+  };
+
+  const styles = {
+    container: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh',
+      background: 'linear-gradient(to right, #74ebd5, #9face6)',
+      padding: '20px',
+    },
+    card: {
+      width: '100%',
+      maxWidth: '400px',
+      backgroundColor: '#fff',
+      backdropFilter: 'blur(10px)',
+      borderRadius: '16px',
+      boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+      padding: '35px 30px',
+      border: '2px solid #fff',
+    },
+    heading: {
+      textAlign: 'center',
+      color: '#2c3e50',
+      fontSize: '28px',
+      fontWeight: 'bold',
+      marginBottom: '25px',
+    },
+    input: {
+      width: '90%',
+      padding: '12px 15px',
+      marginBottom: '15px',
+      borderRadius: '10px',
+      border: '1px solid #ccc',
+      fontSize: '16px',
+      backgroundColor: '#fdfdfd',
+      color: '#2c3e50',
+      transition: 'all 0.3s ease',
+      boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+      outline: 'none',
+    },
+    button: {
+      width: '100%',
+      padding: '12px',
+      background: 'linear-gradient(to right, #00c6ff, #0072ff)',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '10px',
+      fontSize: '16px',
+      fontWeight: 'bold',
+      cursor: 'pointer',
+    },
+    message: {
+      marginTop: '15px',
+      textAlign: 'center',
+      color: message.includes('success') ? '#27ae60' : '#e74c3c',
+      fontWeight: '500',
+    },
+    registerLink: {
+      marginTop: '20px',
+      textAlign: 'center',
+      fontSize: '14px',
+      color: '#2c3e50',
+    }    
+  };
+
+  return (
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <h2 style={styles.heading}>Login</h2>
+        <form onSubmit={handleLogin}>
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            style={styles.input}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            style={styles.input}
+          />
+          <button type="submit" style={styles.button}>Login</button>
+        </form>
+        <p style={styles.message}>{message}</p>
+        <p style={styles.registerLink}>
+  Don't have an account?{' '}
+  <Link to="/register" style={{ textDecoration: 'underline', color: '#0072ff', fontWeight: 'bold' }}>
+    Create Account
+  </Link>
+</p>
+
+      </div>
+    </div>
+  );
+}
+
+export default Login;
