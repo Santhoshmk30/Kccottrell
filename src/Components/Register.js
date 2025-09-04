@@ -122,6 +122,13 @@ const Register = () => {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
+  <div style={{ textAlign: "center", marginBottom: "20px" }}>
+    <img 
+      src="/logo full.png"
+      alt="Logo"
+      style={{ width: "300px", height: "100px", objectFit: "contain" }}
+    />
+  </div>
         <h2 style={styles.heading}>Create Account</h2>
         <form onSubmit={handleSubmit}>
           <input
@@ -176,5 +183,6 @@ const Register = () => {
 };
 
 export default Register;
+
 
 
