@@ -36,37 +36,6 @@ const Dashboard = () => {
     setSelected(null);
   };
 
-  const updateStatus = (id, newStatus) => {
-    const payload = { id, status: newStatus };
-
-    fetch("https://darkslategrey-shrew-424102.hostingersite.com/api/update_status.php", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.status === "success") {
-          const updated = requests.map(req =>
-            String(req.id) === String(id) ? { ...req, status: newStatus } : req
-          );
-          setRequests(updated);
-
-          const filtered = filterStatus === 'All'
-            ? updated
-            : updated.filter(item => item.status === filterStatus);
-          setFilteredRequests(filtered);
-
-          setSelected(null);
-        } else {
-          alert("Update failed");
-        }
-      })
-      .catch(() => {
-        alert("Network error occurred");
-      });
-  };
-
   return (
     <div style={styles.container}>
 
@@ -76,7 +45,7 @@ const Dashboard = () => {
     + Trip Request
   </button>
 </div>
-      <h1 style={styles.heading}>Trip Request</h1>
+     
 
       <div style={styles.filterWrapper}>
         <label>Status Filter:</label>
@@ -269,5 +238,6 @@ addBtn: {
 }
 };
 export default Dashboard;
+
 
 
