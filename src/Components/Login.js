@@ -118,7 +118,7 @@ function Login() {
     <img 
       src="/logo full.png"
       alt="Logo"
-      style={{ width: "100px", height: "100px", objectFit: "contain" }}
+      style={{ width: "300px", height: "200px", objectFit: "contain" }}
     />
   </div>
         <h2 style={styles.heading}>Login</h2>
@@ -155,6 +155,7 @@ function Login() {
 }
 
 export default Login;
+
 
 
 
