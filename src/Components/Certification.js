@@ -84,7 +84,7 @@ const Certifications = () => {
           <div style={styles.cell}>From</div>
           <div style={styles.cell}>To</div>
           <div style={styles.cell}>Department</div>
-          <div style={styles.cell}>Prject</div>
+          <div style={styles.cell}>Project</div>
           <div style={styles.cell}>Place</div>
           <div style={styles.cell}>Status</div>
           <div style={styles.cell}>Action</div>
@@ -256,4 +256,5 @@ const styles = {
 };
 
 export default Certifications;
+
 
