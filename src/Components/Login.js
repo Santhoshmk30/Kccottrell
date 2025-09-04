@@ -118,14 +118,14 @@ function Login() {
     <img 
       src="/logo full.png"
       alt="Logo"
-      style={{ width: "300px", height: "200px", objectFit: "contain" }}
+      style={{ width: "300px", height: "100px", objectFit: "contain" }}
     />
   </div>
         <h2 style={styles.heading}>Login</h2>
         <form onSubmit={handleLogin}>
           <input
-            type="email"
-            placeholder="Email Address"
+            type="text"
+            placeholder="Employee ID"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -155,6 +155,7 @@ function Login() {
 }
 
 export default Login;
+
 
 
 
