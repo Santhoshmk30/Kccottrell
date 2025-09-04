@@ -116,7 +116,7 @@ function Login() {
       <div style={styles.card}>
      <div style={{ textAlign: "center", marginBottom: "20px" }}>
     <img 
-      src="./src/Components/logo.png"
+      src="/logo.png"
       alt="Logo"
       style={{ width: "100px", height: "100px", objectFit: "contain" }}
     />
@@ -155,6 +155,7 @@ function Login() {
 }
 
 export default Login;
+
 
 
 
