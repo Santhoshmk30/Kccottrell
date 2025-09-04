@@ -130,8 +130,8 @@ const Register = () => {
           />
           <input
             name="email"
-            type="email"
-            placeholder="Email Address"
+            type="text"
+            placeholder="Employee ID"
             onChange={handleChange}
             style={styles.input}
             required
@@ -173,3 +173,4 @@ const Register = () => {
 };
 
 export default Register;
+
