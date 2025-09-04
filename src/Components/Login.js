@@ -53,7 +53,10 @@ function Login() {
       justifyContent: 'center',
       alignItems: 'center',
       height: '100vh',
-      background: 'linear-gradient(to right, #74ebd5, #9face6)',
+     backgroundImage: "url('/src/Components/background.jpg')", // 🔹 image path
+      backgroundSize: 'cover', // 🔹 fit full screen
+      backgroundPosition: 'center', 
+      backgroundRepeat: 'no-repeat',
       padding: '20px',
     },
     card: {
@@ -155,6 +158,7 @@ function Login() {
 }
 
 export default Login;
+
 
 
 
