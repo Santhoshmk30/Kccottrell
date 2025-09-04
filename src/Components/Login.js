@@ -32,7 +32,7 @@ function Login() {
         } else if (role === 'manager') {
           navigate('/certification');
         } else if (role === 'employee') {
-          navigate('/request');
+          navigate('/dashboard');
         } else if (role === 'admin') {
           navigate('/admin');
         } else {
@@ -158,6 +158,7 @@ function Login() {
 }
 
 export default Login;
+
 
 
 
