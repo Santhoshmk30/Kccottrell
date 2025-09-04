@@ -114,7 +114,7 @@ function Login() {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h2 style={styles.heading}>Login</h2>
+        <h2 style={styles.heading}>Log</h2>
         <form onSubmit={handleLogin}>
           <input
             type="email"
@@ -148,3 +148,4 @@ function Login() {
 }
 
 export default Login;
+
