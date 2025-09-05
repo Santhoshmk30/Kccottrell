@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Preloader from './Preloader';
 
 const Register = () => {
   const [formData, setFormData] = useState({
     name: '', employee_id: '', password: '', role: ''
   });
   const [message, setMessage] = useState('');
+
+  const [loading, setLoading] = useState(true); // 👈 default true
+
+  useEffect(() => {
+    // 2 sec loader show pannitu hide aagum
+    const timer = setTimeout(() => setLoading(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -118,6 +127,9 @@ const Register = () => {
       color: '#2c3e50',
     }  
   };
+ if (loading) {
+    return <Preloader />; 
+  }
 
   return (
     <div style={styles.container}>
@@ -183,6 +195,7 @@ const Register = () => {
 };
 
 export default Register;
+
 
 
 
