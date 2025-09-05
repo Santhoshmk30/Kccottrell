@@ -12,12 +12,12 @@ function Login() {
 
   const handleEmployeeChange = async (e) => {
     const value = e.target.value;
-    setEmployeeId(value);
+    setEmployeeId(employee_id);
 
     if(value.length > 0){
       try {
         const response = await axios.get(
-          `https://darkslategrey-shrew-424102.hostingersite.com/api/get_name.php?employee_id=${value}`
+          `https://darkslategrey-shrew-424102.hostingersite.com/api/get_name.php?employee_id=${employee_id}`
         );
         if(response.data.success){
           setName(response.data.name);
@@ -183,6 +183,7 @@ function Login() {
 }
 
 export default Login;
+
 
 
 
