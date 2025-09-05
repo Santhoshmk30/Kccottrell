@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 
 
 function Login() {
-  const [employeeId, setEmployeeId] = useState('');
+  const [employee_id, setEmployeeId] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ function Login() {
 
     try {
       const form = new FormData();
-      form.append("employee_id", employeeId);
+      form.append("employee_id", employee_id);
       form.append("password", password);
 
       const response = await axios.post(
@@ -129,7 +129,7 @@ function Login() {
           <input
             type="text"
             placeholder="Employee ID"
-            value={employeeId}
+            value={employee_id}
             onChange={(e) => setEmployeeId(e.target.value)}
             required
             style={styles.input}
@@ -158,6 +158,7 @@ function Login() {
 }
 
 export default Login;
+
 
 
 
