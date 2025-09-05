@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -122,7 +122,6 @@ const Register = () => {
     }  
   };
 
-
   return (
     <div style={styles.container}>
       <div style={styles.card}>
@@ -187,6 +186,7 @@ const Register = () => {
 };
 
 export default Register;
+
 
 
 
