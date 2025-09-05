@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    name: '', email: '', password: '', role: ''
+    name: '', employeeId: '', password: '', role: ''
   });
   const [message, setMessage] = useState('');
 
@@ -16,7 +16,7 @@ const Register = () => {
     e.preventDefault();
     const form = new FormData();
     form.append('name', formData.name);
-    form.append('email', formData.email);
+    form.append('employeeId', formData.employeeId);
     form.append('password', formData.password);
     form.append('role', formData.role);
 
@@ -139,7 +139,7 @@ const Register = () => {
             required
           />
           <input
-            name="email"
+            name="employeeId"
             type="text"
             placeholder="Employee ID"
             onChange={handleChange}
@@ -183,6 +183,7 @@ const Register = () => {
 };
 
 export default Register;
+
 
 
 
