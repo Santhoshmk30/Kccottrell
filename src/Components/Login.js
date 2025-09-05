@@ -10,28 +10,29 @@ function Login() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleEmployeeChange = async (e) => {
-    const value = e.target.value;
-    setEmployeeId(employee_id);
+ const handleEmployeeChange = async (e) => {
+  const value = e.target.value;
+  setEmployeeId(value);  
 
-    if(value.length > 0){
-      try {
-        const response = await axios.get(
-          `https://darkslategrey-shrew-424102.hostingersite.com/api/get_name.php?employee_id=${employee_id}`
-        );
-        if(response.data.success){
-          setName(response.data.name);
-        } else {
-          setName('');
-        }
-      } catch (err) {
-        console.error(err);
+  if (value.length > 0) {
+    try {
+      const response = await axios.get(
+        `https://darkslategrey-shrew-424102.hostingersite.com/api/get_name.php?employee_id=${value}`
+      );
+      if (response.data.success) {
+        setName(response.data.name);
+      } else {
         setName('');
       }
-    } else {
+    } catch (err) {
+      console.error(err);
       setName('');
     }
-  };
+  } else {
+    setName('');
+  }
+};
+
   
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -150,25 +151,27 @@ function Login() {
   </div>
         <h2 style={styles.heading}>Login</h2>
         <form onSubmit={handleLogin}>
-        {name && <p>Hii, {name}!</p>}
-          <input
-            type="text"
-            placeholder="Employee ID"
-            value={employee_id}
-            onChange={handleEmployeeChange}
-            required
-            style={styles.input}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={styles.input}
-          />
-          <button type="submit" style={styles.button}>Login</button>
-        </form>
+  <input
+    type="text"
+    placeholder="Employee ID"
+    value={employee_id}
+    onChange={handleEmployeeChange}
+    required
+    style={styles.input}
+  />
+  {name && <p style={{ marginTop: '5px', color: '#2980b9' }}>Hii, {name}!</p>}
+  
+  <input
+    type="password"
+    placeholder="Password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    required
+    style={styles.input}
+  />
+  <button type="submit" style={styles.button}>Login</button>
+</form>
+
         <p style={styles.message}>{message}</p>
         <p style={styles.registerLink}>
   Don't have an account?{' '}
