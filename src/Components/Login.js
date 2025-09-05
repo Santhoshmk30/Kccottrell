@@ -155,7 +155,7 @@ function Login() {
             type="text"
             placeholder="Employee ID"
             value={employee_id}
-            onChange={(e) => setEmployeeId(e.target.value)}
+            onChange={handleEmployeeChange}
             required
             style={styles.input}
           />
@@ -183,6 +183,7 @@ function Login() {
 }
 
 export default Login;
+
 
 
 
