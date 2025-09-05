@@ -11,7 +11,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(true); // 👈 default true
+  const [isloading, setLoading] = useState(true); // 👈 default true
 
  
   const handleEmployeeChange = async (e) => {
@@ -187,6 +187,7 @@ if (value.length > 0) {
 }
 
 export default Login;
+
 
 
 
