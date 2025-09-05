@@ -11,6 +11,13 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(true); // 👈 default true
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  
   const handleEmployeeChange = async (e) => {
     const value = e.target.value;
     setEmployeeId(value);
@@ -132,6 +139,9 @@ if (value.length > 0) {
       color: '#2c3e50',
     }    
   };
+ if (loading) {
+    return <Preloader />;
+  }
 
   return (
       <>
@@ -183,5 +193,6 @@ if (value.length > 0) {
 }
 
 export default Login;
+
 
 
