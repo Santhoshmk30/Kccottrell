@@ -1,7 +1,6 @@
 import React, { useState} from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Preloader from './Preloader';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -188,6 +187,7 @@ const Register = () => {
 };
 
 export default Register;
+
 
 
 
