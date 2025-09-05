@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import Preloader from './Preloader';
@@ -13,11 +13,7 @@ function Login() {
 
   const [loading, setLoading] = useState(true); // 👈 default true
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2000);
-    return () => clearTimeout(timer);
-  }, []);
-  
+ 
   const handleEmployeeChange = async (e) => {
     const value = e.target.value;
     setEmployeeId(value);
@@ -139,9 +135,7 @@ if (value.length > 0) {
       color: '#2c3e50',
     }    
   };
- if (loading) {
-    return <Preloader />;
-  }
+ 
 
   return (
       <>
