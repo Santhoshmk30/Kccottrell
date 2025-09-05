@@ -15,7 +15,6 @@ function Login() {
     const value = e.target.value;
     setEmployeeId(value);
 if (value.length > 0) {
-      setLoading(true); // loader start
       try {
         const response = await axios.get(
           `https://darkslategrey-shrew-424102.hostingersite.com/api/get_name.php?employee_id=${value}`
@@ -29,7 +28,6 @@ if (value.length > 0) {
         console.error(err);
         setName('');
       }
-      setLoading(false); // loader stop
     } else {
       setName('');
     }
@@ -185,4 +183,5 @@ if (value.length > 0) {
 }
 
 export default Login;
+
 
