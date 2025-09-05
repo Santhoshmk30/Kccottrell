@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Preloader from './Preloader';
@@ -12,7 +12,6 @@ const Register = () => {
   const [loading, setLoading] = useState(true); // 👈 default true
 
   useEffect(() => {
-    // 2 sec loader show pannitu hide aagum
     const timer = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
@@ -195,6 +194,7 @@ const Register = () => {
 };
 
 export default Register;
+
 
 
 
