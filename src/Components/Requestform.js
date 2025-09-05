@@ -81,7 +81,7 @@ const TripRequestForm = () => {
     
         if (result.status === "success") {
           alert("Trip request submitted successfully!");
-          navigate('/certification');
+          navigate('/dashboard');
         } else {
           alert("Failed to submit: " + result.message);
         }
@@ -334,3 +334,4 @@ const TripRequestForm = () => {
 };
 
 export default TripRequestForm;
+
