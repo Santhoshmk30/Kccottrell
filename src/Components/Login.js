@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import Preloader from './Preloader';
 
 function Login() {
   const [employee_id, setEmployeeId] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleEmployeeChange = async (e) => {
     const value = e.target.value;
     setEmployeeId(value);
-
-    if (value.length > 0) {
+if (value.length > 0) {
+      setLoading(true); // loader start
       try {
         const response = await axios.get(
           `https://darkslategrey-shrew-424102.hostingersite.com/api/get_name.php?employee_id=${value}`
@@ -27,6 +29,7 @@ function Login() {
         console.error(err);
         setName('');
       }
+      setLoading(false); // loader stop
     } else {
       setName('');
     }
@@ -34,6 +37,7 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true); // login loader start
     try {
       const form = new FormData();
       form.append("employee_id", employee_id);
@@ -45,10 +49,10 @@ function Login() {
       );
 
       const data = response.data;
+      setLoading(false); // stop loader
 
       if (data.success) {
         const role = data.role.toLowerCase();
-
         if (role === 'ceo') navigate('/approval');
         else if (role === 'manager') navigate('/certification');
         else if (role === 'employee') navigate('/dashboard');
@@ -60,8 +64,10 @@ function Login() {
     } catch (err) {
       console.error(err);
       setMessage('Login failed. Please try again.');
+      setLoading(false);
     }
   };
+
 
   const styles = {
     container: {
@@ -130,6 +136,8 @@ function Login() {
   };
 
   return (
+      <>
+      {loading && <Preloader />} 
     <div style={styles.container}>
       <div style={styles.card}>
         <div style={{ textAlign: "center", marginBottom: "20px" }}>
@@ -172,7 +180,9 @@ function Login() {
         </p>
       </div>
     </div>
+    </>
   );
 }
 
 export default Login;
+
