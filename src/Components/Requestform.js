@@ -442,8 +442,10 @@ useEffect(() => {
 </div>
 
 
- <div style={styles.field}>
+<div style={styles.field}>
   <label style={styles.label}>Special Approval</label>
+  
+  <label style={{  display: 'flex', gap: '10px', marginTop: '5px' }}>
     <input
       type="radio"
       name="specialApproval"
@@ -452,6 +454,7 @@ useEffect(() => {
       onChange={handleChange}
     />
     Yes
+  </label>
   
   <label>
     <input
@@ -783,6 +786,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
