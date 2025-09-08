@@ -539,34 +539,6 @@ useEffect(() => {
             />
           </div>
 
-              {/* Transport Mode selection */}
-<div style={styles.transportSection}>
-  <label style={styles.label}>Transport</label>
-  <div style={styles.radioGroup}>
-    {["Air", "Train", "Bus/Taxi/Car"].map((mode) => (
-      <label key={mode} style={styles.radioLabel}>
-        <input
-          type="radio"
-          name="transportMode"
-          value={mode}
-          checked={formData.transportMode === mode}
-          onChange={handleChange}
-          style={styles.radioInput}
-        />
-        {mode}
-      </label>
-    ))}
-  </div>
-
-  {/* Show result */}
-  {formData.transportMode && (
-    <div style={styles.resultBox}>
-      Allowed Class:{" "}
-      <span style={styles.resultText}>{getTravelClass()}</span>
-    </div>
-  )}
-</div>
-
 {/* Ticket Booking By */}
 <div style={styles.field}>
   <label style={styles.label}>Ticket Booked By</label>
@@ -857,6 +829,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
