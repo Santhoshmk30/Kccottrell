@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import citiesByState from "./states/Indian_Cities_In_States_JSON.json";
 import cityTiers from "./states/cityTiers.json";
 import allowances from "./states/allowances.json";
-import travelModes from "./states/travelmodes.json";
+
 
 
 
@@ -805,6 +805,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
