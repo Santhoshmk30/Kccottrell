@@ -519,7 +519,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 
-<div style={styles.row}>
+
 {/* Transport Section with Multiple Entries */}
 <div>
   <label style={styles.label}>Transport Details</label>
@@ -557,6 +557,8 @@ const handleTransportChange = (index, field, value) => {
       </div>
 
       {/* Ticket Booked By */}
+       <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
+
       <div style={styles.field}>
         <label style={styles.label}>Ticket Booked By</label>
        <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
@@ -587,6 +589,8 @@ const handleTransportChange = (index, field, value) => {
           </label>
         </div>
       </div>
+      </div>
+
 
       {/* From / To / Amount */}
       <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
@@ -652,7 +656,6 @@ const handleTransportChange = (index, field, value) => {
     + Add Transport
   </button>
 </div>
-      </div>
 
 
 
@@ -907,6 +910,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
