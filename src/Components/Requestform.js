@@ -132,16 +132,6 @@ const togglePreview = () => {
   setShowPreview(!showPreview);
 };
 
-  function PreviewBlink() {
-  const [blink, setBlink] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setBlink(prev => !prev);
-    }, 600); 
-    return () => clearInterval(interval);
-  }, []);
-
 
   const total = [
     formData.accommodation,
@@ -1107,6 +1097,7 @@ confirmBtn: {
 
 
 export default TripRequestForm;
+
 
 
 
