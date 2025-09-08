@@ -516,6 +516,10 @@ const handleTransportChange = (index, field, value) => {
             placeholder="Enter Purpose"
             style={styles.input}
           />
+
+
+
+<div style={styles.row}>
 {/* Transport Section with Multiple Entries */}
 <div>
   <label style={styles.label}>Transport Details</label>
@@ -554,9 +558,9 @@ const handleTransportChange = (index, field, value) => {
 
       {/* Ticket Booked By */}
       <div style={styles.field}>
-        <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
         <label style={styles.label}>Ticket Booked By</label>
-        
+       <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
+
           <label>
             <input
               type="radio"
@@ -648,6 +652,7 @@ const handleTransportChange = (index, field, value) => {
     + Add Transport
   </button>
 </div>
+      </div>
 
 
 
@@ -902,6 +907,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
