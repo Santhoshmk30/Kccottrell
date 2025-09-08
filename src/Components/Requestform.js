@@ -1057,6 +1057,7 @@ specialHighlight: {
   fontWeight: "bold",
   animation: "blink 1s infinite",
   textAlign: "center",
+  animation: "blinker 1s steps(2, start) infinite" ,
 },
 previewActions: {
   display: "flex",
@@ -1081,22 +1082,11 @@ confirmBtn: {
   cursor: "pointer",
   fontWeight: "bold",
 },
- specialHighlight: {
-    color: "#d9534f",
-    fontWeight: "bold",
-    fontSize: "16px",
-    padding: "10px",
-    border: "2px solid #d9534f",
-    borderRadius: "8px",
-    marginTop: "10px",
-    backgroundColor: "#fff5f5",
-    animation: "blinker 1s steps(2, start) infinite" 
-  },
-
   };
 
 
 export default TripRequestForm;
+
 
 
 
