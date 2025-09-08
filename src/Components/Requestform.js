@@ -30,6 +30,8 @@ const TripRequestForm = () => {
     miscellaneous: '',
     others: '',
     modeOfPayment: '',
+    ticketBookedBy: "",
+    transports: [{ from: "", to: "", amount: "" }]
   });
 
   const [activeForm, setActiveForm] = useState("domestic");
@@ -97,7 +99,29 @@ useEffect(() => {
   }
 }, [formData.designation, formData.place]);
 
- 
+ const addTransport = () => {
+  setFormData((prev) => ({
+    ...prev,
+    transports: [...prev.transports, { from: "", to: "", amount: "" }]
+  }));
+};
+
+const removeTransport = (index) => {
+  setFormData((prev) => {
+    const newTransports = [...prev.transports];
+    newTransports.splice(index, 1);
+    return { ...prev, transports: newTransports };
+  });
+};
+
+const handleTransportChange = (index, field, value) => {
+  setFormData((prev) => {
+    const newTransports = [...prev.transports];
+    newTransports[index][field] = value;
+    return { ...prev, transports: newTransports };
+  });
+};
+
 
   
 
@@ -488,14 +512,13 @@ useEffect(() => {
             style={styles.input}
           />
 
-
-     {/* Transport Section */}
+{/* Transport Section */}
 <div style={styles.row}>
   {/* Transport Mode */}
   <div style={styles.field}>
     <label style={styles.label}>Transport</label>
     <div style={styles.radioGroup}>
-      {["Air", "Train", "Bus/Taxi/Car"].map((mode) => (
+      {["Air", "Train", "Bus", "Taxi"].map((mode) => (
         <label key={mode} style={styles.radioLabel}>
           <input
             type="radio"
@@ -509,8 +532,6 @@ useEffect(() => {
         </label>
       ))}
     </div>
-
-    
   </div>
 
   {/* Ticket Booked By */}
@@ -538,19 +559,54 @@ useEffect(() => {
         Company
       </label>
     </div>
+  </div>
+</div>
 
-    {/* Transport Amount - only if Self */}
-    {formData.ticketBookedBy === "Self" && (
+{/* Multiple Transport Entries */}
+<div style={{ marginTop: "15px" }}>
+  <label style={styles.label}>Travel Details</label>
+  {formData.transports?.map((item, index) => (
+    <div key={index} style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
       <input
-        type="number"
-        name="transportAmount"
-        value={formData.transportAmount}
-        onChange={handleChange}
-        placeholder={`Enter ${formData.transportMode || "Transport"} amount`}
+        type="text"
+        placeholder="From"
+        value={item.from}
+        onChange={(e) => handleTransportChange(index, "from", e.target.value)}
         style={styles.input1}
       />
-    )}
-  </div>
+      <input
+        type="text"
+        placeholder="To"
+        value={item.to}
+        onChange={(e) => handleTransportChange(index, "to", e.target.value)}
+        style={styles.input1}
+      />
+      {formData.ticketBookedBy === "Self" && (
+        <input
+          type="number"
+          placeholder="Amount"
+          value={item.amount}
+          onChange={(e) => handleTransportChange(index, "amount", e.target.value)}
+          style={styles.input1}
+        />
+      )}
+      <button
+        type="button"
+        onClick={() => removeTransport(index)}
+        style={{ padding: "5px 10px", background: "red", color: "#fff", border: "none", borderRadius: "5px" }}
+      >
+        X
+      </button>
+    </div>
+  ))}
+
+  <button
+    type="button"
+    onClick={addTransport}
+    style={{ padding: "5px 15px", background: "green", color: "#fff", border: "none", borderRadius: "5px" }}
+  >
+    + Add
+  </button>
 </div>
 
 
@@ -805,6 +861,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
