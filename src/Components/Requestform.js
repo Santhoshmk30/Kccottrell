@@ -22,7 +22,6 @@ const TripRequestForm = () => {
     purpose: '',
     accommodation: '',
     dailyAllowance: '',
-    transportMode: '',
     transportAmount: '',
     parking: '',
     toll: '',
@@ -31,7 +30,11 @@ const TripRequestForm = () => {
     others: '',
     modeOfPayment: '',
     ticketBookedBy: "",
-    transports: [{ from: "", to: "", amount: "" }]
+    transports: [
+    { transportMode: "", ticketBookedBy: "", from: "", to: "", amount: "" }
+  ]
+});
+
   });
 
   const [activeForm, setActiveForm] = useState("domestic");
@@ -166,6 +169,33 @@ const handleTransportChange = (index, field, value) => {
       alert("Network error while submitting form.");
     }
   };
+
+const addTransport = () => {
+  setFormData((prev) => ({
+    ...prev,
+    transports: [
+      ...prev.transports,
+      { transportMode: "", ticketBookedBy: "", from: "", to: "", amount: "" }
+    ]
+  }));
+};
+
+const removeTransport = (index) => {
+  setFormData((prev) => {
+    const newTransports = [...prev.transports];
+    newTransports.splice(index, 1);
+    return { ...prev, transports: newTransports };
+  });
+};
+
+const handleTransportChange = (index, field, value) => {
+  setFormData((prev) => {
+    const newTransports = [...prev.transports];
+    newTransports[index][field] = value;
+    return { ...prev, transports: newTransports };
+  });
+};
+
 
 
   return (
@@ -511,103 +541,138 @@ const handleTransportChange = (index, field, value) => {
             placeholder="Enter Purpose"
             style={styles.input}
           />
+{/* Transport Section with Multiple Entries */}
+<div>
+  <label style={styles.label}>Transport Details</label>
 
-{/* Transport Section */}
-<div style={styles.row}>
-  {/* Transport Mode */}
-  <div style={styles.field}>
-    <label style={styles.label}>Transport</label>
-    <div style={styles.radioGroup}>
-      {["Air", "Train", "Bus", "Taxi"].map((mode) => (
-        <label key={mode} style={styles.radioLabel}>
-          <input
-            type="radio"
-            name="transportMode"
-            value={mode}
-            checked={formData.transportMode === mode}
-            onChange={handleChange}
-            style={styles.radioInput}
-          />
-          {mode}
-        </label>
-      ))}
-    </div>
-  </div>
-
-  {/* Ticket Booked By */}
-  <div style={styles.field}>
-    <label style={styles.label}>Ticket Booked By</label>
-    <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
-      <label>
-        <input
-          type="radio"
-          name="ticketBookedBy"
-          value="Self"
-          checked={formData.ticketBookedBy === "Self"}
-          onChange={handleChange}
-        />
-        Self
-      </label>
-      <label>
-        <input
-          type="radio"
-          name="ticketBookedBy"
-          value="Company"
-          checked={formData.ticketBookedBy === "Company"}
-          onChange={handleChange}
-        />
-        Company
-      </label>
-    </div>
-  </div>
-</div>
-
-{/* Multiple Transport Entries */}
-<div style={{ marginTop: "15px" }}>
-  <label style={styles.label}>Travel Details</label>
   {formData.transports?.map((item, index) => (
-    <div key={index} style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
-      <input
-        type="text"
-        placeholder="From"
-        value={item.from}
-        onChange={(e) => handleTransportChange(index, "from", e.target.value)}
-        style={styles.input1}
-      />
-      <input
-        type="text"
-        placeholder="To"
-        value={item.to}
-        onChange={(e) => handleTransportChange(index, "to", e.target.value)}
-        style={styles.input1}
-      />
-      {formData.ticketBookedBy === "Self" && (
+    <div
+      key={index}
+      style={{
+        border: "1px solid #ccc",
+        borderRadius: "8px",
+        padding: "10px",
+        marginBottom: "15px"
+      }}
+    >
+      {/* Transport Mode */}
+      <div style={styles.field}>
+        <label style={styles.label}>Transport Mode</label>
+        <div style={styles.radioGroup}>
+          {["Air", "Train", "Bus", "Taxi"].map((mode) => (
+            <label key={mode} style={styles.radioLabel}>
+              <input
+                type="radio"
+                name={`transportMode-${index}`}
+                value={mode}
+                checked={item.transportMode === mode}
+                onChange={(e) =>
+                  handleTransportChange(index, "transportMode", e.target.value)
+                }
+                style={styles.radioInput}
+              />
+              {mode}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Ticket Booked By */}
+      <div style={styles.field}>
+        <label style={styles.label}>Ticket Booked By</label>
+        <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
+          <label>
+            <input
+              type="radio"
+              name={`ticketBookedBy-${index}`}
+              value="Self"
+              checked={item.ticketBookedBy === "Self"}
+              onChange={(e) =>
+                handleTransportChange(index, "ticketBookedBy", e.target.value)
+              }
+            />
+            Self
+          </label>
+          <label>
+            <input
+              type="radio"
+              name={`ticketBookedBy-${index}`}
+              value="Company"
+              checked={item.ticketBookedBy === "Company"}
+              onChange={(e) =>
+                handleTransportChange(index, "ticketBookedBy", e.target.value)
+              }
+            />
+            Company
+          </label>
+        </div>
+      </div>
+
+      {/* From / To / Amount */}
+      <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
         <input
-          type="number"
-          placeholder="Amount"
-          value={item.amount}
-          onChange={(e) => handleTransportChange(index, "amount", e.target.value)}
+          type="text"
+          placeholder="From"
+          value={item.from}
+          onChange={(e) =>
+            handleTransportChange(index, "from", e.target.value)
+          }
           style={styles.input1}
         />
-      )}
+        <input
+          type="text"
+          placeholder="To"
+          value={item.to}
+          onChange={(e) => handleTransportChange(index, "to", e.target.value)}
+          style={styles.input1}
+        />
+        {item.ticketBookedBy === "Self" && (
+          <input
+            type="number"
+            placeholder="Amount"
+            value={item.amount}
+            onChange={(e) =>
+              handleTransportChange(index, "amount", e.target.value)
+            }
+            style={styles.input1}
+          />
+        )}
+      </div>
+
+      {/* Remove Button */}
       <button
         type="button"
         onClick={() => removeTransport(index)}
-        style={{ padding: "5px 10px", background: "red", color: "#fff", border: "none", borderRadius: "5px" }}
+        style={{
+          marginTop: "10px",
+          padding: "5px 10px",
+          background: "red",
+          color: "#fff",
+          border: "none",
+          borderRadius: "5px"
+        }}
       >
-        X
+        Remove
       </button>
     </div>
   ))}
 
+  {/* Add Button */}
   <button
     type="button"
     onClick={addTransport}
-    style={{ padding: "5px 15px", background: "green", color: "#fff", border: "none", borderRadius: "5px" }}
+    style={{
+      padding: "8px 15px",
+      background: "green",
+      color: "#fff",
+      border: "none",
+      borderRadius: "5px"
+    }}
   >
-    + Add
+    + Add Transport
   </button>
 </div>
+
          
           <input
             type="number"
@@ -825,6 +890,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
