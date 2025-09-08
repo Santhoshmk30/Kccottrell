@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import citiesByState from "./states/Indian_Cities_In_States_JSON.json";
 import cityTiers from "./states/cityTiers.json";
 import allowances from "./states/allowances.json";
-
+import travelModes from "./states/travelmodes.json";
 
 
 
@@ -97,7 +97,17 @@ useEffect(() => {
   }
 }, [formData.designation, formData.place]);
 
+ // find class from JSON
+ const getTravelClass = () => {
+  if (!formData.designation || !formData.transportMode) return "";
 
+  for (let key in travelModes) {
+    if (key.includes(formData.designation)) {
+      return travelModes[key][formData.transportMode] || "";
+    }
+  }
+  return "";
+};
 
   
 
@@ -490,7 +500,6 @@ useEffect(() => {
 
 
       {/* Transport Mode selection */}
-<div style={styles.row}>
       <div style={styles.transportSection}>
   <label style={styles.label}>Transport</label>
   <div style={styles.radioGroup}>
@@ -509,8 +518,56 @@ useEffect(() => {
     ))}
   </div>
 
+  {/* Show result */}
+  {formData.transportMode && (
+    <div style={styles.resultBox}>
+      Allowed Class: <span style={styles.resultText}>{getTravelClass()}</span>
+    </div>
+  )}
+</div>
+
+
+
+          <div>
+            <input
+              type="number"
+              name="transportAmount"
+              value={formData.transportAmount}
+              onChange={handleChange}
+              placeholder={`Enter ${formData.transportMode || "Transport"} amount`}
+              style={styles.input}
+            />
+          </div>
+
+              {/* Transport Mode selection */}
+<div style={styles.transportSection}>
+  <label style={styles.label}>Transport</label>
+  <div style={styles.radioGroup}>
+    {["Air", "Train", "Bus/Taxi/Car"].map((mode) => (
+      <label key={mode} style={styles.radioLabel}>
+        <input
+          type="radio"
+          name="transportMode"
+          value={mode}
+          checked={formData.transportMode === mode}
+          onChange={handleChange}
+          style={styles.radioInput}
+        />
+        {mode}
+      </label>
+    ))}
+  </div>
+
+  {/* Show result */}
+  {formData.transportMode && (
+    <div style={styles.resultBox}>
+      Allowed Class:{" "}
+      <span style={styles.resultText}>{getTravelClass()}</span>
+    </div>
+  )}
+</div>
+
 {/* Ticket Booking By */}
-   <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
 <div style={styles.field}>
   <label style={styles.label}>Ticket Booked By</label>
   <label style={{ marginRight: "15px" }}>
@@ -534,13 +591,10 @@ useEffect(() => {
     Company
   </label>
 </div>
-        </div>
 
 {/* Conditionally show Transport Amount only if Self */}
-
 {formData.ticketBookedBy === "Self" && (
   <div>
-  <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
     <input
       type="number"
       name="transportAmount"
@@ -551,10 +605,6 @@ useEffect(() => {
     />
   </div>
 )}
-  </div>
-</div>
-   </div>
-
 
 
           <input
@@ -807,13 +857,6 @@ useEffect(() => {
 
 
 export default TripRequestForm;
-
-
-
-
-
-
-
 
 
 
