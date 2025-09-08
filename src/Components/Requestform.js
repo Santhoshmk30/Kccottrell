@@ -661,20 +661,8 @@ const handleTransportChange = (index, field, value) => {
      
 
           <div style={styles.totalBox}>
-            Total Advance Required: ₹{total}
+            Total Amount: ₹{total}
           </div>
-
-          <select
-            name="modeOfPayment"
-            value={formData.modeOfPayment}
-            onChange={handleChange}
-            style={styles.select}
-          >
-            <option value="">Select Mode of Payment</option>
-            <option value="Cash">Cash</option>
-            <option value="Card">Card</option>
-            <option value="Online Transfer">Online Transfer</option>
-          </select>
 
           <motion.button
             type="submit"
@@ -865,6 +853,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
