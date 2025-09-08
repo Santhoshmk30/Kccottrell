@@ -171,6 +171,30 @@ const handleTransportChange = (index, field, value) => {
   });
 };
 
+  useEffect(() => {
+  if (formData.designation && formData.place) {
+    const tier = getTier(formData.place);
+    const desig = formData.designation;
+
+    if (allowances[desig] && allowances[desig][tier]) {
+      const baseAccommodation = allowances[desig][tier].accommodation;
+      const baseDaily = allowances[desig][tier].daily;
+
+      // Multiply by days & nights
+      const totalAccommodation =
+        (formData.nights || 0) * (parseFloat(baseAccommodation) || 0);
+      const totalDaily =
+        (formData.days || 0) * (parseFloat(baseDaily) || 0);
+
+      setFormData((prev) => ({
+        ...prev,
+        accommodation: totalAccommodation,
+        dailyAllowance: totalDaily,
+      }));
+    }
+  }
+}, [formData.designation, formData.place, formData.days, formData.nights]);
+
 
 
   return (
@@ -853,6 +877,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
