@@ -439,14 +439,12 @@ useEffect(() => {
     proper justification and special approval from the management.
   </p>
   </div>
-</div>
 
-
-<div style={styles.field}>
+      <div style={styles.field}>
   <label style={styles.label}>Special Approval</label>
-  
-  <label style={{  display: 'flex', gap: '10px', marginTop: '5px' }}>
-    <input
+      <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
+    <label>
+      <input
       type="radio"
       name="specialApproval"
       value="Yes"
@@ -466,7 +464,12 @@ useEffect(() => {
     />
     No
   </label>
+        </div>
 </div>
+</div>
+
+
+
 
 {/* Conditionally render Extra Amount */}
 {formData.specialApproval === "Yes" && (
@@ -786,6 +789,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
