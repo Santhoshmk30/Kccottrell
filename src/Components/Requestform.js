@@ -500,6 +500,7 @@ useEffect(() => {
 
 
       {/* Transport Mode selection */}
+<div style={styles.row}>
       <div style={styles.transportSection}>
   <label style={styles.label}>Transport</label>
   <div style={styles.radioGroup}>
@@ -567,6 +568,7 @@ useEffect(() => {
   </div>
 )}
   </div>
+    </div>
 
 
 
@@ -823,6 +825,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
