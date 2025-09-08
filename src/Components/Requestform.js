@@ -494,7 +494,6 @@ useEffect(() => {
 
 
       {/* Transport Mode selection */}
-<div style={styles.field}>
       <div style={styles.transportSection}>
   <label style={styles.label}>Transport</label>
   <div style={styles.radioGroup}>
@@ -524,6 +523,7 @@ useEffect(() => {
 
 
   {/* Ticket Booked By */}
+<div style={styles.field}>
   <label style={styles.label}>Booked By:</label>
   <label style={{ display: "flex", alignItems: "center", gap: "5px" }}>
     <input
@@ -811,6 +811,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
