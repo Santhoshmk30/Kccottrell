@@ -554,7 +554,7 @@ const handleTransportChange = (index, field, value) => {
 
       {/* Ticket Booked By */}
       <div style={styles.field}>
-        <label style={styles.label}>Ticket Booked By</label>
+        <label style={styles.label}>Booked By</label>
         <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
           <label>
             <input
@@ -865,6 +865,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
