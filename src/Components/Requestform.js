@@ -442,42 +442,44 @@ useEffect(() => {
 </div>
 
 
-  <div style={styles.field}>
-    <label style={styles.label}>Special Approval</label><br />
-    <label style={{ marginRight: "15px" }}>
-      <input
-        type="radio"
-        name="specialApproval"
-        value="Yes"
-        checked={formData.specialApproval === "Yes"}
-        onChange={handleChange}
-      />
-      Yes
-    </label>
-    <label>
-      <input
-        type="radio"
-        name="specialApproval"
-        value="No"
-        checked={formData.specialApproval === "No"}
-        onChange={handleChange}
-      />
-      No
-    </label>
-  </div>
+ <div style={styles.field}>
+  <label style={styles.label}>Special Approval</label>
+    <input
+      type="radio"
+      name="specialApproval"
+      value="Yes"
+      checked={formData.specialApproval === "Yes"}
+      onChange={handleChange}
+    />
+    Yes
+  </label>
+  
+  <label>
+    <input
+      type="radio"
+      name="specialApproval"
+      value="No"
+      checked={formData.specialApproval === "No"}
+      onChange={handleChange}
+    />
+    No
+  </label>
+</div>
 
-              {/* Extra Amount Input */}
+{/* Conditionally render Extra Amount */}
+{formData.specialApproval === "Yes" && (
   <div style={styles.field}>
     <label style={styles.label}>Extra Amount</label>
     <input
       type="number"
       name="extraAmount"
-      value={formData.extraAmount ?? ''}
+      value={formData.extraAmount ?? ""}
       onChange={handleChange}
       style={styles.input1}
       placeholder="Enter extra amount"
     />
   </div>
+)}
 
 
 
@@ -782,6 +784,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
