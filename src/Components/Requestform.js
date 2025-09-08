@@ -441,7 +441,7 @@ useEffect(() => {
   </div>
 
       <div style={styles.field}>
-  <label style={styles.label}>Do You Need Special Approval</label>
+  <label style={styles.label}>Do You Want Need Special Approval</label>
       <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
     <label>
       <input
@@ -466,7 +466,12 @@ useEffect(() => {
   </label>
         </div>
 </div>
-        {/* Conditionally render Extra Amount */}
+</div>
+
+
+
+
+{/* Conditionally render Extra Amount */}
 {formData.specialApproval === "Yes" && (
   <div style={styles.field}>
     <label style={styles.label}>Extra Amount</label>
@@ -480,7 +485,9 @@ useEffect(() => {
     />
   </div>
 )}
-</div>
+
+
+
 
           <input
             type="text"
@@ -490,7 +497,6 @@ useEffect(() => {
             placeholder="Enter Purpose"
             style={styles.input}
           />
-
 
 
       {/* Transport Mode selection */}
@@ -522,9 +528,49 @@ useEffect(() => {
 
 
 
-  {/* Ticket Booked By */}
-  <label style={styles.label}>Booked By:</label>
-  <label style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <div>
+            <input
+              type="number"
+              name="transportAmount"
+              value={formData.transportAmount}
+              onChange={handleChange}
+              placeholder={`Enter ${formData.transportMode || "Transport"} amount`}
+              style={styles.input}
+            />
+          </div>
+
+              {/* Transport Mode selection */}
+<div style={styles.transportSection}>
+  <label style={styles.label}>Transport</label>
+  <div style={styles.radioGroup}>
+    {["Air", "Train", "Bus/Taxi/Car"].map((mode) => (
+      <label key={mode} style={styles.radioLabel}>
+        <input
+          type="radio"
+          name="transportMode"
+          value={mode}
+          checked={formData.transportMode === mode}
+          onChange={handleChange}
+          style={styles.radioInput}
+        />
+        {mode}
+      </label>
+    ))}
+  </div>
+
+  {/* Show result */}
+  {formData.transportMode && (
+    <div style={styles.resultBox}>
+      Allowed Class:{" "}
+      <span style={styles.resultText}>{getTravelClass()}</span>
+    </div>
+  )}
+</div>
+
+{/* Ticket Booking By */}
+<div style={styles.field}>
+  <label style={styles.label}>Ticket Booked By</label>
+  <label style={{ marginRight: "15px" }}>
     <input
       type="radio"
       name="ticketBookedBy"
@@ -534,7 +580,7 @@ useEffect(() => {
     />
     Self
   </label>
-  <label style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+  <label>
     <input
       type="radio"
       name="ticketBookedBy"
@@ -544,19 +590,21 @@ useEffect(() => {
     />
     Company
   </label>
+</div>
 
-  {/* Transport Amount only if Self */}
-  {formData.ticketBookedBy === "Self" && (
+{/* Conditionally show Transport Amount only if Self */}
+{formData.ticketBookedBy === "Self" && (
+  <div>
     <input
       type="number"
       name="transportAmount"
       value={formData.transportAmount}
       onChange={handleChange}
       placeholder={`Enter ${formData.transportMode || "Transport"} amount`}
-      style={{ ...styles.input, width: "150px" }}
+      style={styles.input}
     />
-  )}
-</div>
+  </div>
+)}
 
 
           <input
@@ -632,7 +680,7 @@ useEffect(() => {
         </div>
       ) : (
         <div>
-          {/* 👉 International Form Component call pannunga */}
+     
           <p>International Form will be displayed here</p>
         </div>
       )}
@@ -809,11 +857,6 @@ useEffect(() => {
 
 
 export default TripRequestForm;
-
-
-
-
-
 
 
 
