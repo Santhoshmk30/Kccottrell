@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import citiesByState from "./states/Indian_Cities_In_States_JSON.json";
 import cityTiers from "./states/cityTiers.json";
 import allowances from "./states/allowances.json";
-import travelModes from "./states/travelmodes.json";
+
 
 
 
@@ -97,17 +97,7 @@ useEffect(() => {
   }
 }, [formData.designation, formData.place]);
 
- // find class from JSON
- const getTravelClass = () => {
-  if (!formData.designation || !formData.transportMode) return "";
-
-  for (let key in travelModes) {
-    if (key.includes(formData.designation)) {
-      return travelModes[key][formData.transportMode] || "";
-    }
-  }
-  return "";
-};
+ 
 
   
 
@@ -520,13 +510,7 @@ useEffect(() => {
       ))}
     </div>
 
-    {/* Allowed Class */}
-    {formData.transportMode && (
-      <div style={styles.resultBox}>
-        Allowed Class:{" "}
-        <span style={styles.resultText}>{getTravelClass()}</span>
-      </div>
-    )}
+    
   </div>
 
   {/* Ticket Booked By */}
@@ -821,6 +805,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
