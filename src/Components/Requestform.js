@@ -608,36 +608,7 @@ const handleTransportChange = (index, field, value) => {
     + Add
   </button>
 </div>
-
-
-
-          <input
-            type="number"
-            name="parking"
-            value={formData.parking}
-            onChange={handleChange}
-            placeholder="Parking"
-            style={styles.input}
-          />
-
-          <input
-            type="number"
-            name="toll"
-            value={formData.toll}
-            onChange={handleChange}
-            placeholder="Toll Charges"
-            style={styles.input}
-          />
-
-          <input
-            type="number"
-            name="communication"
-            value={formData.communication}
-            onChange={handleChange}
-            placeholder="Communication"
-            style={styles.input}
-          />
-
+         
           <input
             type="number"
             name="miscellaneous"
@@ -647,14 +618,7 @@ const handleTransportChange = (index, field, value) => {
             style={styles.input}
           />
 
-          <input
-            type="number"
-            name="others"
-            value={formData.others}
-            onChange={handleChange}
-            placeholder="Others"
-            style={styles.input}
-          />
+     
 
           <div style={styles.totalBox}>
             Total Advance Required: ₹{total}
@@ -861,6 +825,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
