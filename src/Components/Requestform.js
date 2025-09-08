@@ -508,7 +508,6 @@ useEffect(() => {
       </label>
     ))}
   </div>
-</div>
 
 {/* Ticket Booking By */}
  <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
@@ -535,8 +534,10 @@ useEffect(() => {
     Company
   </label>
 </div>
+        </div>
 
 {/* Conditionally show Transport Amount only if Self */}
+<div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
 {formData.ticketBookedBy === "Self" && (
   <div>
     <input
@@ -550,8 +551,8 @@ useEffect(() => {
   </div>
 )}
   </div>
-
-    </div>
+</div>
+   </div>
 
 
 
@@ -805,6 +806,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
