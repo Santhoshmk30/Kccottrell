@@ -482,14 +482,6 @@ useEffect(() => {
 )}
 </div>
 
-
-
-
-
-
-
-
-
           <input
             type="text"
             name="purpose"
@@ -501,31 +493,35 @@ useEffect(() => {
 
 
 
-<div style={styles.row}>
-
+      {/* Transport Mode selection */}
 <div style={styles.field}>
-  
-  <label style={styles.label}>Transport:</label>
-  {["Air", "Train", "Bus/Taxi/Car"].map((mode) => (
-    <label key={mode} style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-      <input
-        type="radio"
-        name="transportMode"
-        value={mode}
-        checked={formData.transportMode === mode}
-        onChange={handleChange}
-      />
-      {mode}
-    </label>
-  ))}
+      <div style={styles.transportSection}>
+  <label style={styles.label}>Transport</label>
+  <div style={styles.radioGroup}>
+    {["Air", "Train", "Bus/Taxi/Car"].map((mode) => (
+      <label key={mode} style={styles.radioLabel}>
+        <input
+          type="radio"
+          name="transportMode"
+          value={mode}
+          checked={formData.transportMode === mode}
+          onChange={handleChange}
+          style={styles.radioInput}
+        />
+        {mode}
+      </label>
+    ))}
+  </div>
 
-  {/* Allowed Class */}
+  {/* Show result */}
   {formData.transportMode && (
-    <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-      <strong>Allowed Class:</strong>
-      <span>{getTravelClass()}</span>
+    <div style={styles.resultBox}>
+      Allowed Class: <span style={styles.resultText}>{getTravelClass()}</span>
     </div>
   )}
+</div>
+
+
 
   {/* Ticket Booked By */}
   <label style={styles.label}>Booked By:</label>
@@ -563,8 +559,6 @@ useEffect(() => {
   )}
 </div>
   </div>
-
-
 
 
           <input
@@ -817,6 +811,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
