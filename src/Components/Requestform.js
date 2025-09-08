@@ -524,7 +524,6 @@ useEffect(() => {
       Allowed Class: <span style={styles.resultText}>{getTravelClass()}</span>
     </div>
   )}
-</div>
 
 
 
@@ -552,6 +551,23 @@ useEffect(() => {
     Company
   </label>
 </div>
+
+        
+{/* Conditionally show Transport Amount only if Self */}
+{formData.ticketBookedBy === "Self" && (
+  <div>
+    <input
+      type="number"
+      name="transportAmount"
+      value={formData.transportAmount}
+      onChange={handleChange}
+      placeholder={`Enter ${formData.transportMode || "Transport"} amount`}
+      style={styles.input}
+    />
+  </div>
+)}
+  </div>
+
 
 
 
@@ -807,6 +823,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
