@@ -14,6 +14,7 @@ const TripRequestForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fromDate: '',
+    Date: '',
     toDate: '',
     department: '',
     projectCode: '',
@@ -610,6 +611,14 @@ const handleTransportChange = (index, field, value) => {
       {/* From / To / Amount */}
       <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
         <input
+      type="date"
+      name="Date"
+      value={formData.Date}
+      min={new Date().toISOString().split("T")[0]}
+      onChange={handleChange}
+      style={styles.input1}
+    />
+        <input
           type="text"
           placeholder="From"
           value={item.from}
@@ -877,6 +886,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
