@@ -441,7 +441,7 @@ useEffect(() => {
   </div>
 
       <div style={styles.field}>
-  <label style={styles.label}>Do You Want Need Special Approval</label>
+  <label style={styles.label}>Do You Need Special Approval</label>
       <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
     <label>
       <input
@@ -466,12 +466,7 @@ useEffect(() => {
   </label>
         </div>
 </div>
-</div>
-
-
-
-
-{/* Conditionally render Extra Amount */}
+        {/* Conditionally render Extra Amount */}
 {formData.specialApproval === "Yes" && (
   <div style={styles.field}>
     <label style={styles.label}>Extra Amount</label>
@@ -485,6 +480,12 @@ useEffect(() => {
     />
   </div>
 )}
+</div>
+
+
+
+
+
 
 
 
@@ -499,21 +500,11 @@ useEffect(() => {
           />
 
 
-          <div>
-            <input
-              type="number"
-              name="transportAmount"
-              value={formData.transportAmount}
-              onChange={handleChange}
-              placeholder={`Enter ${formData.transportMode || "Transport"} amount`}
-              style={styles.input}
-            />
-          </div>
 
-            {/* Full Transport Row */}
-<div style={{ display: "flex", alignItems: "center", gap: "20px", marginTop: "10px", flexWrap: "wrap" }}>
+<div style={styles.row}>
+
+<div style={styles.field}>
   
-  {/* Transport Mode */}
   <label style={styles.label}>Transport:</label>
   {["Air", "Train", "Bus/Taxi/Car"].map((mode) => (
     <label key={mode} style={{ display: "flex", alignItems: "center", gap: "5px" }}>
@@ -571,6 +562,7 @@ useEffect(() => {
     />
   )}
 </div>
+  </div>
 
 
 
@@ -825,6 +817,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
