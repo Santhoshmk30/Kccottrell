@@ -97,17 +97,7 @@ useEffect(() => {
   }
 }, [formData.designation, formData.place]);
 
- // find class from JSON
- const getTravelClass = () => {
-  if (!formData.designation || !formData.transportMode) return "";
 
-  for (let key in travelModes) {
-    if (key.includes(formData.designation)) {
-      return travelModes[key][formData.transportMode] || "";
-    }
-  }
-  return "";
-};
 
   
 
@@ -815,6 +805,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
