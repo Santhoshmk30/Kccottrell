@@ -32,9 +32,7 @@ const TripRequestForm = () => {
     ticketBookedBy: "",
     transports: [
     { transportMode: "", ticketBookedBy: "", from: "", to: "", amount: "" }
-  ],
-});
-
+  ]
   });
 
   const [activeForm, setActiveForm] = useState("domestic");
@@ -890,6 +888,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
