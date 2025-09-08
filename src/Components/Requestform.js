@@ -509,12 +509,22 @@ useEffect(() => {
   
   {/* Ticket Booking By */} 
   <div style={styles.field}> 
-  <label style={styles.label}>Ticket Booked By</label>
+  <label style={styles.label}>Ticket Booked By 
+  </label>
   <label style={{ marginRight: "15px" }}> 
-  <input type="radio" name="ticketBookedBy" value="Self" checked={formData.ticketBookedBy === "Self"} onChange={handleChange} /> Self </label> 
+  <input type="radio"
+  name="ticketBookedBy" 
+  value="Self" 
+  checked={formData.ticketBookedBy === "Self"} 
+  onChange={handleChange} /> Self </label> 
   <label> <input type="radio" name="ticketBookedBy" value="Company" checked={formData.ticketBookedBy === "Company"} onChange={handleChange} /> Company </label> 
   </div> {/* Conditionally show Transport Amount only if Self */} {formData.ticketBookedBy === "Self" && ( 
-  <div> <input type="number" name="transportAmount" value={formData.transportAmount} onChange={handleChange} placeholder={Enter ${formData.transportMode || "Transport"} amount} 
+  <div>
+  <input type="number" 
+  name="transportAmount"
+  value={formData.transportAmount} 
+  onChange={handleChange} 
+  placeholder={Enter ${formData.transportMode || "Transport"} amount} 
 style={styles.input} /> 
   </div> 
   )} 
@@ -776,6 +786,7 @@ style={styles.input} />
 
 
 export default TripRequestForm;
+
 
 
 
