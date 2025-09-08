@@ -566,12 +566,6 @@ useEffect(() => {
         style={styles.input1}
       />
     )}
-
-    {/* Note */}
-    <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
-      If the ticket is booked by self, reimbursement will be processed based on 
-      the actual ticket cost, subject to approval and policy limits.
-    </p>
   </div>
 </div>
 
@@ -827,6 +821,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
