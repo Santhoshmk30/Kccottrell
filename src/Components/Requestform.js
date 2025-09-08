@@ -1102,15 +1102,12 @@ confirmBtn: {
     backgroundColor: "#fff5f5",
     animation: "blinker 1s steps(2, start) infinite" 
   },
-@keyframes blinker {
-  to {
-    visibility: hidden;
-  }
-},
+
   };
 
 
 export default TripRequestForm;
+
 
 
 
