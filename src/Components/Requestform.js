@@ -131,7 +131,17 @@ const handleTransportChange = (index, field, value) => {
 const togglePreview = () => {
   setShowPreview(!showPreview);
 };
-  
+
+  function PreviewBlink() {
+  const [blink, setBlink] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBlink(prev => !prev);
+    }, 600); 
+    return () => clearInterval(interval);
+  }, []);
+
 
   const total = [
     formData.accommodation,
@@ -714,63 +724,99 @@ const togglePreview = () => {
       
         </form>
 
-      {showPreview && (
+     {showPreview && (
   <div style={styles.overlayBg}>
     <div style={styles.previewBox}>
-      <h3 style={{ textAlign: "center", marginBottom: "15px" }}>
-        Trip Request Preview
-      </h3>
+      <h2 style={styles.previewTitle}>Trip Request Preview</h2>
 
-      <div style={{ maxHeight: "400px", overflowY: "auto" }}>
-        <p><strong>From:</strong> {formData.fromDate}</p>
-        <p><strong>To:</strong> {formData.toDate}</p>
-        <p><strong>Department:</strong> {formData.department}</p>
-        <p><strong>Project Code:</strong> {formData.projectCode}</p>
-        <p><strong>City:</strong> {formData.place}</p>
-        <p><strong>Designation:</strong> {formData.designation}</p>
-        <p><strong>Accommodation Allowance:</strong> {formData.accommodation}</p>
-        <p><strong>Daily Allowance:</strong> {formData.dailyAllowance}</p>
-        <p><strong>Purpose:</strong> {formData.purpose}</p>
-
-        {/* Transport List */}
-        <div>
-          <strong>Transport Details:</strong>
-          {formData.transports.map((t, i) => (
-            <div key={i} style={{ margin: "5px 0", paddingLeft: "10px" }}>
-              {t.transportMode} - {t.from} to {t.to} 
-              {t.ticketBookedBy === "Self" && ` | Amount: ₹${t.amount}`}
-            </div>
-          ))}
+      <div style={styles.previewContent}>
+        {/* Basic Info */}
+        <div style={styles.row}>
+          <span style={styles.fieldName}>From Date</span>
+          <span style={styles.fieldValue}>{formData.fromDate}</span>
         </div>
+        <div style={styles.row}>
+          <span style={styles.fieldName}>To Date</span>
+          <span style={styles.fieldValue}>{formData.toDate}</span>
+        </div>
+        <div style={styles.row}>
+          <span style={styles.fieldName}>Department</span>
+          <span style={styles.fieldValue}>{formData.department}</span>
+        </div>
+        <div style={styles.row}>
+          <span style={styles.fieldName}>Project Code</span>
+          <span style={styles.fieldValue}>{formData.projectCode}</span>
+        </div>
+        <div style={styles.row}>
+          <span style={styles.fieldName}>City</span>
+          <span style={styles.fieldValue}>{formData.place}</span>
+        </div>
+        <div style={styles.row}>
+          <span style={styles.fieldName}>Designation</span>
+          <span style={styles.fieldValue}>{formData.designation}</span>
+        </div>
+        <div style={styles.row}>
+          <span style={styles.fieldName}>Accommodation</span>
+          <span style={styles.fieldValue}>{formData.accommodation}</span>
+        </div>
+        <div style={styles.row}>
+          <span style={styles.fieldName}>Daily Allowance</span>
+          <span style={styles.fieldValue}>{formData.dailyAllowance}</span>
+        </div>
+        <div style={styles.row}>
+          <span style={styles.fieldName}>Purpose</span>
+          <span style={styles.fieldValue}>{formData.purpose}</span>
+        </div>
+
+        {/* Transport Details */}
+        <h3 style={styles.sectionTitle}>Transport Details</h3>
+        <table style={styles.table}>
+          <thead>
+            <tr>
+              <th>Mode</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Booked By</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {formData.transports.map((t, i) => (
+              <tr key={i}>
+                <td>{t.transportMode}</td>
+                <td>{t.from}</td>
+                <td>{t.to}</td>
+                <td>{t.ticketBookedBy}</td>
+                <td>{t.ticketBookedBy === "Self" ? `₹${t.amount}` : "-"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
         {/* Special Approval Highlight */}
-        {formData.specialApproval === "Yes" && (
-          <div style={styles.specialHighlight}>
-            ⚠️ Special Approval Required!
-            <br />
-            Extra Amount: ₹{formData.extraAmount}
-          </div>
-        )}
+        {/* Special Approval Highlight */}
+{formData.specialApproval === "Yes" && (
+  <div style={styles.specialHighlight}>
+    ⚠️ Special Approval Required <br />
+    Extra Amount: ₹{formData.extraAmount}
+  </div>
+)}
 
-        <div style={{ textAlign: "center", marginTop: "20px" }}>
-          <button
-            onClick={togglePreview}
-            style={{
-              padding: "8px 15px",
-              border: "none",
-              borderRadius: "6px",
-              background: "red",
-              color: "white",
-              cursor: "pointer",
-            }}
-          >
-            Close Preview
-          </button>
-        </div>
+      </div>
+
+      {/* Buttons */}
+      <div style={styles.previewActions}>
+        <button onClick={togglePreview} style={styles.closeBtn}>
+          Close
+        </button>
+        <button type="submit" style={styles.confirmBtn}>
+          Confirm & Submit
+        </button>
       </div>
     </div>
   </div>
 )}
+
 
               
         </div>
@@ -955,19 +1001,63 @@ const togglePreview = () => {
   left: 0,
   width: "100%",
   height: "100%",
-  backgroundColor: "rgba(0,0,0,0.5)",
+  backgroundColor: "rgba(0,0,0,0.6)",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   zIndex: 999,
 },
 previewBox: {
-  background: "white",
+  background: "#fff",
   padding: "20px",
-  borderRadius: "10px",
-  width: "500px",
-  boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+  borderRadius: "12px",
+  width: "600px",
+  maxHeight: "90vh",
+  overflowY: "auto",
+  boxShadow: "0 6px 25px rgba(0,0,0,0.3)",
   animation: "fadeIn 0.3s ease-in-out",
+},
+previewTitle: {
+  textAlign: "center",
+  marginBottom: "15px",
+  fontSize: "20px",
+  fontWeight: "bold",
+  borderBottom: "2px solid #eee",
+  paddingBottom: "8px",
+},
+previewContent: {
+  marginTop: "10px",
+},
+row: {
+  display: "flex",
+  justifyContent: "space-between",
+  marginBottom: "8px",
+  padding: "5px 0",
+  borderBottom: "1px dashed #ddd",
+},
+fieldName: {
+  fontWeight: "bold",
+  color: "#444",
+},
+fieldValue: {
+  color: "#555",
+},
+sectionTitle: {
+  marginTop: "20px",
+  marginBottom: "10px",
+  fontSize: "16px",
+  fontWeight: "600",
+  color: "#333",
+},
+table: {
+  width: "100%",
+  borderCollapse: "collapse",
+  marginBottom: "15px",
+},
+"table th, table td": {
+  border: "1px solid #ddd",
+  padding: "8px",
+  textAlign: "center",
 },
 specialHighlight: {
   background: "yellow",
@@ -976,21 +1066,52 @@ specialHighlight: {
   borderRadius: "6px",
   fontWeight: "bold",
   animation: "blink 1s infinite",
+  textAlign: "center",
 },
-previewButton: {
-  padding: "14px",
-  background: "orange",
-  color: "white",
-  fontWeight: "bold",
+previewActions: {
+  display: "flex",
+  justifyContent: "flex-end",
+  gap: "10px",
+  marginTop: "20px",
+},
+closeBtn: {
+  padding: "8px 15px",
+  background: "#f44336",
+  color: "#fff",
   border: "none",
-  borderRadius: "8px",
+  borderRadius: "6px",
   cursor: "pointer",
-  fontSize: "16px",
+},
+confirmBtn: {
+  padding: "8px 15px",
+  background: "#4caf50",
+  color: "#fff",
+  border: "none",
+  borderRadius: "6px",
+  cursor: "pointer",
+  fontWeight: "bold",
+},
+ specialHighlight: {
+    color: "#d9534f",
+    fontWeight: "bold",
+    fontSize: "16px",
+    padding: "10px",
+    border: "2px solid #d9534f",
+    borderRadius: "8px",
+    marginTop: "10px",
+    backgroundColor: "#fff5f5",
+    animation: "blinker 1s steps(2, start) infinite" 
+  },
+@keyframes blinker {
+  to {
+    visibility: hidden;
+  }
 },
   };
 
 
 export default TripRequestForm;
+
 
 
 
