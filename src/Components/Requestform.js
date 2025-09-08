@@ -452,7 +452,6 @@ useEffect(() => {
       onChange={handleChange}
     />
     Yes
-  </label>
   
   <label>
     <input
