@@ -67,7 +67,7 @@ const TripRequestForm = () => {
               setError("");
               updated.workPlan = `${diffDays} days`;
               updated.days = diffDays;
-              updated.nights = diffDays - 1 < 0 ? 0 : diffDays - 1; 
+              updated.nights = diffDays - 1 < 0 ? 0 : diffDays - 1; // 👈 Nights = Days - 1
             }
           } else {
             setError("To date cannot be before From date!");
@@ -499,42 +499,112 @@ useEffect(() => {
           />
 
 
-{/* Transport Mode selection */} <div style={styles.row}>
-  <div style={styles.transportSection}>
+      {/* Transport Mode selection */}
+      <div style={styles.transportSection}>
   <label style={styles.label}>Transport</label>
-  <div style={styles.radioGroup}> {["Air", "Train", "Bus/Taxi/Car"].map((mode) => ( 
-  <label key={mode} style={styles.radioLabel}>
-  <input type="radio" name="transportMode" value={mode} checked={formData.transportMode === mode} onChange={handleChange} style={styles.radioInput} /> {mode}
-  </label> ))} </div> 
+  <div style={styles.radioGroup}>
+    {["Air", "Train", "Bus/Taxi/Car"].map((mode) => (
+      <label key={mode} style={styles.radioLabel}>
+        <input
+          type="radio"
+          name="transportMode"
+          value={mode}
+          checked={formData.transportMode === mode}
+          onChange={handleChange}
+          style={styles.radioInput}
+        />
+        {mode}
+      </label>
+    ))}
   </div>
 
-  {/* Ticket Booking By */} 
-  <div style={styles.field}> 
-  <label style={styles.label}>Ticket Booked By 
-  </label>
-  <label style={{ marginRight: "15px" }}> 
-  <input type="radio"
-  name="ticketBookedBy" 
-  value="Self" 
-  checked={formData.ticketBookedBy === "Self"} 
-  onChange={handleChange} /> Self </label> 
-  <label> <input type="radio" name="ticketBookedBy" value="Company" checked={formData.ticketBookedBy === "Company"} onChange={handleChange} /> Company </label> 
-  </div> {/* Conditionally show Transport Amount only if Self */} {formData.ticketBookedBy === "Self" && ( 
-  <div>
-  <input type="number" 
-  name="transportAmount"
-  value={formData.transportAmount} 
-  onChange={handleChange} 
-  placeholder={Enter ${formData.transportMode || "Transport"} amount} 
-style={styles.input} /> 
-  </div> 
-  )} 
-  </div> 
+  {/* Show result */}
+  {formData.transportMode && (
+    <div style={styles.resultBox}>
+      Allowed Class: <span style={styles.resultText}>{getTravelClass()}</span>
     </div>
+  )}
+</div>
 
 
 
+          <div>
+            <input
+              type="number"
+              name="transportAmount"
+              value={formData.transportAmount}
+              onChange={handleChange}
+              placeholder={`Enter ${formData.transportMode || "Transport"} amount`}
+              style={styles.input}
+            />
+          </div>
 
+              {/* Transport Mode selection */}
+<div style={styles.transportSection}>
+  <label style={styles.label}>Transport</label>
+  <div style={styles.radioGroup}>
+    {["Air", "Train", "Bus/Taxi/Car"].map((mode) => (
+      <label key={mode} style={styles.radioLabel}>
+        <input
+          type="radio"
+          name="transportMode"
+          value={mode}
+          checked={formData.transportMode === mode}
+          onChange={handleChange}
+          style={styles.radioInput}
+        />
+        {mode}
+      </label>
+    ))}
+  </div>
+
+  {/* Show result */}
+  {formData.transportMode && (
+    <div style={styles.resultBox}>
+      Allowed Class:{" "}
+      <span style={styles.resultText}>{getTravelClass()}</span>
+    </div>
+  )}
+</div>
+
+{/* Ticket Booking By */}
+<div style={styles.field}>
+  <label style={styles.label}>Ticket Booked By</label>
+  <label style={{ marginRight: "15px" }}>
+    <input
+      type="radio"
+      name="ticketBookedBy"
+      value="Self"
+      checked={formData.ticketBookedBy === "Self"}
+      onChange={handleChange}
+    />
+    Self
+  </label>
+  <label>
+    <input
+      type="radio"
+      name="ticketBookedBy"
+      value="Company"
+      checked={formData.ticketBookedBy === "Company"}
+      onChange={handleChange}
+    />
+    Company
+  </label>
+</div>
+
+{/* Conditionally show Transport Amount only if Self */}
+{formData.ticketBookedBy === "Self" && (
+  <div>
+    <input
+      type="number"
+      name="transportAmount"
+      value={formData.transportAmount}
+      onChange={handleChange}
+      placeholder={`Enter ${formData.transportMode || "Transport"} amount`}
+      style={styles.input}
+    />
+  </div>
+)}
 
 
           <input
@@ -610,7 +680,7 @@ style={styles.input} />
         </div>
       ) : (
         <div>
-     
+          {/* 👉 International Form Component call pannunga */}
           <p>International Form will be displayed here</p>
         </div>
       )}
@@ -787,12 +857,6 @@ style={styles.input} />
 
 
 export default TripRequestForm;
-
-
-
-
-
-
 
 
 
