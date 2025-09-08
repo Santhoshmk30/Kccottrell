@@ -32,7 +32,7 @@ const TripRequestForm = () => {
     ticketBookedBy: "",
     transports: [
     { transportMode: "", ticketBookedBy: "", from: "", to: "", amount: "" }
-  ]
+  ],
 });
 
   });
@@ -890,6 +890,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
