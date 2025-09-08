@@ -441,7 +441,7 @@ useEffect(() => {
   </div>
 
       <div style={styles.field}>
-  <label style={styles.label}>Special Approval</label>
+  <label style={styles.label}>Do You Want Need Special Approval</label>
       <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
     <label>
       <input
@@ -538,6 +538,74 @@ useEffect(() => {
               style={styles.input}
             />
           </div>
+
+              {/* Transport Mode selection */}
+<div style={styles.transportSection}>
+  <label style={styles.label}>Transport</label>
+  <div style={styles.radioGroup}>
+    {["Air", "Train", "Bus/Taxi/Car"].map((mode) => (
+      <label key={mode} style={styles.radioLabel}>
+        <input
+          type="radio"
+          name="transportMode"
+          value={mode}
+          checked={formData.transportMode === mode}
+          onChange={handleChange}
+          style={styles.radioInput}
+        />
+        {mode}
+      </label>
+    ))}
+  </div>
+
+  {/* Show result */}
+  {formData.transportMode && (
+    <div style={styles.resultBox}>
+      Allowed Class:{" "}
+      <span style={styles.resultText}>{getTravelClass()}</span>
+    </div>
+  )}
+</div>
+
+{/* Ticket Booking By */}
+<div style={styles.field}>
+  <label style={styles.label}>Ticket Booked By</label>
+  <label style={{ marginRight: "15px" }}>
+    <input
+      type="radio"
+      name="ticketBookedBy"
+      value="Self"
+      checked={formData.ticketBookedBy === "Self"}
+      onChange={handleChange}
+    />
+    Self
+  </label>
+  <label>
+    <input
+      type="radio"
+      name="ticketBookedBy"
+      value="Company"
+      checked={formData.ticketBookedBy === "Company"}
+      onChange={handleChange}
+    />
+    Company
+  </label>
+</div>
+
+{/* Conditionally show Transport Amount only if Self */}
+{formData.ticketBookedBy === "Self" && (
+  <div>
+    <input
+      type="number"
+      name="transportAmount"
+      value={formData.transportAmount}
+      onChange={handleChange}
+      placeholder={`Enter ${formData.transportMode || "Transport"} amount`}
+      style={styles.input}
+    />
+  </div>
+)}
+
 
           <input
             type="number"
@@ -789,6 +857,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
