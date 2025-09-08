@@ -12,6 +12,7 @@ import allowances from "./states/allowances.json";
 
 const TripRequestForm = () => {
   const navigate = useNavigate();
+  const [showPreview, setShowPreview] = useState(false);
   const [formData, setFormData] = useState({
     fromDate: '',
     toDate: '',
@@ -127,7 +128,9 @@ const handleTransportChange = (index, field, value) => {
 };
 
 
-
+const togglePreview = () => {
+  setShowPreview(!showPreview);
+};
   
 
   const total = [
@@ -687,7 +690,89 @@ const handleTransportChange = (index, field, value) => {
           >
             Submit
           </motion.button>
+              <div style={{ display: "flex", gap: "15px", justifyContent: "center" }}>
+  <motion.button
+    type="button"
+    style={styles.previewButton}
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    onClick={togglePreview}
+  >
+    Preview
+  </motion.button>
+
+  <motion.button
+    type="submit"
+    style={styles.button}
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+  >
+    Submit
+  </motion.button>
+</div>
+
+      
         </form>
+
+      {showPreview && (
+  <div style={styles.overlayBg}>
+    <div style={styles.previewBox}>
+      <h3 style={{ textAlign: "center", marginBottom: "15px" }}>
+        Trip Request Preview
+      </h3>
+
+      <div style={{ maxHeight: "400px", overflowY: "auto" }}>
+        <p><strong>From:</strong> {formData.fromDate}</p>
+        <p><strong>To:</strong> {formData.toDate}</p>
+        <p><strong>Department:</strong> {formData.department}</p>
+        <p><strong>Project Code:</strong> {formData.projectCode}</p>
+        <p><strong>City:</strong> {formData.place}</p>
+        <p><strong>Designation:</strong> {formData.designation}</p>
+        <p><strong>Accommodation Allowance:</strong> {formData.accommodation}</p>
+        <p><strong>Daily Allowance:</strong> {formData.dailyAllowance}</p>
+        <p><strong>Purpose:</strong> {formData.purpose}</p>
+
+        {/* Transport List */}
+        <div>
+          <strong>Transport Details:</strong>
+          {formData.transports.map((t, i) => (
+            <div key={i} style={{ margin: "5px 0", paddingLeft: "10px" }}>
+              {t.transportMode} - {t.from} to {t.to} 
+              {t.ticketBookedBy === "Self" && ` | Amount: ₹${t.amount}`}
+            </div>
+          ))}
+        </div>
+
+        {/* Special Approval Highlight */}
+        {formData.specialApproval === "Yes" && (
+          <div style={styles.specialHighlight}>
+            ⚠️ Special Approval Required!
+            <br />
+            Extra Amount: ₹{formData.extraAmount}
+          </div>
+        )}
+
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          <button
+            onClick={togglePreview}
+            style={{
+              padding: "8px 15px",
+              border: "none",
+              borderRadius: "6px",
+              background: "red",
+              color: "white",
+              cursor: "pointer",
+            }}
+          >
+            Close Preview
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+              
         </div>
       ) : (
         <div>
@@ -863,11 +948,55 @@ const handleTransportChange = (index, field, value) => {
       fontSize: "14px",
       marginTop: "4px",
       fontWeight: "500",
-    }
+    },
+    overlayBg: {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  backgroundColor: "rgba(0,0,0,0.5)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  zIndex: 999,
+},
+previewBox: {
+  background: "white",
+  padding: "20px",
+  borderRadius: "10px",
+  width: "500px",
+  boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+  animation: "fadeIn 0.3s ease-in-out",
+},
+specialHighlight: {
+  background: "yellow",
+  padding: "10px",
+  marginTop: "15px",
+  borderRadius: "6px",
+  fontWeight: "bold",
+  animation: "blink 1s infinite",
+},
+previewButton: {
+  padding: "14px",
+  background: "orange",
+  color: "white",
+  fontWeight: "bold",
+  border: "none",
+  borderRadius: "8px",
+  cursor: "pointer",
+  fontSize: "16px",
+},
+    @keyframes blink {
+  0% { background-color: yellow; }
+  50% { background-color: #ffeb3b; }
+  100% { background-color: yellow; }
+}
   };
 
 
 export default TripRequestForm;
+
 
 
 
