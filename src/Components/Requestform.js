@@ -433,26 +433,17 @@ useEffect(() => {
       readOnly
       style={styles.input1}
     />
-  </div>
-
-      <div style={styles.field}>
-  <label style={styles.label}>Daily Allowance</label>
-  <input
-    type="text"
-    name="dailyAllowance"
-    value={formData.dailyAllowance ?? ''}
-    readOnly
-    style={styles.input1}
-  />
-
-  {/* Note */}
+       {/* Note */}
   <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
     For any expenses more than the daily allowance, reimbursement requires 
     proper justification and special approval from the management.
   </p>
+  </div>
+
+ 
 
   {/* Extra Amount Input */}
-  <div style={{ marginTop: "10px" }}>
+  <div style={styles.field}>
     <label style={styles.label}>Extra Amount</label>
     <input
       type="number"
@@ -465,7 +456,7 @@ useEffect(() => {
   </div>
 
 
-  <div style={{ marginTop: "10px" }}>
+  <div style={styles.field}>
     <label style={styles.label}>Special Approval</label><br />
     <label style={{ marginRight: "15px" }}>
       <input
@@ -795,6 +786,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
