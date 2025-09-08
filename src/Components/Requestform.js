@@ -100,29 +100,6 @@ useEffect(() => {
   }
 }, [formData.designation, formData.place]);
 
- const addTransport = () => {
-  setFormData((prev) => ({
-    ...prev,
-    transports: [...prev.transports, { from: "", to: "", amount: "" }]
-  }));
-};
-
-const removeTransport = (index) => {
-  setFormData((prev) => {
-    const newTransports = [...prev.transports];
-    newTransports.splice(index, 1);
-    return { ...prev, transports: newTransports };
-  });
-};
-
-const handleTransportChange = (index, field, value) => {
-  setFormData((prev) => {
-    const newTransports = [...prev.transports];
-    newTransports[index][field] = value;
-    return { ...prev, transports: newTransports };
-  });
-};
-
 
   
 
@@ -888,6 +865,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
