@@ -523,7 +523,6 @@ useEffect(() => {
 
 
   {/* Ticket Booked By */}
-<div style={styles.field}>
   <label style={styles.label}>Booked By:</label>
   <label style={{ display: "flex", alignItems: "center", gap: "5px" }}>
     <input
@@ -558,7 +557,6 @@ useEffect(() => {
     />
   )}
 </div>
-  </div>
 
 
           <input
@@ -811,6 +809,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
