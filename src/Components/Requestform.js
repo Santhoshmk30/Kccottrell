@@ -500,6 +500,7 @@ useEffect(() => {
 
 
       {/* Transport Mode selection */}
+<div style={styles.row}>
       <div style={styles.transportSection}>
   <label style={styles.label}>Transport</label>
   <div style={styles.radioGroup}>
@@ -517,29 +518,10 @@ useEffect(() => {
       </label>
     ))}
   </div>
-
-  {/* Show result */}
-  {formData.transportMode && (
-    <div style={styles.resultBox}>
-      Allowed Class: <span style={styles.resultText}>{getTravelClass()}</span>
-    </div>
-  )}
 </div>
 
-
-
-          <div>
-            <input
-              type="number"
-              name="transportAmount"
-              value={formData.transportAmount}
-              onChange={handleChange}
-              placeholder={`Enter ${formData.transportMode || "Transport"} amount`}
-              style={styles.input}
-            />
-          </div>
-
 {/* Ticket Booking By */}
+ <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
 <div style={styles.field}>
   <label style={styles.label}>Ticket Booked By</label>
   <label style={{ marginRight: "15px" }}>
@@ -577,6 +559,10 @@ useEffect(() => {
     />
   </div>
 )}
+  </div>
+
+    </div>
+
 
 
           <input
@@ -829,6 +815,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
