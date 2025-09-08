@@ -499,112 +499,82 @@ useEffect(() => {
           />
 
 
-      {/* Transport Mode selection */}
-      <div style={styles.transportSection}>
-  <label style={styles.label}>Transport</label>
-  <div style={styles.radioGroup}>
-    {["Air", "Train", "Bus/Taxi/Car"].map((mode) => (
-      <label key={mode} style={styles.radioLabel}>
+     {/* Transport Section */}
+<div style={styles.row}>
+  {/* Transport Mode */}
+  <div style={styles.field}>
+    <label style={styles.label}>Transport</label>
+    <div style={styles.radioGroup}>
+      {["Air", "Train", "Bus/Taxi/Car"].map((mode) => (
+        <label key={mode} style={styles.radioLabel}>
+          <input
+            type="radio"
+            name="transportMode"
+            value={mode}
+            checked={formData.transportMode === mode}
+            onChange={handleChange}
+            style={styles.radioInput}
+          />
+          {mode}
+        </label>
+      ))}
+    </div>
+
+    {/* Allowed Class */}
+    {formData.transportMode && (
+      <div style={styles.resultBox}>
+        Allowed Class:{" "}
+        <span style={styles.resultText}>{getTravelClass()}</span>
+      </div>
+    )}
+  </div>
+
+  {/* Ticket Booked By */}
+  <div style={styles.field}>
+    <label style={styles.label}>Ticket Booked By</label>
+    <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
+      <label>
         <input
           type="radio"
-          name="transportMode"
-          value={mode}
-          checked={formData.transportMode === mode}
+          name="ticketBookedBy"
+          value="Self"
+          checked={formData.ticketBookedBy === "Self"}
           onChange={handleChange}
-          style={styles.radioInput}
         />
-        {mode}
+        Self
       </label>
-    ))}
-  </div>
-
-  {/* Show result */}
-  {formData.transportMode && (
-    <div style={styles.resultBox}>
-      Allowed Class: <span style={styles.resultText}>{getTravelClass()}</span>
-    </div>
-  )}
-</div>
-
-
-
-          <div>
-            <input
-              type="number"
-              name="transportAmount"
-              value={formData.transportAmount}
-              onChange={handleChange}
-              placeholder={`Enter ${formData.transportMode || "Transport"} amount`}
-              style={styles.input}
-            />
-          </div>
-
-              {/* Transport Mode selection */}
-<div style={styles.transportSection}>
-  <label style={styles.label}>Transport</label>
-  <div style={styles.radioGroup}>
-    {["Air", "Train", "Bus/Taxi/Car"].map((mode) => (
-      <label key={mode} style={styles.radioLabel}>
+      <label>
         <input
           type="radio"
-          name="transportMode"
-          value={mode}
-          checked={formData.transportMode === mode}
+          name="ticketBookedBy"
+          value="Company"
+          checked={formData.ticketBookedBy === "Company"}
           onChange={handleChange}
-          style={styles.radioInput}
         />
-        {mode}
+        Company
       </label>
-    ))}
-  </div>
-
-  {/* Show result */}
-  {formData.transportMode && (
-    <div style={styles.resultBox}>
-      Allowed Class:{" "}
-      <span style={styles.resultText}>{getTravelClass()}</span>
     </div>
-  )}
-</div>
 
-{/* Ticket Booking By */}
-<div style={styles.field}>
-  <label style={styles.label}>Ticket Booked By</label>
-  <label style={{ marginRight: "15px" }}>
-    <input
-      type="radio"
-      name="ticketBookedBy"
-      value="Self"
-      checked={formData.ticketBookedBy === "Self"}
-      onChange={handleChange}
-    />
-    Self
-  </label>
-  <label>
-    <input
-      type="radio"
-      name="ticketBookedBy"
-      value="Company"
-      checked={formData.ticketBookedBy === "Company"}
-      onChange={handleChange}
-    />
-    Company
-  </label>
-</div>
+    {/* Transport Amount - only if Self */}
+    {formData.ticketBookedBy === "Self" && (
+      <input
+        type="number"
+        name="transportAmount"
+        value={formData.transportAmount}
+        onChange={handleChange}
+        placeholder={`Enter ${formData.transportMode || "Transport"} amount`}
+        style={styles.input1}
+      />
+    )}
 
-{/* Conditionally show Transport Amount only if Self */}
-{formData.ticketBookedBy === "Self" && (
-  <div>
-    <input
-      type="number"
-      name="transportAmount"
-      value={formData.transportAmount}
-      onChange={handleChange}
-      placeholder={`Enter ${formData.transportMode || "Transport"} amount`}
-      style={styles.input}
-    />
+    {/* Note */}
+    <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
+      If the ticket is booked by self, reimbursement will be processed based on 
+      the actual ticket cost, subject to approval and policy limits.
+    </p>
   </div>
-)}
+</div>
+
 
 
           <input
@@ -857,6 +827,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
