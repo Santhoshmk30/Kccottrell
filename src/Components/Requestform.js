@@ -987,15 +987,11 @@ previewButton: {
   cursor: "pointer",
   fontSize: "16px",
 },
-    @keyframes blink {
-  0% { background-color: yellow; }
-  50% { background-color: #ffeb3b; }
-  100% { background-color: yellow; }
-}
   };
 
 
 export default TripRequestForm;
+
 
 
 
