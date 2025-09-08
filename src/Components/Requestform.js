@@ -581,6 +581,7 @@ useEffect(() => {
     background: "linear-gradient(135deg, #ffffff, #f9f9ff)", 
     padding: "35px",
     borderRadius: "15px",
+    boxShadow: "0 8px 25px rgba(0,0,0,0.1)", 
     fontFamily: "Segoe UI, sans-serif",
     border: "1px solid #e0e0e0",
     },
@@ -738,6 +739,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
