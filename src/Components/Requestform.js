@@ -577,7 +577,6 @@ useEffect(() => {
 
   const styles = {
     body: {
-      maxWidth: "1250px",
     margin: "30px auto",
     background: "linear-gradient(135deg, #ffffff, #f9f9ff)", 
     padding: "35px",
@@ -586,7 +585,14 @@ useEffect(() => {
     fontFamily: "Segoe UI, sans-serif",
     border: "1px solid #e0e0e0",
     },
-   
+    header: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: "10px 20px",
+      borderBottom: "2px solid #eee",
+      marginBottom: "25px",
+    },
     heading: {
       fontSize: "24px",
     fontWeight: "700",
@@ -733,4 +739,5 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
