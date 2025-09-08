@@ -506,7 +506,8 @@ useEffect(() => {
   <label key={mode} style={styles.radioLabel}>
   <input type="radio" name="transportMode" value={mode} checked={formData.transportMode === mode} onChange={handleChange} style={styles.radioInput} /> {mode}
   </label> ))} </div> 
-  
+  </div>
+
   {/* Ticket Booking By */} 
   <div style={styles.field}> 
   <label style={styles.label}>Ticket Booked By 
