@@ -12,7 +12,6 @@ import allowances from "./states/allowances.json";
 
 const TripRequestForm = () => {
   const navigate = useNavigate();
-  const [showPreview, setShowPreview] = useState(false);
   const [formData, setFormData] = useState({
     fromDate: '',
     toDate: '',
@@ -23,6 +22,7 @@ const TripRequestForm = () => {
     purpose: '',
     accommodation: '',
     dailyAllowance: '',
+    transportMode: '',
     transportAmount: '',
     parking: '',
     toll: '',
@@ -31,9 +31,7 @@ const TripRequestForm = () => {
     others: '',
     modeOfPayment: '',
     ticketBookedBy: "",
-    transports: [
-    { transportMode: "", ticketBookedBy: "", from: "", to: "", amount: "" }
-  ]
+    transports: [{ from: "", to: "", amount: "" }]
   });
 
   const [activeForm, setActiveForm] = useState("domestic");
@@ -101,13 +99,10 @@ useEffect(() => {
   }
 }, [formData.designation, formData.place]);
 
-const addTransport = () => {
+ const addTransport = () => {
   setFormData((prev) => ({
     ...prev,
-    transports: [
-      ...prev.transports,
-      { transportMode: "", ticketBookedBy: "", from: "", to: "", amount: "" }
-    ]
+    transports: [...prev.transports, { from: "", to: "", amount: "" }]
   }));
 };
 
@@ -128,10 +123,7 @@ const handleTransportChange = (index, field, value) => {
 };
 
 
-const togglePreview = () => {
-  setShowPreview(!showPreview);
-};
-
+  
 
   const total = [
     formData.accommodation,
@@ -463,7 +455,7 @@ const togglePreview = () => {
   </div>
 
       <div style={styles.field}>
-  <label style={styles.label}>Do You Need Special Approval</label>
+  <label style={styles.label}>Do You Want Need Special Approval</label>
       <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
     <label>
       <input
@@ -520,145 +512,131 @@ const togglePreview = () => {
             style={styles.input}
           />
 
-
-
-
-{/* Transport Section with Multiple Entries */}
-<div>
-  <label style={styles.label}>Transport Details</label>
-
-  {formData.transports?.map((item, index) => (
-    <div
-      key={index}
-      style={{
-        border: "1px solid #ccc",
-        borderRadius: "8px",
-        padding: "10px",
-        marginBottom: "15px"
-      }}
-    >
-      {/* Transport Mode */}
-      <div style={styles.field}>
-        <label style={styles.label}>Transport Mode</label>
-        <div style={styles.radioGroup}>
-          {["Air", "Train", "Bus", "Taxi"].map((mode) => (
-            <label key={mode} style={styles.radioLabel}>
-              <input
-                type="radio"
-                name={`transportMode-${index}`}
-                value={mode}
-                checked={item.transportMode === mode}
-                onChange={(e) =>
-                  handleTransportChange(index, "transportMode", e.target.value)
-                }
-                style={styles.radioInput}
-              />
-              {mode}
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Ticket Booked By */}
-       <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
-
-      <div style={styles.field}>
-
-       <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
-
-          <label>
-            <input
-              type="radio"
-              name={`ticketBookedBy-${index}`}
-              value="Self"
-              checked={item.ticketBookedBy === "Self"}
-              onChange={(e) =>
-                handleTransportChange(index, "ticketBookedBy", e.target.value)
-              }
-            />
-            Self
-          </label>
-          <label>
-            <input
-              type="radio"
-              name={`ticketBookedBy-${index}`}
-              value="Company"
-              checked={item.ticketBookedBy === "Company"}
-              onChange={(e) =>
-                handleTransportChange(index, "ticketBookedBy", e.target.value)
-              }
-            />
-            Company
-          </label>
-        </div>
-      </div>
-      </div>
-
-
-      {/* From / To / Amount */}
-      <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-        <input
-          type="text"
-          placeholder="From"
-          value={item.from}
-          onChange={(e) =>
-            handleTransportChange(index, "from", e.target.value)
-          }
-          style={styles.input1}
-        />
-        <input
-          type="text"
-          placeholder="To"
-          value={item.to}
-          onChange={(e) => handleTransportChange(index, "to", e.target.value)}
-          style={styles.input1}
-        />
-        {item.ticketBookedBy === "Self" && (
+{/* Transport Section */}
+<div style={styles.row}>
+  {/* Transport Mode */}
+  <div style={styles.field}>
+    <label style={styles.label}>Transport</label>
+    <div style={styles.radioGroup}>
+      {["Air", "Train", "Bus", "Taxi"].map((mode) => (
+        <label key={mode} style={styles.radioLabel}>
           <input
-            type="number"
-            placeholder="Amount"
-            value={item.amount}
-            onChange={(e) =>
-              handleTransportChange(index, "amount", e.target.value)
-            }
-            style={styles.input1}
+            type="radio"
+            name="transportMode"
+            value={mode}
+            checked={formData.transportMode === mode}
+            onChange={handleChange}
+            style={styles.radioInput}
           />
-        )}
-      </div>
+          {mode}
+        </label>
+      ))}
+    </div>
+  </div>
 
-      {/* Remove Button */}
+  {/* Ticket Booked By */}
+  <div style={styles.field}>
+    <label style={styles.label}>Ticket Booked By</label>
+    <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
+      <label>
+        <input
+          type="radio"
+          name="ticketBookedBy"
+          value="Self"
+          checked={formData.ticketBookedBy === "Self"}
+          onChange={handleChange}
+        />
+        Self
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="ticketBookedBy"
+          value="Company"
+          checked={formData.ticketBookedBy === "Company"}
+          onChange={handleChange}
+        />
+        Company
+      </label>
+    </div>
+  </div>
+</div>
+
+{/* Multiple Transport Entries */}
+<div style={{ marginTop: "15px" }}>
+  <label style={styles.label}>Travel Details</label>
+  {formData.transports?.map((item, index) => (
+    <div key={index} style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
+      <input
+        type="text"
+        placeholder="From"
+        value={item.from}
+        onChange={(e) => handleTransportChange(index, "from", e.target.value)}
+        style={styles.input1}
+      />
+      <input
+        type="text"
+        placeholder="To"
+        value={item.to}
+        onChange={(e) => handleTransportChange(index, "to", e.target.value)}
+        style={styles.input1}
+      />
+      {formData.ticketBookedBy === "Self" && (
+        <input
+          type="number"
+          placeholder="Amount"
+          value={item.amount}
+          onChange={(e) => handleTransportChange(index, "amount", e.target.value)}
+          style={styles.input1}
+        />
+      )}
       <button
         type="button"
         onClick={() => removeTransport(index)}
-        style={{
-          marginTop: "10px",
-          padding: "5px 10px",
-          background: "red",
-          color: "#fff",
-          border: "none",
-          borderRadius: "5px"
-        }}
+        style={{ padding: "5px 10px", background: "red", color: "#fff", border: "none", borderRadius: "5px" }}
       >
-        Remove
+        X
       </button>
     </div>
   ))}
 
-  {/* Add Button */}
   <button
     type="button"
     onClick={addTransport}
-    style={{
-      padding: "8px 15px",
-      background: "green",
-      color: "#fff",
-      border: "none",
-      borderRadius: "5px"
-    }}
+    style={{ padding: "5px 15px", background: "green", color: "#fff", border: "none", borderRadius: "5px" }}
   >
-    + Add Transport
+    + Add
   </button>
 </div>
+
+
+
+          <input
+            type="number"
+            name="parking"
+            value={formData.parking}
+            onChange={handleChange}
+            placeholder="Parking"
+            style={styles.input}
+          />
+
+          <input
+            type="number"
+            name="toll"
+            value={formData.toll}
+            onChange={handleChange}
+            placeholder="Toll Charges"
+            style={styles.input}
+          />
+
+          <input
+            type="number"
+            name="communication"
+            value={formData.communication}
+            onChange={handleChange}
+            placeholder="Communication"
+            style={styles.input}
+          />
 
           <input
             type="number"
@@ -679,8 +657,20 @@ const togglePreview = () => {
           />
 
           <div style={styles.totalBox}>
-            Total Amount: ₹{total}
+            Total Advance Required: ₹{total}
           </div>
+
+          <select
+            name="modeOfPayment"
+            value={formData.modeOfPayment}
+            onChange={handleChange}
+            style={styles.select}
+          >
+            <option value="">Select Mode of Payment</option>
+            <option value="Cash">Cash</option>
+            <option value="Card">Card</option>
+            <option value="Online Transfer">Online Transfer</option>
+          </select>
 
           <motion.button
             type="submit"
@@ -690,125 +680,7 @@ const togglePreview = () => {
           >
             Submit
           </motion.button>
-              <div style={{ display: "flex", gap: "15px", justifyContent: "center" }}>
-  <motion.button
-    type="button"
-    style={styles.previewButton}
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-    onClick={togglePreview}
-  >
-    Preview
-  </motion.button>
-
-  <motion.button
-    type="submit"
-    style={styles.button}
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-  >
-    Submit
-  </motion.button>
-</div>
-
-      
         </form>
-
-     {showPreview && (
-  <div style={styles.overlayBg}>
-    <div style={styles.previewBox}>
-      <h2 style={styles.previewTitle}>Trip Request Preview</h2>
-
-      <div style={styles.previewContent}>
-        {/* Basic Info */}
-        <div style={styles.row}>
-          <span style={styles.fieldName}>From Date</span>
-          <span style={styles.fieldValue}>{formData.fromDate}</span>
-        </div>
-        <div style={styles.row}>
-          <span style={styles.fieldName}>To Date</span>
-          <span style={styles.fieldValue}>{formData.toDate}</span>
-        </div>
-        <div style={styles.row}>
-          <span style={styles.fieldName}>Department</span>
-          <span style={styles.fieldValue}>{formData.department}</span>
-        </div>
-        <div style={styles.row}>
-          <span style={styles.fieldName}>Project Code</span>
-          <span style={styles.fieldValue}>{formData.projectCode}</span>
-        </div>
-        <div style={styles.row}>
-          <span style={styles.fieldName}>City</span>
-          <span style={styles.fieldValue}>{formData.place}</span>
-        </div>
-        <div style={styles.row}>
-          <span style={styles.fieldName}>Designation</span>
-          <span style={styles.fieldValue}>{formData.designation}</span>
-        </div>
-        <div style={styles.row}>
-          <span style={styles.fieldName}>Accommodation</span>
-          <span style={styles.fieldValue}>{formData.accommodation}</span>
-        </div>
-        <div style={styles.row}>
-          <span style={styles.fieldName}>Daily Allowance</span>
-          <span style={styles.fieldValue}>{formData.dailyAllowance}</span>
-        </div>
-        <div style={styles.row}>
-          <span style={styles.fieldName}>Purpose</span>
-          <span style={styles.fieldValue}>{formData.purpose}</span>
-        </div>
-
-        {/* Transport Details */}
-        <h3 style={styles.sectionTitle}>Transport Details</h3>
-        <table style={styles.table}>
-          <thead>
-            <tr>
-              <th>Mode</th>
-              <th>From</th>
-              <th>To</th>
-              <th>Booked By</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {formData.transports.map((t, i) => (
-              <tr key={i}>
-                <td>{t.transportMode}</td>
-                <td>{t.from}</td>
-                <td>{t.to}</td>
-                <td>{t.ticketBookedBy}</td>
-                <td>{t.ticketBookedBy === "Self" ? `₹${t.amount}` : "-"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {/* Special Approval Highlight */}
-        {/* Special Approval Highlight */}
-{formData.specialApproval === "Yes" && (
-  <div style={styles.specialHighlight}>
-    ⚠️ Special Approval Required <br />
-    Extra Amount: ₹{formData.extraAmount}
-  </div>
-)}
-
-      </div>
-
-      {/* Buttons */}
-      <div style={styles.previewActions}>
-        <button onClick={togglePreview} style={styles.closeBtn}>
-          Close
-        </button>
-        <button type="submit" style={styles.confirmBtn}>
-          Confirm & Submit
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
-
-              
         </div>
       ) : (
         <div>
@@ -984,120 +856,11 @@ const togglePreview = () => {
       fontSize: "14px",
       marginTop: "4px",
       fontWeight: "500",
-    },
-    overlayBg: {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  backgroundColor: "rgba(0,0,0,0.6)",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  zIndex: 999,
-},
-previewBox: {
-  background: "#fff",
-  padding: "20px",
-  borderRadius: "12px",
-  width: "600px",
-  maxHeight: "90vh",
-  overflowY: "auto",
-  boxShadow: "0 6px 25px rgba(0,0,0,0.3)",
-  animation: "fadeIn 0.3s ease-in-out",
-},
-previewTitle: {
-  textAlign: "center",
-  marginBottom: "15px",
-  fontSize: "20px",
-  fontWeight: "bold",
-  borderBottom: "2px solid #eee",
-  paddingBottom: "8px",
-},
-previewContent: {
-  marginTop: "10px",
-},
-row: {
-  display: "flex",
-  justifyContent: "space-between",
-  marginBottom: "8px",
-  padding: "5px 0",
-  borderBottom: "1px dashed #ddd",
-},
-fieldName: {
-  fontWeight: "bold",
-  color: "#444",
-},
-fieldValue: {
-  color: "#555",
-},
-sectionTitle: {
-  marginTop: "20px",
-  marginBottom: "10px",
-  fontSize: "16px",
-  fontWeight: "600",
-  color: "#333",
-},
-table: {
-  width: "100%",
-  borderCollapse: "collapse",
-  marginBottom: "15px",
-},
-"table th, table td": {
-  border: "1px solid #ddd",
-  padding: "8px",
-  textAlign: "center",
-},
-specialHighlight: {
-  background: "yellow",
-  padding: "10px",
-  marginTop: "15px",
-  borderRadius: "6px",
-  fontWeight: "bold",
-  animation: "blink 1s infinite",
-  textAlign: "center",
-  animation: "blinker 1s steps(2, start) infinite" ,
-},
-previewActions: {
-  display: "flex",
-  justifyContent: "flex-end",
-  gap: "10px",
-  marginTop: "20px",
-},
-closeBtn: {
-  padding: "8px 15px",
-  background: "#f44336",
-  color: "#fff",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer",
-},
-confirmBtn: {
-  padding: "8px 15px",
-  background: "#4caf50",
-  color: "#fff",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer",
-  fontWeight: "bold",
-},
+    }
   };
 
 
 export default TripRequestForm;
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
