@@ -510,10 +510,9 @@ useEffect(() => {
   </div>
 
 {/* Ticket Booking By */}
- 
+   <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
 <div style={styles.field}>
   <label style={styles.label}>Ticket Booked By</label>
-  <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
   <label style={{ marginRight: "15px" }}>
     <input
       type="radio"
@@ -808,6 +807,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
