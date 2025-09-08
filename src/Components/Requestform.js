@@ -510,9 +510,10 @@ useEffect(() => {
   </div>
 
 {/* Ticket Booking By */}
- <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
+ 
 <div style={styles.field}>
   <label style={styles.label}>Ticket Booked By</label>
+  <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
   <label style={{ marginRight: "15px" }}>
     <input
       type="radio"
@@ -537,9 +538,10 @@ useEffect(() => {
         </div>
 
 {/* Conditionally show Transport Amount only if Self */}
-<div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
+
 {formData.ticketBookedBy === "Self" && (
   <div>
+  <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
     <input
       type="number"
       name="transportAmount"
@@ -806,6 +808,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
