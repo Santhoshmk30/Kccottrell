@@ -522,21 +522,7 @@ const handleTransportChange = (index, field, value) => {
  </div>
        </div>
 
-  <div style={styles.field}>
-    <label style={styles.label}>Daily Allowance</label>
-    <input
-      type="text"
-      name="dailyAllowance"
-      value={formData.dailyAllowance ?? ''}
-      readOnly
-      style={styles.input1}
-    />
-       {/* Note */}
-  <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
-    For any expenses more than the daily allowance, reimbursement requires 
-    proper justification and special approval from the management.
-  </p>
-  </div>
+ 
 
       <div style={styles.field}>
   <label style={styles.label}>Do You Need Special Approval</label>
@@ -563,13 +549,7 @@ const handleTransportChange = (index, field, value) => {
     No
   </label>
         </div>
-</div>
-</div>
-
-
-
-
-{/* Conditionally render Extra Amount */}
+        {/* Conditionally render Extra Amount */}
 {formData.specialApproval === "Yes" && (
   <div style={styles.field}>
     <label style={styles.label}>Extra Amount</label>
@@ -583,6 +563,69 @@ const handleTransportChange = (index, field, value) => {
     />
   </div>
 )}
+
+
+</div>
+</div>
+
+   <div style={styles.field}>
+    <label style={styles.label}>Daily Allowance</label>
+    <input
+      type="text"
+      name="dailyAllowance"
+      value={formData.dailyAllowance ?? ''}
+      readOnly
+      style={styles.input1}
+    />
+       {/* Note */}
+  <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
+    For any expenses more than the daily allowance, reimbursement requires 
+    proper justification and special approval from the management.
+  </p>
+  </div>
+      <div style={styles.field}>
+  <label style={styles.label}>Do You Need Special Approval</label>
+      <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
+    <label>
+      <input
+      type="radio"
+      name="specialApproval"
+      value="Yes"
+      checked={formData.specialApproval === "Yes"}
+      onChange={handleChange}
+    />
+    Yes
+  </label>
+  
+  <label>
+    <input
+      type="radio"
+      name="specialApproval"
+      value="No"
+      checked={formData.specialApproval === "No"}
+      onChange={handleChange}
+    />
+    No
+  </label>
+        </div>
+        {/* Conditionally render Extra Amount */}
+{formData.specialApproval === "Yes" && (
+  <div style={styles.field}>
+    <label style={styles.label}>Extra Amount</label>
+    <input
+      type="number"
+      name="extraAmount"
+      value={formData.extraAmount ?? ""}
+      onChange={handleChange}
+      style={styles.input1}
+      placeholder="Enter extra amount"
+    />
+  </div>
+)}
+
+
+
+
 
 
 
@@ -951,6 +994,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
