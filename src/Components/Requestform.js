@@ -562,6 +562,14 @@ const handleTransportChange = (index, field, value) => {
       style={styles.input1}
       placeholder="Enter extra amount"
     />
+         <input
+            type="text"
+            name="purpose"
+            value={formData.purpose}
+            onChange={handleChange}
+            placeholder="Enter Purpose"
+            style={styles.input}
+          />
   </div>
 )}
 
@@ -648,6 +656,14 @@ const handleTransportChange = (index, field, value) => {
       style={styles.input1}
       placeholder="Enter extra amount"
     />
+         <input
+            type="text"
+            name="purpose1"
+            value={formData.purpose}
+            onChange={handleChange}
+            placeholder="Enter Purpose"
+            style={styles.input}
+          />
   </div>
 )}
 
@@ -1028,6 +1044,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
