@@ -722,170 +722,181 @@ const handleTransportChange = (index, field, value) => {
   );
 };
 
-  const styles = {
-    body: {
+ const styles = {
+  body: {
     margin: "30px auto",
-    background: "linear-gradient(135deg, #ffffff, #f9f9ff)", 
+    background: "#f3f4f6", // light gray background
     padding: "35px",
-    borderRadius: "15px",
-    boxShadow: "0 8px 25px rgba(0,0,0,0.1)", 
+    borderRadius: "25px", // bigger rounded corners
+    boxShadow: "0 8px 25px rgba(0,0,0,0.12)", // softer shadow
     fontFamily: "Segoe UI, sans-serif",
-    border: "1px solid #e0e0e0",
-    },
-    header: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      padding: "10px 20px",
-      borderBottom: "2px solid #eee",
-      marginBottom: "25px",
-    },
-    heading: {
-      fontSize: "24px",
+    border: "none",
+    maxWidth: "600px",
+  },
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "10px 20px",
+    borderBottom: "2px solid #eee",
+    marginBottom: "25px",
+  },
+  heading: {
+    fontSize: "24px",
     fontWeight: "700",
     marginBottom: "20px",
     textAlign: "center",
     color: "#1a237e",
-    textShadow: "1px 1px 2px rgba(0,0,0,0.1)",
-    },
-    subheading: {
-    background: "linear-gradient(90deg, #2196f3, #21cbf3)",
+  },
+  subheading: {
+    background: "linear-gradient(90deg, #22c55e, #16a34a)", // green gradient
     color: "#fff",
     padding: "10px 15px",
-    borderRadius: "6px",
+    borderRadius: "50px", // pill
     margin: "25px 0 15px 0",
-    fontWeight: "600"
-    },
-    form: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "20px",
-    },
-    row: {
-      display: "flex",
-      gap: "20px",
-      flexWrap: "wrap",
-      marginBottom: "15px"
-    },
-    field: {
-      flex: 1,
-      display: "flex",
-      flexDirection: "column"
-    },
-    label: {
-      fontWeight: "600",
-      marginBottom: "8px",
-      display: "block",
-      fontSize: "14px"
-    },
-    transportSection: {
-      marginTop: "20px",
-      padding: "15px",
-      border: "1px solid #ddd",
-      borderRadius: "8px",
-      backgroundColor: "#fafafa"
-    },
-    radioGroup: {
-      display: "flex",
-      gap: "20px",
-      marginTop: "10px"
-    },
-    radioLabel: {
-      fontSize: "14px",
-      cursor: "pointer",
-      display: "flex",
-      alignItems: "center",
-      gap: "5px"
-    },
-    radioInput: {
-      cursor: "pointer"
-    },
-    resultBox: {
-      marginTop: "15px",
-      padding: "10px",
-      backgroundColor: "#e9f5ff",
-      border: "1px solid #b3daff",
-      borderRadius: "6px",
-      fontWeight: "600",
-      fontSize: "14px"
-    },
-    resultText: {
-      color: "#0073e6"
-    },
-    input: {
-      padding: "12px",
-      border: "1px solid #ccc",
-      borderRadius: "6px",
-      fontSize: "14px",
-      outline: "none"
-    },
-    input1: {
-      padding: "10px",
-      border: "1px solid #ccc",
-      borderRadius: "6px",
-      fontSize: "14px",
-      minWidth: "150px",
-    },   
-    inputFocus: {
-      borderColor: "#2980b9",
-      boxShadow: "0 0 6px rgba(41, 128, 185, 0.25)",
-    },
-    select: {
-      padding: "12px",
-      border: "1px solid #ccc",
-      borderRadius: "8px",
-      fontSize: "14px",
-      backgroundColor: "white",
-    },
-    totalBox: {
-      marginTop: "25px",
-      padding: "14px",
-      backgroundColor: "#f0f8ff",
-      borderRadius: "8px",
-      fontSize: "18px",
-      textAlign: "center",
-      fontWeight: "bold",
-      color: "#0d47a1",
-      border: "1px solid #bbdefb",
-    },
-    button: {
-      marginTop: "25px",
-      padding: "14px",
-      background: "linear-gradient(135deg, #2980b9, #3498db)",
-      color: "white",
-      fontWeight: "bold",
-      border: "none",
-      borderRadius: "8px",
-      cursor: "pointer",
-      fontSize: "16px",
-      alignSelf: "center",
-      width: "220px",
-      transition: "all 0.3s ease",
-    },
-    buttonHover: {
-      background: "linear-gradient(135deg, #1f6391, #2980b9)",
-    },
-    tabButton: (isActive) => ({
-      padding: "8px 15px",
-      marginLeft: "10px",
-      borderRadius: "20px",
-      border: "none",
-      cursor: "pointer",
-      background: isActive ? "#2196f3" : "#ddd",
-      color: isActive ? "white" : "black",
-      fontWeight: "600",
-      transition: "0.3s",
-    }),
-    error: {
-      color: "red",
-      fontSize: "14px",
-      marginTop: "4px",
-      fontWeight: "500",
-    }
-  };
+    fontWeight: "600",
+    textAlign: "center",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px",
+  },
+  row: {
+    display: "flex",
+    gap: "20px",
+    flexWrap: "wrap",
+    marginBottom: "15px",
+  },
+  field: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+  },
+  label: {
+    fontWeight: "600",
+    marginBottom: "8px",
+    display: "block",
+    fontSize: "14px",
+    color: "#374151",
+  },
+  transportSection: {
+    marginTop: "20px",
+    padding: "15px",
+    borderRadius: "20px",
+    backgroundColor: "#fafafa",
+    border: "1px solid #e5e7eb",
+  },
+  radioGroup: {
+    display: "flex",
+    gap: "12px",
+    marginTop: "10px",
+    flexWrap: "wrap",
+  },
+  radioLabel: (active) => ({
+    padding: "10px 20px",
+    borderRadius: "50px",
+    border: `2px solid ${active ? "#22c55e" : "#d1d5db"}`,
+    backgroundColor: active ? "#22c55e" : "#fff",
+    color: active ? "#fff" : "#374151",
+    fontSize: "14px",
+    fontWeight: "500",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+  }),
+  radioInput: {
+    display: "none", // hide default radio
+  },
+  resultBox: {
+    marginTop: "15px",
+    padding: "12px",
+    backgroundColor: "#e9f5ff",
+    border: "1px solid #b3daff",
+    borderRadius: "12px",
+    fontWeight: "600",
+    fontSize: "14px",
+  },
+  resultText: {
+    color: "#0073e6",
+  },
+  input: {
+    padding: "12px 20px",
+    border: "none",
+    borderRadius: "50px", // pill shape
+    fontSize: "15px",
+    outline: "none",
+    backgroundColor: "#f3f4f6", // light gray
+  },
+  input1: {
+    padding: "12px 20px",
+    border: "none",
+    borderRadius: "50px",
+    fontSize: "15px",
+    backgroundColor: "#f3f4f6",
+    minWidth: "150px",
+    outline: "none",
+  },
+  inputFocus: {
+    border: "2px solid #22c55e",
+    boxShadow: "0 0 6px rgba(34,197,94,0.25)",
+  },
+  select: {
+    padding: "12px 20px",
+    border: "none",
+    borderRadius: "50px",
+    fontSize: "15px",
+    backgroundColor: "#f3f4f6",
+    outline: "none",
+  },
+  totalBox: {
+    marginTop: "25px",
+    padding: "14px",
+    backgroundColor: "#f0fdf4", // light green bg
+    borderRadius: "12px",
+    fontSize: "18px",
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "#15803d",
+    border: "1px solid #bbf7d0",
+  },
+  button: {
+    marginTop: "25px",
+    padding: "14px",
+    background: "#22c55e", // bright green
+    color: "white",
+    fontWeight: "bold",
+    border: "none",
+    borderRadius: "50px", // pill button
+    cursor: "pointer",
+    fontSize: "16px",
+    width: "100%",
+    transition: "all 0.3s ease",
+  },
+  buttonHover: {
+    background: "#16a34a",
+  },
+  tabButton: (isActive) => ({
+    padding: "10px 18px",
+    borderRadius: "50px",
+    border: "none",
+    cursor: "pointer",
+    background: isActive ? "#22c55e" : "#e5e7eb",
+    color: isActive ? "white" : "black",
+    fontWeight: "600",
+    transition: "0.3s",
+  }),
+  error: {
+    color: "red",
+    fontSize: "14px",
+    marginTop: "4px",
+    fontWeight: "500",
+  },
+};
+
 
 
 export default TripRequestForm;
+
 
 
 
