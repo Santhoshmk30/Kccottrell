@@ -21,6 +21,7 @@ const TripRequestForm = () => {
     place: '',
     workPlan: '', 
     purpose: '',
+    purpose1: '',
     accommodation: '',
     dailyAllowance: '',
     transportAmount: '',
@@ -562,9 +563,11 @@ const handleTransportChange = (index, field, value) => {
       style={styles.input1}
       placeholder="Enter extra amount"
     />
-         <input
+  </div>
+<div style={styles.field}>
+ <input
             type="text"
-            name="purpose"
+            name="purpose1"
             value={formData.purpose}
             onChange={handleChange}
             placeholder="Enter Purpose"
@@ -627,7 +630,7 @@ const handleTransportChange = (index, field, value) => {
       type="radio"
       name="specialApproval1"
       value="Yes"
-      checked={formData.specialApproval === "Yes"}
+      checked={formData.specialApproval1 === "Yes"}
       onChange={handleChange}
     />
     Yes
@@ -638,7 +641,7 @@ const handleTransportChange = (index, field, value) => {
       type="radio"
       name="specialApproval1"
       value="No"
-      checked={formData.specialApproval === "No"}
+      checked={formData.specialApproval1 === "No"}
       onChange={handleChange}
     />
     No
@@ -656,7 +659,10 @@ const handleTransportChange = (index, field, value) => {
       style={styles.input1}
       placeholder="Enter extra amount"
     />
-         <input
+        
+  </div>
+ <div style={styles.field}>
+ <input
             type="text"
             name="purpose1"
             value={formData.purpose}
@@ -1044,6 +1050,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
