@@ -451,9 +451,7 @@ const handleTransportChange = (index, field, value) => {
       style={styles.input1}
     />
   </div>
-</div>
-
-<div style={styles.field}>
+      <div style={styles.field}>
   <label style={styles.label}>Designation</label>
   <select
     name="designation"
@@ -467,7 +465,7 @@ const handleTransportChange = (index, field, value) => {
     <option value="General Manager/Sr.General Manager">General Manager/Sr.General Manager</option>
   </select>
 </div>
-
+</div>
       <div style={styles.field}>
   <label style={styles.label}>Is Company Providing Accommodation?</label>
   <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
@@ -522,7 +520,7 @@ const handleTransportChange = (index, field, value) => {
   </div>
        {/* Note */}
   <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
-    For any expenses more than the daily allowance, reimbursement requires 
+    For any expenses more than the Accommodation Allowance, reimbursement requires 
     proper justification and special approval from the management.
   </p>
 
@@ -613,7 +611,7 @@ const handleTransportChange = (index, field, value) => {
     />
        {/* Note */}
   <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
-    For any expenses more than the daily allowance, reimbursement requires 
+    For any expenses more than the Daily Allowance, reimbursement requires 
     proper justification and special approval from the management.
   </p>
   </div>
@@ -1033,6 +1031,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
