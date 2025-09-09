@@ -593,7 +593,9 @@ const handleTransportChange = (index, field, value) => {
   </h3>
 
   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
-      <div style={styles.field}>
+     
+
+     <div style={styles.field}>
     <label style={styles.label}>Daily Allowance</label>
     <input
       type="text"
@@ -608,11 +610,8 @@ const handleTransportChange = (index, field, value) => {
     proper justification and special approval from the management.
   </p>
   </div>
-       </div>
 
- 
-
-      <div style={styles.field}>
+       <div style={styles.field}>
   <label style={styles.label}>Do You Need Special Approval</label>
       <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
     <label>
@@ -650,18 +649,14 @@ const handleTransportChange = (index, field, value) => {
       placeholder="Enter extra amount"
     />
   </div>
-        
-  <input
-            type="text"
-            name="purpose"
-            value={formData.purpose}
-            onChange={handleChange}
-            placeholder="Enter Purpose"
-            style={styles.input}
-          />
 )}
+
+
 </div>
+
+      
 </div>
+     </div>
 
  
 
@@ -1033,6 +1028,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
