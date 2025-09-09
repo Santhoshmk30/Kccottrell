@@ -563,15 +563,6 @@ const handleTransportChange = (index, field, value) => {
       placeholder="Enter extra amount"
     />
   </div>
-
-   <input
-            type="text"
-            name="purpose"
-            value={formData.purpose}
-            onChange={handleChange}
-            placeholder="Enter Purpose"
-            style={styles.input}
-          />
 )}
 
 
@@ -602,7 +593,6 @@ const handleTransportChange = (index, field, value) => {
   </h3>
 
   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
-
 
  <div style={styles.field}>
     <label style={styles.label}>Daily Allowance</label>
@@ -658,20 +648,7 @@ const handleTransportChange = (index, field, value) => {
       placeholder="Enter extra amount"
     />
   </div>
-
-   <input
-            type="text"
-            name="purpose"
-            value={formData.purpose}
-            onChange={handleChange}
-            placeholder="Enter Purpose"
-            style={styles.input}
-          />
 )}
-
-  
-
-
 </div>
 </div>
 
@@ -1049,6 +1026,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
