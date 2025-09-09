@@ -858,7 +858,7 @@ const handleTransportChange = (index, field, value) => {
    container: {
     display: "flex",
     justifyContent: "flex-end",
-    padding: "100px",
+    padding: "90px",
     background: "linear-gradient(135deg, #f3f4f7, #ffffff)",
     minHeight: "100vh",
     boxSizing: "border-box",
@@ -867,7 +867,7 @@ const handleTransportChange = (index, field, value) => {
     width: "100%",
     maxWidth: "1000px",
     background: "#fff",
-    borderRadius: "50px",
+    borderRadius: "100px",
     boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
     padding: "30px",
     border: "2px solid #000",
@@ -962,16 +962,18 @@ const handleTransportChange = (index, field, value) => {
      input: {
     padding: "12px",
     border: "1px solid #ccc",
-    borderRadius: "6px",
+    borderRadius: "10px",
     fontSize: "14px",
     outline: "none",
+    background: "transparent",
   },
   input1: {
     padding: "10px",
     border: "1px solid #ccc",
-    borderRadius: "6px",
+    borderRadius: "10px",
     fontSize: "14px",
     minWidth: "150px",
+    background: "transparent",
   },
     inputFocus: {
       borderColor: "#2980b9",
@@ -1032,6 +1034,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
