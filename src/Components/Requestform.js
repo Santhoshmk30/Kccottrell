@@ -865,17 +865,17 @@ const handleTransportChange = (index, field, value) => {
   const styles = {
    container: {
     display: "flex",
-    justifyContent: "flex-end", // right side align
-    padding: "40px",
+    justifyContent: "flex-end",
+    padding: "100px",
     background: "linear-gradient(135deg, #f3f4f7, #ffffff)",
     minHeight: "100vh",
     boxSizing: "border-box",
   },
   rightCard: {
     width: "100%",
-    maxWidth: "800px", // konjam perusa pannuren
+    maxWidth: "1000px",
     background: "#fff",
-    borderRadius: "12px",
+    borderRadius: "50px",
     boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
     padding: "30px",
     border: "2px solid #000",
@@ -1040,6 +1040,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
