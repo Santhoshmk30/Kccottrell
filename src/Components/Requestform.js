@@ -396,7 +396,7 @@ const handleTransportChange = (index, field, value) => {
       fontSize: "20px",
     }}
   >
-   Travel Details
+   Accommodation Details
   </h3>
 
   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
@@ -465,9 +465,8 @@ const handleTransportChange = (index, field, value) => {
     <option value="General Manager/Sr.General Manager">General Manager/Sr.General Manager</option>
   </select>
 </div>
- </div>
-       </div>
-<div style={styles.field}>
+
+      <div style={styles.field}>
   <label style={styles.label}>Is Company Providing Accommodation?</label>
   <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
     <label>
@@ -519,6 +518,9 @@ const handleTransportChange = (index, field, value) => {
       style={styles.input1}
     />
   </div>
+
+ </div>
+       </div>
 
   <div style={styles.field}>
     <label style={styles.label}>Daily Allowance</label>
@@ -949,6 +951,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
