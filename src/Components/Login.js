@@ -147,7 +147,7 @@ function Login() {
       <div style={styles.container}>
         {/* Background video */}
        <video style={styles.video} autoPlay loop muted>
-  <source src="/videos/background.ogv" type="video/ogg" />
+  <source src="/videos/background.ogv" type="video/ogv" />
   Your browser does not support the video tag.
 </video>
 
@@ -198,4 +198,5 @@ function Login() {
 }
 
 export default Login;
+
 
