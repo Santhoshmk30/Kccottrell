@@ -589,7 +589,7 @@ const handleTransportChange = (index, field, value) => {
       fontSize: "20px",
     }}
   >
-   Accommodation Details
+   Daily Allowance Details
   </h3>
 
   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
@@ -617,7 +617,7 @@ const handleTransportChange = (index, field, value) => {
     <label>
       <input
       type="radio"
-      name="specialApproval"
+      name="specialApproval1"
       value="Yes"
       checked={formData.specialApproval === "Yes"}
       onChange={handleChange}
@@ -628,7 +628,7 @@ const handleTransportChange = (index, field, value) => {
   <label>
     <input
       type="radio"
-      name="specialApproval"
+      name="specialApproval1"
       value="No"
       checked={formData.specialApproval === "No"}
       onChange={handleChange}
@@ -637,7 +637,7 @@ const handleTransportChange = (index, field, value) => {
   </label>
         </div>
         {/* Conditionally render Extra Amount */}
-{formData.specialApproval === "Yes" && (
+{formData.specialApproval1 === "Yes" && (
   <div style={styles.field}>
     <label style={styles.label}>Extra Amount</label>
     <input
@@ -1028,6 +1028,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
