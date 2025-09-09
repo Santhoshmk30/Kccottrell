@@ -866,7 +866,7 @@ const handleTransportChange = (index, field, value) => {
   const styles = {
    container: {
     display: "flex",
-    justifyContent: "flex-end", // right side ku move panna
+    justifyContent: "flex-end", // right side align
     padding: "40px",
     background: "linear-gradient(135deg, #f3f4f7, #ffffff)",
     minHeight: "100vh",
@@ -874,15 +874,17 @@ const handleTransportChange = (index, field, value) => {
   },
   rightCard: {
     width: "100%",
-    maxWidth: "600px", // card size fix
+    maxWidth: "800px", // konjam perusa pannuren
     background: "#fff",
-    borderRadius: "15px",
+    borderRadius: "12px",
     boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
     padding: "30px",
-    border: "1px solid #eee",
+    border: "2px solid #000",
+    marginRight: "0", 
+    marginLeft: "auto", 
   },
   body: {
-    background: "transparent", // ippo need illa
+    background: "transparent", 
     padding: "0",
     margin: "0",
     fontFamily: "Segoe UI, sans-serif",
@@ -900,7 +902,7 @@ const handleTransportChange = (index, field, value) => {
     fontWeight: "700",
     color: "#1a237e",
     textAlign: "center",
-    width: "100%",
+    marginBottom: "20px",
   },
   subheading: {
     background: "linear-gradient(90deg, #2196f3, #21cbf3)",
@@ -911,7 +913,7 @@ const handleTransportChange = (index, field, value) => {
     fontWeight: "600",
     textAlign: "center",
   },
-   form: {
+  form: {
     display: "flex",
     flexDirection: "column",
     gap: "20px",
@@ -1039,6 +1041,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
