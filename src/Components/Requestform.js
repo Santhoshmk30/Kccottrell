@@ -251,16 +251,7 @@ const handleTransportChange = (index, field, value) => {
         <div>
           <form onSubmit={handleSubmit} style={styles.form}>
           <div style={styles.row}>
-  <div style={styles.field}>
-    <label style={styles.label}>From</label>
-          <div style={styles.inputWrapper}>
-      <FaUser style={styles.icon} />
-      <input
-        type="text"
-        placeholder="Full Name"
-        style={styles.roundInput}
-      />
-    </div>
+
     <input
       type="date"
       name="fromDate"
@@ -880,29 +871,6 @@ const handleTransportChange = (index, field, value) => {
     minHeight: "100vh",
     boxSizing: "border-box",
   },
-     inputWrapper: {
-    display: "flex",
-    alignItems: "center",
-    backgroundColor: "#f5f5f5",
-    borderRadius: "50px",
-    padding: "12px 18px",
-    width: "100%",
-    maxWidth: "500px",
-    boxShadow: "inset 0 2px 5px rgba(0,0,0,0.05)",
-  },
-  icon: {
-    marginRight: "10px",
-    color: "#333",
-    fontSize: "16px",
-  },
-  roundInput: {
-    border: "none",
-    outline: "none",
-    background: "transparent",
-    fontSize: "15px",
-    flex: 1,
-    color: "#000",
-  },
   rightCard: {
     width: "100%",
     maxWidth: "800px", // konjam perusa pannuren
@@ -1072,6 +1040,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
