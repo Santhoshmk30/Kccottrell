@@ -8,6 +8,7 @@ import Register from './Components/Register';
 import Login from './Components/Login';
 import Admin from './Components/Admin';
 import Dashboard from './Components/Dashboard';
+import Form from './Components/form';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/approval" element={<Approval />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/dashboard" element={<Dashboard />} />
+  <Route path="/form" element={<Form />} />
       </Routes>
     </Router>
   );
