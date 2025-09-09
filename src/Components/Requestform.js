@@ -817,7 +817,7 @@ const handleTransportChange = (index, field, value) => {
      
 
           <div style={styles.totalBox}>
-            Total Amount: â‚¹{total}
+            Total Amount: {total}
           </div>
 
           <motion.button
@@ -1028,6 +1028,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
