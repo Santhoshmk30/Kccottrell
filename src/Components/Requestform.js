@@ -520,6 +520,11 @@ const handleTransportChange = (index, field, value) => {
       style={styles.input1}
     />
   </div>
+       {/* Note */}
+  <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
+    For any expenses more than the daily allowance, reimbursement requires 
+    proper justification and special approval from the management.
+  </p>
 
  </div>
        </div>
@@ -1028,6 +1033,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
