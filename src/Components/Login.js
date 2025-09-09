@@ -146,10 +146,10 @@ function Login() {
       {loading && <Preloader />}
       <div style={styles.container}>
         {/* Background video */}
-        <video style={styles.video} autoPlay loop muted>
-          <source src="/videos/background.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+       <video style={styles.video} autoPlay loop muted>
+  <source src="/videos/background.ogv" type="video/ogg" />
+  Your browser does not support the video tag.
+</video>
 
         {/* Login Card */}
         <div style={styles.card}>
@@ -198,3 +198,4 @@ function Login() {
 }
 
 export default Login;
+
