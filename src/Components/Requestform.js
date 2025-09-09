@@ -725,13 +725,9 @@ const handleTransportChange = (index, field, value) => {
 
   const styles = {
     body: {
-    margin: "30px auto",
-    background: "linear-gradient(135deg, #ffffff, #f9f9ff)", 
-    padding: "35px",
-    borderRadius: "15px",
-    boxShadow: "0 8px 25px rgba(0,0,0,0.1)", 
-    fontFamily: "Segoe UI, sans-serif",
-    border: "1px solid #e0e0e0",
+    padding: 60px 70px;
+  border: solid 2px var(--secondary-color);
+  border-radius: 90px;
     },
     header: {
       display: "flex",
@@ -887,6 +883,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
