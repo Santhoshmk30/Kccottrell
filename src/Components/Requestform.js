@@ -199,6 +199,8 @@ const handleTransportChange = (index, field, value) => {
 
 
   return (
+      <div style={styles.container}>
+  <div style={styles.rightCard}>
     <div style={styles.body}>
        <div style={styles.card1}>
       <motion.div
@@ -855,66 +857,81 @@ const handleTransportChange = (index, field, value) => {
       </motion.div>
       </div>
     </div>
+  </div>
+    </div>
   );
 };
 
 
   const styles = {
-    body: {
-  margin: "30px auto",
-    background: "linear-gradient(135deg, #ffffff, #f9f9ff)", 
-    padding: "35px",
+   container: {
+    display: "flex",
+    justifyContent: "flex-end", // right side ku move panna
+    padding: "40px",
+    background: "linear-gradient(135deg, #f3f4f7, #ffffff)",
+    minHeight: "100vh",
+    boxSizing: "border-box",
+  },
+  rightCard: {
+    width: "100%",
+    maxWidth: "600px", // card size fix
+    background: "#fff",
     borderRadius: "15px",
-    boxShadow: "0 8px 25px rgba(0,0,0,0.1)", 
+    boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+    padding: "30px",
+    border: "1px solid #eee",
+  },
+  body: {
+    background: "transparent", // ippo need illa
+    padding: "0",
+    margin: "0",
     fontFamily: "Segoe UI, sans-serif",
-    border: "1px solid #e0e0e0",
-    },
-    header: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      padding: "10px 20px",
-      borderBottom: "2px solid #eee",
-      marginBottom: "25px",
-    },
-    heading: {
-      fontSize: "24px",
+  },
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingBottom: "15px",
+    borderBottom: "2px solid #eee",
+    marginBottom: "25px",
+  },
+  heading: {
+    fontSize: "22px",
     fontWeight: "700",
-    marginBottom: "20px",
-    textAlign: "center",
     color: "#1a237e",
-    textShadow: "1px 1px 2px rgba(0,0,0,0.1)",
-    },
-    subheading: {
+    textAlign: "center",
+    width: "100%",
+  },
+  subheading: {
     background: "linear-gradient(90deg, #2196f3, #21cbf3)",
     color: "#fff",
     padding: "10px 15px",
     borderRadius: "6px",
     margin: "25px 0 15px 0",
-    fontWeight: "600"
-    },
-    form: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "20px",
-    },
-    row: {
-      display: "flex",
-      gap: "20px",
-      flexWrap: "wrap",
-      marginBottom: "15px"
-    },
-    field: {
-      flex: 1,
-      display: "flex",
-      flexDirection: "column"
-    },
-    label: {
-      fontWeight: "600",
-      marginBottom: "8px",
-      display: "block",
-      fontSize: "14px"
-    },
+    fontWeight: "600",
+    textAlign: "center",
+  },
+   form: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px",
+  },
+  row: {
+    display: "flex",
+    gap: "20px",
+    flexWrap: "wrap",
+    marginBottom: "15px",
+  },
+  field: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+  },
+  label: {
+    fontWeight: "600",
+    marginBottom: "8px",
+    fontSize: "14px",
+  },
     transportSection: {
       marginTop: "20px",
       padding: "15px",
@@ -949,31 +966,31 @@ const handleTransportChange = (index, field, value) => {
     resultText: {
       color: "#0073e6"
     },
-    input: {
-      padding: "12px",
-      border: "1px solid #ccc",
-      borderRadius: "6px",
-      fontSize: "14px",
-      outline: "none"
-    },
-    input1: {
-      padding: "10px",
-      border: "1px solid #ccc",
-      borderRadius: "6px",
-      fontSize: "14px",
-      minWidth: "150px",
-    },   
+     input: {
+    padding: "12px",
+    border: "1px solid #ccc",
+    borderRadius: "6px",
+    fontSize: "14px",
+    outline: "none",
+  },
+  input1: {
+    padding: "10px",
+    border: "1px solid #ccc",
+    borderRadius: "6px",
+    fontSize: "14px",
+    minWidth: "150px",
+  },
     inputFocus: {
       borderColor: "#2980b9",
       boxShadow: "0 0 6px rgba(41, 128, 185, 0.25)",
     },
-    select: {
-      padding: "12px",
-      border: "1px solid #ccc",
-      borderRadius: "8px",
-      fontSize: "14px",
-      backgroundColor: "white",
-    },
+   select: {
+    padding: "12px",
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    fontSize: "14px",
+    backgroundColor: "white",
+  },
     totalBox: {
       marginTop: "25px",
       padding: "14px",
@@ -985,20 +1002,19 @@ const handleTransportChange = (index, field, value) => {
       color: "#0d47a1",
       border: "1px solid #bbdefb",
     },
-    button: {
-      marginTop: "25px",
-      padding: "14px",
-      background: "linear-gradient(135deg, #2980b9, #3498db)",
-      color: "white",
-      fontWeight: "bold",
-      border: "none",
-      borderRadius: "8px",
-      cursor: "pointer",
-      fontSize: "16px",
-      alignSelf: "center",
-      width: "220px",
-      transition: "all 0.3s ease",
-    },
+   button: {
+    marginTop: "25px",
+    padding: "14px",
+    background: "linear-gradient(135deg, #2980b9, #3498db)",
+    color: "white",
+    fontWeight: "bold",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontSize: "16px",
+    width: "100%",
+    transition: "all 0.3s ease",
+  },
     buttonHover: {
       background: "linear-gradient(135deg, #1f6391, #2980b9)",
     },
@@ -1023,6 +1039,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
