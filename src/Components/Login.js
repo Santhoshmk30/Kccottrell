@@ -56,7 +56,7 @@ if (value.length > 0) {
         const role = data.role.toLowerCase();
         if (role === 'ceo') navigate('/approval');
         else if (role === 'manager') navigate('/certification');
-        else if (role === 'employee') navigate('/dashboard');
+        else if (role === 'employee') navigate('/form');
         else if (role === 'admin') navigate('/admin');
         else alert('Unknown role');
       } else {
@@ -187,6 +187,7 @@ if (value.length > 0) {
 }
 
 export default Login;
+
 
 
 
