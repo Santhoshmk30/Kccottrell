@@ -249,76 +249,140 @@ const handleTransportChange = (index, field, value) => {
         <div>
           <form onSubmit={handleSubmit} style={styles.form}>
           <div style={styles.row}>
-  <div style={styles.field}>
-    <label style={styles.label}>From</label>
-    <input
-      type="date"
-      name="fromDate"
-      value={formData.fromDate}
-      min={new Date().toISOString().split("T")[0]}
-      onChange={handleChange}
-      style={styles.input1}
-    />
-  </div>
+ <div
+  style={{
+    marginTop: "25px",
+    padding: "25px",
+    borderRadius: "15px",
+    background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
+    boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+    border: "1px solid #bbdefb",
+    fontFamily: "Segoe UI, sans-serif",
+  }}
+>
+  <h3
+    style={{
+      marginBottom: "20px",
+      color: "#1565c0",
+      borderBottom: "2px solid #90caf9",
+      paddingBottom: "8px",
+      fontSize: "20px",
+    }}
+  >
+    ✈️ Travel Details
+  </h3>
 
-  <div style={styles.field}>
-    <label style={styles.label}>To</label>
-    <input
-      type="date"
-      name="toDate"
-      value={formData.toDate}
-      min={formData.fromDate}
-      max={
-        formData.fromDate
-          ? new Date(
-              new Date(formData.fromDate).setDate(
-                new Date(formData.fromDate).getDate() + 30
+  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
+    {/* From */}
+    <div style={styles.field}>
+      <label style={styles.label}>From</label>
+      <input
+        type="date"
+        name="fromDate"
+        value={formData.fromDate}
+        min={new Date().toISOString().split("T")[0]}
+        onChange={handleChange}
+        style={styles.input1}
+      />
+    </div>
+
+    {/* To */}
+    <div style={styles.field}>
+      <label style={styles.label}>To</label>
+      <input
+        type="date"
+        name="toDate"
+        value={formData.toDate}
+        min={formData.fromDate}
+        max={
+          formData.fromDate
+            ? new Date(
+                new Date(formData.fromDate).setDate(
+                  new Date(formData.fromDate).getDate() + 30
+                )
               )
-            ).toISOString().split("T")[0]
-          : ""
-      }
-      onChange={handleChange}
-      style={styles.input1}
-    />
+                .toISOString()
+                .split("T")[0]
+            : ""
+        }
+        onChange={handleChange}
+        style={styles.input1}
+      />
+    </div>
+
+    {/* Period */}
+    <div style={styles.field}>
+      <label style={styles.label}>Period</label>
+      <input
+        type="text"
+        value={formData.workPlan}
+        readOnly
+        style={styles.input1}
+      />
+    </div>
+
+    {/* Days */}
+    <div style={styles.field}>
+      <label style={styles.label}>Days</label>
+      <input
+        type="text"
+        value={formData.days}
+        readOnly
+        style={styles.input1}
+      />
+    </div>
+
+    {/* Nights */}
+    <div style={styles.field}>
+      <label style={styles.label}>Nights</label>
+      <input
+        type="text"
+        value={formData.nights}
+        readOnly
+        style={styles.input1}
+      />
+    </div>
+
+    {/* Department */}
+    <div style={styles.field}>
+      <label style={styles.label}>Department</label>
+      <select
+        name="department"
+        value={formData.department}
+        onChange={handleChange}
+        style={{
+          ...styles.select,
+          backgroundColor: "#f1f8ff",
+          border: "1px solid #90caf9",
+        }}
+      >
+        <option value="">Select department</option>
+        <option value="HR">HR</option>
+        <option value="Finance">Finance</option>
+        <option value="IT">IT</option>
+      </select>
+    </div>
+
+    {/* Project Code */}
+    <div style={styles.field}>
+      <label style={styles.label}>Project Code</label>
+      <input
+        type="text"
+        name="projectCode"
+        value={formData.projectCode}
+        onChange={handleChange}
+        placeholder="Enter project code"
+        style={styles.input}
+      />
+    </div>
   </div>
 
-  <div style={styles.field}>
-    <label style={styles.label}>Period</label>
-    <input
-      type="text"
-      value={formData.workPlan}
-      readOnly
-      style={styles.input1}
-    />
-  </div>
-
-  <div style={styles.field}>
-    <label style={styles.label}>Days</label>
-    <input
-      type="text"
-      value={formData.days}
-      readOnly
-      style={styles.input1}
-    />
-  </div>
-
-  <div style={styles.field}>
-    <label style={styles.label}>Nights</label>
-    <input
-      type="text"
-      value={formData.nights}
-      readOnly
-      style={styles.input1}
-    />
-  </div>
+  {error && (
+    <div style={{ color: "red", fontWeight: "600", marginTop: "10px" }}>
+      {error}
+    </div>
+  )}
 </div>
-
-
-{error && (
-  <div style={{ color: "red", fontWeight: "500", marginTop: "5px" }}>
-    {error}
-  </div>
-)}
 
 
           <div style={styles.row}>
@@ -887,6 +951,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
