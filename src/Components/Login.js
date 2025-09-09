@@ -11,13 +11,10 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-
-
- 
   const handleEmployeeChange = async (e) => {
     const value = e.target.value;
     setEmployeeId(value);
-if (value.length > 0) {
+    if (value.length > 0) {
       try {
         const response = await axios.get(
           `https://darkslategrey-shrew-424102.hostingersite.com/api/get_name.php?employee_id=${value}`
@@ -38,7 +35,7 @@ if (value.length > 0) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true); // login loader start
+    setLoading(true);
     try {
       const form = new FormData();
       form.append("employee_id", employee_id);
@@ -50,7 +47,7 @@ if (value.length > 0) {
       );
 
       const data = response.data;
-      setLoading(false); // stop loader
+      setLoading(false);
 
       if (data.success) {
         const role = data.role.toLowerCase();
@@ -69,27 +66,35 @@ if (value.length > 0) {
     }
   };
 
-
   const styles = {
     container: {
+      position: 'relative',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       height: '100vh',
-      backgroundImage: "url('/images/background.jpg')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
+      overflow: 'hidden',
       padding: '20px',
+    },
+    video: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      zIndex: -1,
     },
     card: {
       width: '100%',
       maxWidth: '400px',
-      backgroundColor: '#fff',
+      backgroundColor: 'rgba(255, 255, 255, 0.85)', // semi-transparent
       backdropFilter: 'blur(10px)',
       borderRadius: '16px',
       boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
       padding: '35px 30px',
-      border: '2px solid #fff',
+      border: '2px solid rgba(255,255,255,0.3)',
+      zIndex: 1,
     },
     heading: {
       textAlign: 'center',
@@ -133,63 +138,66 @@ if (value.length > 0) {
       textAlign: 'center',
       fontSize: '14px',
       color: '#2c3e50',
-    }    
+    },
   };
- 
 
   return (
-      <>
-      {loading && <Preloader />} 
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <div style={{ textAlign: "center", marginBottom: "20px" }}>
-          <img 
-            src="/logo full.png"
-            alt="Logo"
-            style={{ width: "300px", height: "100px", objectFit: "contain" }}
-          />
+    <>
+      {loading && <Preloader />}
+      <div style={styles.container}>
+        {/* Background video */}
+        <video style={styles.video} autoPlay loop muted>
+  <source src="/videos/background.webm" type="video/webm" />
+  <source src="/videos/background.ogv" type="video/ogg" />
+  <source src="/videos/background.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+
+        {/* Login Card */}
+        <div style={styles.card}>
+          <div style={{ textAlign: "center", marginBottom: "20px" }}>
+            <img 
+              src="/logo full.png"
+              alt="Logo"
+              style={{ width: "300px", height: "100px", objectFit: "contain" }}
+            />
+          </div>
+
+          <h2 style={styles.heading}>Login</h2>
+          <form onSubmit={handleLogin}>
+            <input
+              type="text"
+              placeholder="Employee ID"
+              value={employee_id}
+              onChange={handleEmployeeChange}
+              required
+              style={styles.input}
+            />
+            {name && <p style={{ color: '#2980b9', marginTop: '5px' }}>Hii, {name}!</p>}
+
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              style={styles.input}
+            />
+            <button type="submit" style={styles.button}>Login</button>
+          </form>
+
+          <p style={styles.message}>{message}</p>
+          <p style={styles.registerLink}>
+            Don't have an account?{' '}
+            <Link to="/register" style={{ textDecoration: 'underline', color: '#0072ff', fontWeight: 'bold' }}>
+              Create Account
+            </Link>
+          </p>
         </div>
-
-        <h2 style={styles.heading}>Login</h2>
-        <form onSubmit={handleLogin}>
-          <input
-            type="text"
-            placeholder="Employee ID"
-            value={employee_id}
-            onChange={handleEmployeeChange}
-            required
-            style={styles.input}
-          />
-          {name && <p style={{ color: '#2980b9', marginTop: '5px' }}>Hii, {name}!</p>}
-
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={styles.input}
-          />
-          <button type="submit" style={styles.button}>Login</button>
-        </form>
-
-        <p style={styles.message}>{message}</p>
-        <p style={styles.registerLink}>
-          Don't have an account?{' '}
-          <Link to="/register" style={{ textDecoration: 'underline', color: '#0072ff', fontWeight: 'bold' }}>
-            Create Account
-          </Link>
-        </p>
       </div>
-    </div>
     </>
   );
 }
 
 export default Login;
-
-
-
-
-
-
