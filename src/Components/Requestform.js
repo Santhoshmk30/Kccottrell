@@ -366,14 +366,7 @@ const handleTransportChange = (index, field, value) => {
         style={styles.input}
       />
     </div>
-           <input
-            type="text"
-            name="purpose"
-            value={formData.purpose}
-            onChange={handleChange}
-            placeholder="Enter Purpose Of Visit"
-            style={styles.input}
-          />
+          
   </div>
 
   {error && (
@@ -1056,6 +1049,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
