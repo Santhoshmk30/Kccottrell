@@ -41,7 +41,7 @@ const TripRequestForm = () => {
   });
 
     const [expenses, setExpenses] = useState([{ nature: "", value: "" }]);
- const handleChange = (index, field, value) => {
+ const handleChange1 = (index, field, value) => {
     const updated = [...expenses];
     updated[index][field] = value;
     setExpenses(updated);
@@ -1335,7 +1335,7 @@ useEffect(() => {
             type="text"
             placeholder="Enter nature"
             value={exp.nature}
-            onChange={(e) => handleChange(index, "nature", e.target.value)}
+            onChange={(e) => handleChange1(index, "nature", e.target.value)}
             style={{
               flex: 1,
               padding: "10px",
@@ -1349,7 +1349,7 @@ useEffect(() => {
             type="number"
             placeholder="Value"
             value={exp.value}
-            onChange={(e) => handleChange(index, "value", e.target.value)}
+            onChange={(e) => handleChange1(index, "value", e.target.value)}
             style={{
               width: "150px",
               padding: "10px",
@@ -1605,6 +1605,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
