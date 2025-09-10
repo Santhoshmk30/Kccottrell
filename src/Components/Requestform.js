@@ -1317,51 +1317,52 @@ const removeExpense = (index) => {
   </h3>
 
   {/* Expense Items */}
-  {expenses.map((exp, index) => (
-    <div
-      key={index}
+{expenses.map((exp, i) => (
+  <div
+    key={i}
+    style={{
+      display: "flex",
+      gap: "10px",
+      marginBottom: "10px",
+      alignItems: "center",
+    }}
+  >
+    {/* Nature of Expense */}
+    <input
+      type="text"
+      placeholder="Nature of Expense"
+      value={exp.nature}
+      onChange={(e) => handleExpenseChange(i, "nature", e.target.value)}
+      style={{ ...styles.input1, flex: 2 }}
+    />
+
+    {/* Amount */}
+    <input
+      type="number"
+      placeholder="Amount"
+      value={exp.amount}
+      onChange={(e) => handleExpenseChange(i, "amount", e.target.value)}
+      style={{ ...styles.input1, flex: 1 }}
+    />
+
+    {/* Remove Button */}
+    <button
+      type="button"
+      onClick={() => removeExpense(i)}
       style={{
-        display: "flex",
-        gap: "10px",
-        marginBottom: "10px",
-        alignItems: "center",
+        padding: "6px 12px",
+        background: "red",
+        color: "#fff",
+        border: "none",
+        borderRadius: "6px",
+        cursor: "pointer",
       }}
     >
-      {/* Nature of Expense */}
-      <input
-        type="text"
-        placeholder="Nature of Expense"
-        value={exp.nature}
-        onChange={(e) => handleExpenseChange(index, "nature", e.target.value)}
-        style={{ ...styles.input1, flex: 2 }}
-      />
+      Remove
+    </button>
+  </div>
+))}
 
-      {/* Amount */}
-      <input
-        type="number"
-        placeholder="Amount"
-        value={exp.amount}
-        onChange={(e) => handleExpenseChange(index, "amount", e.target.value)}
-        style={{ ...styles.input1, flex: 1 }}
-      />
-
-      {/* Remove Button */}
-      <button
-        type="button"
-        onClick={() => removeExpense(index)}
-        style={{
-          padding: "6px 12px",
-          background: "red",
-          color: "#fff",
-          border: "none",
-          borderRadius: "6px",
-          cursor: "pointer",
-        }}
-      >
-        Remove
-      </button>
-    </div>
-  ))}
 
   {/* Add Button */}
   <button
@@ -1608,6 +1609,7 @@ const removeExpense = (index) => {
 
 
 export default TripRequestForm;
+
 
 
 
