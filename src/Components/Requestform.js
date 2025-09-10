@@ -96,47 +96,6 @@ const TripRequestForm = () => {
     return updated;
   });
 
-    setFormData((prev) => {
-    let updated = { ...prev, [name]: value };
-
-    if (name === "fromDateAcc" || name === "toDateAcc") {
-      if (updated.fromDateAcc && updated.toDateAcc) {
-        const from = new Date(updated.fromDateAcc);
-        const to = new Date(updated.toDateAcc);
-
-        const diffTime = to.getTime() - from.getTime();
-        if (diffTime >= 0) {
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-          // find month max days (30 / 31 / Feb)
-          const maxDaysInMonth = new Date(
-            from.getFullYear(),
-            from.getMonth() + 1,
-            0
-          ).getDate();
-
-          if (diffDays > maxDaysInMonth) {
-            setError(`This month has only ${maxDaysInMonth} days!`);
-            updated.workPlan = "";
-            updated.days = "";
-            updated.nightsacc = "";
-          } else {
-            setError("");
-            updated.workPlan = `${diffDays} days`;
-            updated.days = diffDays;
-            updated.nightsacc = diffDays - 1 < 0 ? 0 : diffDays - 1;
-          }
-        } else {
-          setError("To date cannot be before From date!");
-          updated.workPlan = "";
-          updated.days = "";
-          updated.nightsacc = "";
-        }
-      }
-    }
-
-    return updated;
-  });
 };
 
 
@@ -1384,6 +1343,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
