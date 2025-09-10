@@ -1376,21 +1376,23 @@ useEffect(() => {
         </div>
       ))}
 
-      <button
-        onClick={addExpense}
-        style={{
-          marginTop: "10px",
-          background: "#42a5f5",
-          border: "none",
-          color: "#fff",
-          padding: "10px 15px",
-          borderRadius: "8px",
-          cursor: "pointer",
-          fontSize: "14px",
-        }}
-      >
-        + Add Expense
-      </button>
+<button
+  type="button"
+  onClick={addExpense}
+  style={{
+    marginTop: "10px",
+    background: "#42a5f5",
+    border: "none",
+    color: "#fff",
+    padding: "10px 15px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontSize: "14px",
+  }}
+>
+  + Add Expense
+</button>
+
     </div>
  
           <div style={styles.totalBox}>
@@ -1605,6 +1607,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
