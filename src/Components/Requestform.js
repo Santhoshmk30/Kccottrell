@@ -1117,38 +1117,64 @@ useEffect(() => {
         </div>
       </div>
 
-      {/* Auto → Own / Uber */}
-      {item.transportMode === "Auto" && (
-        <div style={{ marginTop: "10px" }}>
-          <label style={styles.label}>Auto Type</label>
-          <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
-            <label>
-              <input
-                type="radio"
-                name={`autoType-${index}`}
-                value="Own"
-                checked={item.autoType === "Own"}
-                onChange={(e) =>
-                  handleTransportChange(index, "autoType", e.target.value)
-                }
-              />
-              Own
-            </label>
-            <label>
-              <input
-                type="radio"
-                name={`autoType-${index}`}
-                value="Uber"
-                checked={item.autoType === "Uber"}
-                onChange={(e) =>
-                  handleTransportChange(index, "autoType", e.target.value)
-                }
-              />
-              Uber
-            </label>
-          </div>
-        </div>
-      )}
+ 
+     {/* Auto Extra Input */}
+{item.transportMode === "Auto" && (
+  <div style={{ marginTop: "10px" }}>
+    <label style={styles.label}>
+      Mention Auto Type (Rapido / Uber / Ola / Self / etc...)
+    </label>
+    <input
+      type="text"
+      name={`autoType-${index}`}
+      value={item.autoType || ""}
+      onChange={(e) =>
+        handleTransportChange(index, "autoType", e.target.value)
+      }
+      style={styles.input1}
+      placeholder="Enter Auto type"
+    />
+  </div>
+)}
+
+{/* Bike Extra Input */}
+{item.transportMode === "Bike" && (
+  <div style={{ marginTop: "10px" }}>
+    <label style={styles.label}>
+      Mention Bike Type (Own / Rapido / Self / etc...)
+    </label>
+    <input
+      type="text"
+      name={`bikeType-${index}`}
+      value={item.bikeType || ""}
+      onChange={(e) =>
+        handleTransportChange(index, "bikeType", e.target.value)
+      }
+      style={styles.input1}
+      placeholder="Enter Bike type"
+    />
+  </div>
+)}
+
+{/* Taxi Extra Input */}
+{item.transportMode === "Taxi" && (
+  <div style={{ marginTop: "10px" }}>
+    <label style={styles.label}>
+      Mention Taxi Type (Uber / Ola / Self / etc...)
+    </label>
+    <input
+      type="text"
+      name={`taxiType-${index}`}
+      value={item.taxiType || ""}
+      onChange={(e) =>
+        handleTransportChange(index, "taxiType", e.target.value)
+      }
+      style={styles.input1}
+      placeholder="Enter Taxi type"
+    />
+  </div>
+)}
+
 
       {/* Ticket Booked By */}
       <div style={styles.field}>
@@ -1468,4 +1494,5 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
