@@ -1264,6 +1264,7 @@ useEffect(() => {
       color: "#fff",
       border: "none",
       borderRadius: "5px",
+      marginTop:"10px",
     }}
   >
     + Add Transport
@@ -1494,5 +1495,6 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
