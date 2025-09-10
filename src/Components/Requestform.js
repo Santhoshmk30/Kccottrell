@@ -16,6 +16,9 @@ const TripRequestForm = () => {
     fromDate: '',
     Date: '',
     toDate: '',
+     fromDateacc: '',
+    Dateacc: '',
+    toDateacc: '',
     department: '',
     projectCode: '',
     place: '',
@@ -86,6 +89,52 @@ const TripRequestForm = () => {
           updated.workPlan = "";
           updated.days = "";
           updated.nights = "";
+        }
+      }
+    }
+
+    return updated;
+  });
+};
+
+   const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  setFormData((prev) => {
+    let updated = { ...prev, [name]: value };
+
+    if (name === "fromDateacc" || name === "toDateacc") {
+      if (updated.fromDateacc && updated.toDateacc) {
+        const from = new Date(updated.fromDateacc);
+        const to = new Date(updated.toDateacc);
+
+        const diffTime = to.getTime() - from.getTime();
+        if (diffTime >= 0) {
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+          // find month max days (30 / 31 / Feb)
+          const maxDaysInMonth = new Date(
+            from.getFullYear(),
+            from.getMonth() + 1,
+            0
+          ).getDate();
+
+          if (diffDays > maxDaysInMonth) {
+            setError(`This month has only ${maxDaysInMonth} days!`);
+            updated.workPlanacc = "";
+            updated.daysacc= "";
+            updated.nightsacc = "";
+          } else {
+            setError("");
+            updated.workPlanacc = `${diffDays} days`;
+            updated.daysacc = diffDays;
+            updated.nightsacc = diffDays - 1 < 0 ? 0 : diffDays - 1;
+          }
+        } else {
+          setError("To date cannot be before From date!");
+          updated.workPlanacc = "";
+          updated.daysacc = "";
+          updated.nightsacc = "";
         }
       }
     }
@@ -204,6 +253,31 @@ const handleTransportChange = (index, field, value) => {
     }
   }
 }, [formData.designation, formData.place, formData.days, formData.nights]);
+
+    useEffect(() => {
+  if (formData.designation && formData.place) {
+    const tier = getTier(formData.place);
+    const desig = formData.designation;
+
+    if (allowances[desig] && allowances[desig][tier]) {
+      const baseAccommodation = allowances[desig][tier].accommodation;
+      const baseDaily = allowances[desig][tier].daily;
+
+      // Multiply by days & nights
+      const totalAccommodation =
+        (formData.nightsacc || 0) * (parseFloat(baseAccommodation) || 0);
+      const totalDaily =
+        (formData.daysacc || 0) * (parseFloat(baseDaily) || 0);
+
+      setFormData((prev) => ({
+        ...prev,
+        accommodation: totalAccommodation,
+        dailyAllowance: totalDaily,
+      }));
+    }
+  }
+}, [formData.designation, formData.place, formData.daysacc, formData.nightsacc]);
+
 
 useEffect(() => {
   if (formData.fromDate && formData.toDate) {
@@ -589,9 +663,9 @@ useEffect(() => {
        <div style={styles.field}>
       <label style={styles.label}>From</label>
       <input
-        type="date"
-        name="fromDate"
-        value={formData.fromDate}
+        type="dateacc"
+        name="fromDateacc"
+        value={formData.fromDateacc}
         min={new Date().toISOString().split("T")[0]}
         onChange={handleChange}
         style={styles.input1}
@@ -602,15 +676,15 @@ useEffect(() => {
     <div style={styles.field}>
       <label style={styles.label}>To</label>
       <input
-        type="date"
-        name="toDate"
-        value={formData.toDate}
-        min={formData.fromDate}
+        type="dateacc"
+        name="toDateacc"
+        value={formData.toDateacc}
+        min={formData.fromDateacc}
         max={
-          formData.fromDate
+          formData.fromDateacc
             ? new Date(
-                new Date(formData.fromDate).setDate(
-                  new Date(formData.fromDate).getDate() + 30
+                new Date(formData.fromDateacc).setDate(
+                  new Date(formData.fromDateacc).getDate() + 30
                 )
               )
                 .toISOString()
@@ -626,7 +700,7 @@ useEffect(() => {
       <label style={styles.label}>Nights</label>
       <input
         type="text"
-        value={formData.nights}
+        value={formData.nightsacc}
         readOnly
         style={styles.input1}
       />
@@ -1251,5 +1325,6 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
