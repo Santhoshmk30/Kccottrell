@@ -48,44 +48,52 @@ const TripRequestForm = () => {
     if (cityTiers.Tier2.includes(city)) return "Tier 2 ('B' Area)";
     return "Tier 3 ('C' Area)"; 
   };
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-  
-    setFormData((prev) => {
-      let updated = { ...prev, [name]: value };
-  
-      if (name === "fromDate" || name === "toDate") {
-        if (updated.fromDate && updated.toDate) {
-          const from = new Date(updated.fromDate);
-          const to = new Date(updated.toDate);
-  
-          const diffTime = to.getTime() - from.getTime();
-          if (diffTime >= 0) {
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-  
-            if (diffDays > 30) {
-              setError("Period cannot exceed 30 days!");
-              updated.workPlan = "";
-              updated.days = "";
-              updated.nights = "";
-            } else {
-              setError("");
-              updated.workPlan = `${diffDays} days`;
-              updated.days = diffDays;
-              updated.nights = diffDays - 1 < 0 ? 0 : diffDays - 1; // ðŸ‘ˆ Nights = Days - 1
-            }
-          } else {
-            setError("To date cannot be before From date!");
+ const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  setFormData((prev) => {
+    let updated = { ...prev, [name]: value };
+
+    if (name === "fromDate" || name === "toDate") {
+      if (updated.fromDate && updated.toDate) {
+        const from = new Date(updated.fromDate);
+        const to = new Date(updated.toDate);
+
+        const diffTime = to.getTime() - from.getTime();
+        if (diffTime >= 0) {
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+          // find month max days (30 / 31 / Feb)
+          const maxDaysInMonth = new Date(
+            from.getFullYear(),
+            from.getMonth() + 1,
+            0
+          ).getDate();
+
+          if (diffDays > maxDaysInMonth) {
+            setError(`This month has only ${maxDaysInMonth} days!`);
             updated.workPlan = "";
             updated.days = "";
             updated.nights = "";
+          } else {
+            setError("");
+            updated.workPlan = `${diffDays} days`;
+            updated.days = diffDays;
+            updated.nights = diffDays - 1 < 0 ? 0 : diffDays - 1;
           }
+        } else {
+          setError("To date cannot be before From date!");
+          updated.workPlan = "";
+          updated.days = "";
+          updated.nights = "";
         }
       }
-  
-      return updated;
-    });
-  };
+    }
+
+    return updated;
+  });
+};
+
 
 useEffect(() => {
   if (formData.designation && formData.place) {
@@ -196,22 +204,6 @@ const handleTransportChange = (index, field, value) => {
     }
   }
 }, [formData.designation, formData.place, formData.days, formData.nights]);
-
-  useEffect(() => {
-  if (formData.fromDate && formData.toDate) {
-    const from = new Date(formData.fromDate);
-    const to = new Date(formData.toDate);
-
-    const diffTime = Math.abs(to - from);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-    setFormData((prev) => ({
-      ...prev,
-      days: diffDays,
-      workPlan: `${from.toLocaleDateString()} - ${to.toLocaleDateString()}`,
-    }));
-  }
-}, [formData.fromDate, formData.toDate]);
 
 
 
@@ -1105,6 +1097,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
