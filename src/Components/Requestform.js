@@ -701,30 +701,37 @@ useEffect(() => {
     </div>
 
 <div style={styles.row}>
- <div style={styles.field}>
-  <label style={styles.label}>Accommodation Allowance</label>
+{/* Fixed accommodation allowance (read-only) */}
+<div style={styles.field}>
+  <label style={styles.label}>Accommodation Allowance (System Calculated)</label>
   <input
     type="text"
-    name="accommodation"
-    value={
-      formData.companyProvidesAccommodation === "Yes"
-        ? ""
-        : formData.accommodation ?? ""
-    }
+    value={formData.accommodation ?? ""}
+    readOnly
+    style={styles.input1}
+  />
+</div>
+
+{/* User entered accommodation amount */}
+<div style={styles.field}>
+  <label style={styles.label}>Enter Accommodation Amount</label>
+  <input
+    type="text"
+    name="enteredAccommodation"
+    value={formData.enteredAccommodation ?? ""}
     onChange={(e) => {
-      let value = e.target.value.replace(/\D/g, ""); // Only allow numbers
+      let value = e.target.value.replace(/\D/g, ""); // allow only numbers
       value = value === "" ? "" : parseFloat(value);
 
-      if (value === "" || value <= (formData.accommodation || 0)) {
+      if (value === "" || value <= (formData.accommodation)) {
         setFormData((prev) => ({
           ...prev,
-          accommodation: value,
+          enteredAccommodation: value,
         }));
       }
     }}
     style={styles.input1}
-    disabled={formData.companyProvidesAccommodation === "Yes"}
-    placeholder={`Max ₹${formData.accommodation}`}
+    placeholder={`Enter up to ₹${formData.accommodation }`}
   />
   <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
     You cannot claim more than ₹{formData.accommodation }
@@ -1336,6 +1343,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
