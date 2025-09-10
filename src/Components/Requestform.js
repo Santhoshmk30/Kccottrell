@@ -642,21 +642,7 @@ useEffect(() => {
       style={styles.input1}
       placeholder="Enter extra amount"
     />
-  </div>
-
-
-        <div style={styles.field}>
-    <label style={styles.label}>Purpose</label>
-    <input
-      type="text"
-      name="approvalPurpose"
-      value={formData.approvalPurpose ?? ""}
-      onChange={handleChange}
-      style={styles.input1}
-      placeholder="Enter purpose"
-    />
-  </div>
-    
+  </div>   
 )}
 
 
@@ -1217,6 +1203,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
