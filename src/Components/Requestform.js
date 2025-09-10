@@ -1358,7 +1358,7 @@ const removeExpense = (index) => {
           cursor: "pointer",
         }}
       >
-        ✕
+        Remove
       </button>
     </div>
   ))}
@@ -1608,6 +1608,7 @@ const removeExpense = (index) => {
 
 
 export default TripRequestForm;
+
 
 
 
