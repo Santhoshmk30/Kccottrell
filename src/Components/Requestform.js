@@ -702,7 +702,7 @@ useEffect(() => {
 
 <div style={styles.row}>
 <div style={styles.field}>
-  <label style={styles.label}>Accommodation Allowance (System Calculated)</label>
+  <label style={styles.label}>Maximum Accommodation Allowance</label>
   <input
     type="text"
     value={formData.accommodation ?? ""}
@@ -737,6 +737,25 @@ useEffect(() => {
   </p>
 </div>
 
+     <div style={styles.field}>
+    <label style={styles.label}>GST Amount</label>
+    <input
+      type="text"
+      name="gstAmount"
+      value={formData.gstAmount ?? ""}
+      onChange={(e) => {
+        let value = e.target.value.replace(/\D/g, "");
+        value = value === "" ? "" : parseFloat(value);
+
+        setFormData((prev) => ({
+          ...prev,
+          gstAmount: value,
+        }));
+      }}
+      style={styles.input1}
+      placeholder="Enter GST amount"
+    />
+  </div>
 
 
  </div>
@@ -1447,6 +1466,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
