@@ -1361,6 +1361,7 @@ useEffect(() => {
             }}
           />
           <button
+            type="button"
             onClick={() => removeExpense(index)}
             style={{
               background: "#ef5350",
@@ -1607,6 +1608,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
