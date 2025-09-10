@@ -724,10 +724,10 @@ useEffect(() => {
     }}
     style={styles.input1}
     disabled={formData.companyProvidesAccommodation === "Yes"}
-    placeholder={`Max ₹${formData.accommodation || 0}`}
+    placeholder={`Max ₹${formData.accommodation}`}
   />
   <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
-    You cannot claim more than ₹{formData.accommodation || 0}
+    You cannot claim more than ₹{formData.accommodation }
   </p>
 </div>
 
@@ -1336,6 +1336,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
