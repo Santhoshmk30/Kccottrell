@@ -532,7 +532,60 @@ useEffect(() => {
   </div>
 </div>
 
-      
+<div style={styles.field}>
+  <label style={styles.label}>Designation</label>
+  <select
+    name="designation"
+    value={formData.designation || ""}
+    onChange={handleChange}
+    style={styles.select}
+  >
+    <option value="">-- Select Designation --</option>
+    <option value="Managing Director/Director/COO/CFO">Managing Director/Director/COO/CFO</option>
+    <option value="Assistant VicePresident (AVP)/VicePresident (VP)/SeniorVicePresident (Sr.VP)">Assistant VicePresident (AVP)/VicePresident (VP)/SeniorVicePresident (Sr.VP)</option>
+    <option value="General Manager/Sr.General Manager">General Manager/Sr.General Manager</option>
+  </select>
+</div>
+
+
+      <div style={styles.field}>
+  <label style={styles.label}>Is Company Providing Accommodation?</label>
+  <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
+    <label>
+      <input
+        type="radio"
+        name="companyProvidesAccommodation"
+        value="Yes"
+        checked={formData.companyProvidesAccommodation === "Yes"}
+        onChange={(e) =>
+          setFormData((prev) => ({
+            ...prev,
+            companyProvidesAccommodation: e.target.value,
+          }))
+        }
+      />
+      Yes
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="companyProvidesAccommodation"
+        value="No"
+        checked={formData.companyProvidesAccommodation === "No"}
+        onChange={(e) =>
+          setFormData((prev) => ({
+            ...prev,
+            companyProvidesAccommodation: e.target.value,
+          }))
+        }
+      />
+      No
+    </label>
+  </div>
+</div>
+
+           
        <div style={styles.field}>
       <label style={styles.label}>From</label>
       <input
@@ -578,59 +631,6 @@ useEffect(() => {
         style={styles.input1}
       />
     </div>
-
-
-<div style={styles.field}>
-  <label style={styles.label}>Designation</label>
-  <select
-    name="designation"
-    value={formData.designation || ""}
-    onChange={handleChange}
-    style={styles.select}
-  >
-    <option value="">-- Select Designation --</option>
-    <option value="Managing Director/Director/COO/CFO">Managing Director/Director/COO/CFO</option>
-    <option value="Assistant VicePresident (AVP)/VicePresident (VP)/SeniorVicePresident (Sr.VP)">Assistant VicePresident (AVP)/VicePresident (VP)/SeniorVicePresident (Sr.VP)</option>
-    <option value="General Manager/Sr.General Manager">General Manager/Sr.General Manager</option>
-  </select>
-</div>
-
-      <div style={styles.field}>
-  <label style={styles.label}>Is Company Providing Accommodation?</label>
-  <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
-    <label>
-      <input
-        type="radio"
-        name="companyProvidesAccommodation"
-        value="Yes"
-        checked={formData.companyProvidesAccommodation === "Yes"}
-        onChange={(e) =>
-          setFormData((prev) => ({
-            ...prev,
-            companyProvidesAccommodation: e.target.value,
-          }))
-        }
-      />
-      Yes
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="companyProvidesAccommodation"
-        value="No"
-        checked={formData.companyProvidesAccommodation === "No"}
-        onChange={(e) =>
-          setFormData((prev) => ({
-            ...prev,
-            companyProvidesAccommodation: e.target.value,
-          }))
-        }
-      />
-      No
-    </label>
-  </div>
-</div>
 
 <div style={styles.row}>
   <div style={styles.field}>
@@ -1251,4 +1251,5 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
