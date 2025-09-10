@@ -532,6 +532,54 @@ useEffect(() => {
   </div>
 </div>
 
+      
+       <div style={styles.field}>
+      <label style={styles.label}>From</label>
+      <input
+        type="date"
+        name="fromDate"
+        value={formData.fromDate}
+        min={new Date().toISOString().split("T")[0]}
+        onChange={handleChange}
+        style={styles.input1}
+      />
+    </div>
+
+    {/* To */}
+    <div style={styles.field}>
+      <label style={styles.label}>To</label>
+      <input
+        type="date"
+        name="toDate"
+        value={formData.toDate}
+        min={formData.fromDate}
+        max={
+          formData.fromDate
+            ? new Date(
+                new Date(formData.fromDate).setDate(
+                  new Date(formData.fromDate).getDate() + 30
+                )
+              )
+                .toISOString()
+                .split("T")[0]
+            : ""
+        }
+        onChange={handleChange}
+        style={styles.input1}
+      />
+    </div>
+
+         <div style={styles.field}>
+      <label style={styles.label}>Nights</label>
+      <input
+        type="text"
+        value={formData.nights}
+        readOnly
+        style={styles.input1}
+      />
+    </div>
+
+
 <div style={styles.field}>
   <label style={styles.label}>Designation</label>
   <select
@@ -1203,3 +1251,4 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
