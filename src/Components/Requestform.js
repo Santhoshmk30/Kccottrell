@@ -656,22 +656,6 @@ useEffect(() => {
       placeholder="Enter purpose"
     />
   </div>
-
-      {/* Document Upload */}
-      <div style={styles.field}>
-        <label style={styles.label}>Upload Document</label>
-        <input
-          type="file"
-          name="approvalDocument"
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              approvalDocument: e.target.files[0],
-            }))
-          }
-          style={styles.input1}
-        />
-      </div>
     
 )}
 
@@ -1233,6 +1217,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
