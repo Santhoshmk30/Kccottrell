@@ -1271,7 +1271,8 @@ useEffect(() => {
   </button>
 </div>
 
-          <div
+     
+       <div
       key={index}
       style={{
         marginTop: "25px",
@@ -1292,7 +1293,7 @@ useEffect(() => {
           fontSize: "20px",
         }}
       >
-        Miscellaneous
+        Travel Details
       </h3>
           <input
             type="number"
@@ -1302,22 +1303,7 @@ useEffect(() => {
             placeholder="Miscellaneous"
             style={styles.input}
           />
-
-              <button
-    type="button"
-    onClick={addTransport}
-    style={{
-      padding: "8px 15px",
-      background: "green",
-      color: "#fff",
-      border: "none",
-      borderRadius: "5px",
-      marginTop:"10px",
-    }}
-  >
-    + Add
-  </button>
-            </div>
+</div>
 
      
 
@@ -1533,6 +1519,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
