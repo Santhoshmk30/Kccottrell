@@ -259,8 +259,6 @@ const handleTransportChange = (index, field, value) => {
 
     if (allowances[desig] && allowances[desig][tier]) {
       const baseAccommodation = allowances[desig][tier].accommodation;
-      const baseDaily = allowances[desig][tier].daily;
-
       // Multiply by days & nights
       const totalAccommodation =
         (formData.nightsacc || 0) * (parseFloat(baseAccommodation) || 0);
@@ -1321,6 +1319,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
