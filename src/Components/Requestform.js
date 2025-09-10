@@ -645,19 +645,17 @@ useEffect(() => {
   </div>
 
 
-
-      {/* Purpose */}
-      <div style={styles.field}>
-        <label style={styles.label}>Purpose</label>
-        <input
-          type="text"
-          name="approvalPurpose"
-          value={formData.approvalPurpose ?? ""}
-          onChange={handleChange}
-          style={styles.input1}
-          placeholder="Enter purpose"
-        />
-      </div>
+        <div style={styles.field}>
+    <label style={styles.label}>Purpose</label>
+    <input
+      type="text"
+      name="approvalPurpose"
+      value={formData.approvalPurpose ?? ""}
+      onChange={handleChange}
+      style={styles.input1}
+      placeholder="Enter purpose"
+    />
+  </div>
 
       {/* Document Upload */}
       <div style={styles.field}>
@@ -1235,6 +1233,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
