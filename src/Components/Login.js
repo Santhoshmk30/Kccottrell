@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
@@ -76,6 +77,7 @@ if (value.length > 0) {
       justifyContent: 'center',
       alignItems: 'center',
       height: '100vh',
+      backgroundImage: "url('/images/background.jpg')",
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       padding: '20px',
@@ -140,43 +142,6 @@ if (value.length > 0) {
       <>
       {loading && <Preloader />} 
     <div style={styles.container}>
-
-        <div style={{ position: "relative", height: "100vh", overflow: "hidden" }}>
-  {/* Background Video */}
-  <video
-    autoPlay
-    loop
-    muted
-    playsInline
-    style={{
-      position: "absolute",
-      top: "0",
-      left: "0",
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-      zIndex: "-1",
-    }}
-  >
-    <source src="src/videos/bg-video.webm" type="video/webm" />
-    Your browser does not support the video tag.
-  </video>
-
-  {/* Page Content */}
-  <div
-    style={{
-      position: "relative",
-      zIndex: "1",
-      color: "#fff",
-      textAlign: "center",
-      paddingTop: "40vh",
-    }}
-  >
-    <h1>Welcome to My Page</h1>
-    <p>This is content over the video background.</p>
-  </div>
-</div>
-
       <div style={styles.card}>
         <div style={{ textAlign: "center", marginBottom: "20px" }}>
           <img 
@@ -223,6 +188,8 @@ if (value.length > 0) {
 }
 
 export default Login;
+
+
 
 
 
