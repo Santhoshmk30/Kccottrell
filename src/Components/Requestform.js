@@ -672,13 +672,35 @@ const handleTransportChange = (index, field, value) => {
             placeholder="Enter Purpose"
             style={styles.input}
           />
-
-     
-
+{/* Transport Section with Multiple Entries */}
 <div>
+  
 
   {formData.transports?.map((item, index) => (
-   
+    <div
+      key={index}
+     style={{
+    marginTop: "25px",
+    padding: "25px",
+    borderRadius: "15px",
+    background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
+    boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+    border: "1px solid #bbdefb",
+    fontFamily: "Segoe UI, sans-serif",
+  }}
+    >
+
+ <h3
+    style={{
+      marginBottom: "20px",
+      color: "#1565c0",
+      borderBottom: "2px solid #90caf9",
+      paddingBottom: "8px",
+      fontSize: "20px",
+    }}
+  >
+   Travel Details
+  </h3>
       {/* Transport Mode */}
       <div style={styles.field}>
         <label style={styles.label}>Transport Mode</label>
@@ -778,7 +800,7 @@ const handleTransportChange = (index, field, value) => {
       >
         Remove
       </button>
-    
+    </div>
   ))}
 
   {/* Add Button */}
@@ -796,7 +818,6 @@ const handleTransportChange = (index, field, value) => {
     + Add Transport
   </button>
 </div>
-    
 
          
           <input
@@ -811,7 +832,7 @@ const handleTransportChange = (index, field, value) => {
      
 
           <div style={styles.totalBox}>
-            Total Amount: {total}
+            Total Amount: â‚¹{total}
           </div>
 
           <motion.button
@@ -1022,12 +1043,6 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
-
-
-
-
-
-
 
 
 
