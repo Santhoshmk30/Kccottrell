@@ -733,92 +733,6 @@ useEffect(() => {
 
 </div>     
 </div>
-  
- {/* Daily Allowance / Site Allowance section – show only if Yes */}
-{formData.stillInSite === "Yes" && (
-  <div
-    style={{
-      marginTop: "25px",
-      padding: "25px",
-      borderRadius: "15px",
-      background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
-      boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
-      border: "1px solid #bbdefb",
-      fontFamily: "Segoe UI, sans-serif",
-    }}
-  >
-    <h3
-      style={{
-        marginBottom: "20px",
-        color: "#1565c0",
-        borderBottom: "2px solid #90caf9",
-        paddingBottom: "8px",
-        fontSize: "20px",
-      }}
-    >
-      Site Allowance Details
-    </h3>
-
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
-      <div style={styles.field}>
-        <label style={styles.label}>Site Allowance</label>
-        <input
-          type="text"
-          name="siteAllowance"
-          value={formData.siteAllowance ?? ""}
-          readOnly
-          style={styles.input1}
-        />
-        {/* Note */}
-        <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
-          For any expenses more than the site allowance, reimbursement requires 
-          proper justification and special approval from the management.
-        </p>
-      </div>
-
-      <div style={styles.field}>
-        <label style={styles.label}>Do You Need Special Approval</label>
-        <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
-          <label>
-            <input
-              type="radio"
-              name="specialApproval1"
-              value="Yes"
-              checked={formData.specialApproval1 === "Yes"}
-              onChange={handleChange}
-            />
-            Yes
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="specialApproval1"
-              value="No"
-              checked={formData.specialApproval1 === "No"}
-              onChange={handleChange}
-            />
-            No
-          </label>
-        </div>
-
-        {/* Conditionally render Extra Amount */}
-        {formData.specialApproval1 === "Yes" && (
-          <div style={styles.field}>
-            <label style={styles.label}>Extra Amount</label>
-            <input
-              type="number"
-              name="extraAmount"
-              value={formData.extraAmount ?? ""}
-              onChange={handleChange}
-              style={styles.input1}
-              placeholder="Enter extra amount"
-            />
-          </div>
-        )}
-      </div>
-    </div>
-  </div>
      </div>
 
  
@@ -834,6 +748,8 @@ useEffect(() => {
             placeholder="Enter Purpose"
             style={styles.input}
           />
+
+
 {/* Transport Section with Multiple Entries */}
 <div>
   
@@ -1205,6 +1121,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
