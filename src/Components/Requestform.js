@@ -656,175 +656,201 @@ useEffect(() => {
     </div>
   </div>
 
-  {/* === Third row: From / To / Nights === */}
-  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "20px", marginTop: "20px" }}>
-    <div style={styles.field}>
-      <label style={styles.label}>From</label>
-      <input
-        type="date"
-        name="fromDateacc"
-        value={formData.fromDateacc}
-        min={new Date().toISOString().split("T")[0]}
-        onChange={handleChange}
-        style={styles.input1}
-      />
-    </div>
-    <div style={styles.field}>
-      <label style={styles.label}>To</label>
-      <input
-        type="date"
-        name="toDateacc"
-        value={formData.toDateacc}
-        min={formData.fromDateacc}
-        max={
-          formData.fromDateacc
-            ? new Date(
-                new Date(formData.fromDateacc).setDate(
-                  new Date(formData.fromDateacc).getDate() + 30
+ {/* Show only if "No" */}
+{formData.companyProvidesAccommodation === "No" && (
+  <>
+    {/* === Third row: From / To / Nights === */}
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr 1fr",
+        gap: "20px",
+        marginTop: "20px",
+      }}
+    >
+      <div style={styles.field}>
+        <label style={styles.label}>From</label>
+        <input
+          type="date"
+          name="fromDateacc"
+          value={formData.fromDateacc}
+          min={new Date().toISOString().split("T")[0]}
+          onChange={handleChange}
+          style={styles.input1}
+        />
+      </div>
+      <div style={styles.field}>
+        <label style={styles.label}>To</label>
+        <input
+          type="date"
+          name="toDateacc"
+          value={formData.toDateacc}
+          min={formData.fromDateacc}
+          max={
+            formData.fromDateacc
+              ? new Date(
+                  new Date(formData.fromDateacc).setDate(
+                    new Date(formData.fromDateacc).getDate() + 30
+                  )
                 )
-              )
-                .toISOString()
-                .split("T")[0]
-            : ""
-        }
-        onChange={handleChange}
-        style={styles.input1}
-      />
-    </div>
-    <div style={styles.field}>
-      <label style={styles.label}>Nights</label>
-      <input
-        type="text"
-        value={formData.nightsacc}
-        readOnly
-        style={styles.input1}
-      />
-    </div>
-  </div>
-
-  {/* === Fourth row: Allowance / Entered / GST === */}
-  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "20px", marginTop: "20px" }}>
-    <div style={styles.field}>
-      <label style={styles.label}>Maximum Accommodation Allowance</label>
-      <input
-        type="text"
-        value={formData.accommodation ?? ""}
-        readOnly
-        style={styles.input1}
-      />
-    </div>
-    <div style={styles.field}>
-      <label style={styles.label}>Enter Accommodation Amount</label>
-      <input
-        type="text"
-        name="enteredAccommodation"
-        value={formData.enteredAccommodation ?? ""}
-        onChange={(e) => {
-          let value = e.target.value.replace(/\D/g, "");
-          value = value === "" ? "" : parseFloat(value);
-
-          if (value === "" || value <= (formData.accommodation)) {
-            setFormData((prev) => ({
-              ...prev,
-              enteredAccommodation: value,
-            }));
+                  .toISOString()
+                  .split("T")[0]
+              : ""
           }
-        }}
-        style={styles.input1}
-        placeholder={`Enter up to ₹${formData.accommodation}`}
-      />
-      <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
-        You cannot claim more than ₹{formData.accommodation}
-      </p>
-    </div>
-    <div style={styles.field}>
-      <label style={styles.label}>GST Amount</label>
-      <input
-        type="text"
-        name="gstAmount"
-        value={formData.gstAmount ?? ""}
-        onChange={(e) => {
-          let value = e.target.value.replace(/\D/g, "");
-          value = value === "" ? "" : parseFloat(value);
-          setFormData((prev) => ({
-            ...prev,
-            gstAmount: value,
-          }));
-        }}
-        style={styles.input1}
-        placeholder="Enter GST amount"
-      />
-    </div>
-  </div>
-
-  {/* === Special Approval row === */}
-  <div style={{ marginTop: "20px" }}>
-    <label style={styles.label}>Do You Need Special Approval</label>
-    <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
-      <label>
-        <input
-          type="radio"
-          name="specialApproval"
-          value="Yes"
-          checked={formData.specialApproval === "Yes"}
           onChange={handleChange}
+          style={styles.input1}
         />
-        Yes
-      </label>
-      <label>
+      </div>
+      <div style={styles.field}>
+        <label style={styles.label}>Nights</label>
         <input
-          type="radio"
-          name="specialApproval"
-          value="No"
-          checked={formData.specialApproval === "No"}
-          onChange={handleChange}
+          type="text"
+          value={formData.nightsacc}
+          readOnly
+          style={styles.input1}
         />
-        No
-      </label>
+      </div>
     </div>
 
-    {formData.specialApproval === "Yes" && (
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "20px", marginTop: "15px" }}>
-        <div style={styles.field}>
-          <label style={styles.label}>Extra Amount</label>
-          <input
-            type="number"
-            name="extraAmount"
-            value={formData.extraAmount ?? ""}
-            onChange={handleChange}
-            style={styles.input1}
-            placeholder="Enter extra amount"
-          />
-        </div>
-        <div style={styles.field}>
-          <label style={styles.label}>Purpose</label>
-          <input
-            type="text"
-            name="approvalPurpose"
-            value={formData.approvalPurpose ?? ""}
-            onChange={handleChange}
-            style={styles.input1}
-            placeholder="Enter purpose"
-          />
-        </div>
-        <div style={styles.field}>
-          <label style={styles.label}>Upload Document</label>
-          <input
-            type="file"
-            name="approvalDocument"
-            onChange={(e) =>
+    {/* === Fourth row: Allowance / Entered / GST === */}
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr 1fr",
+        gap: "20px",
+        marginTop: "20px",
+      }}
+    >
+      <div style={styles.field}>
+        <label style={styles.label}>Maximum Accommodation Allowance</label>
+        <input
+          type="text"
+          value={formData.accommodation ?? ""}
+          readOnly
+          style={styles.input1}
+        />
+      </div>
+      <div style={styles.field}>
+        <label style={styles.label}>Enter Accommodation Amount</label>
+        <input
+          type="text"
+          name="enteredAccommodation"
+          value={formData.enteredAccommodation ?? ""}
+          onChange={(e) => {
+            let value = e.target.value.replace(/\D/g, "");
+            value = value === "" ? "" : parseFloat(value);
+
+            if (value === "" || value <= formData.accommodation) {
               setFormData((prev) => ({
                 ...prev,
-                approvalDocument: e.target.files[0],
-              }))
+                enteredAccommodation: value,
+              }));
             }
-            style={styles.input1}
-          />
-        </div>
+          }}
+          style={styles.input1}
+          placeholder={`Enter up to ₹${formData.accommodation}`}
+        />
+        <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
+          You cannot claim more than ₹{formData.accommodation}
+        </p>
       </div>
-    )}
-  </div>
-</div>
+      <div style={styles.field}>
+        <label style={styles.label}>GST Amount</label>
+        <input
+          type="text"
+          name="gstAmount"
+          value={formData.gstAmount ?? ""}
+          onChange={(e) => {
+            let value = e.target.value.replace(/\D/g, "");
+            value = value === "" ? "" : parseFloat(value);
+            setFormData((prev) => ({
+              ...prev,
+              gstAmount: value,
+            }));
+          }}
+          style={styles.input1}
+          placeholder="Enter GST amount"
+        />
+      </div>
+    </div>
+
+    {/* === Special Approval row === */}
+    <div style={{ marginTop: "20px" }}>
+      <label style={styles.label}>Do You Need Special Approval</label>
+      <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
+        <label>
+          <input
+            type="radio"
+            name="specialApproval"
+            value="Yes"
+            checked={formData.specialApproval === "Yes"}
+            onChange={handleChange}
+          />
+          Yes
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="specialApproval"
+            value="No"
+            checked={formData.specialApproval === "No"}
+            onChange={handleChange}
+          />
+          No
+        </label>
+      </div>
+
+      {formData.specialApproval === "Yes" && (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: "20px",
+            marginTop: "15px",
+          }}
+        >
+          <div style={styles.field}>
+            <label style={styles.label}>Extra Amount</label>
+            <input
+              type="number"
+              name="extraAmount"
+              value={formData.extraAmount ?? ""}
+              onChange={handleChange}
+              style={styles.input1}
+              placeholder="Enter extra amount"
+            />
+          </div>
+          <div style={styles.field}>
+            <label style={styles.label}>Purpose</label>
+            <input
+              type="text"
+              name="approvalPurpose"
+              value={formData.approvalPurpose ?? ""}
+              onChange={handleChange}
+              style={styles.input1}
+              placeholder="Enter purpose"
+            />
+          </div>
+          <div style={styles.field}>
+            <label style={styles.label}>Upload Document</label>
+            <input
+              type="file"
+              name="approvalDocument"
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  approvalDocument: e.target.files[0],
+                }))
+              }
+              style={styles.input1}
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  </>
+)}
+
 
 
 {/* Allowance Section */}
@@ -1449,6 +1475,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
