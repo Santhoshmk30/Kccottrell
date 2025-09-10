@@ -733,10 +733,7 @@ useEffect(() => {
 
 </div>     
 </div>
-     </div>
-
- 
-
+  
  {/* Daily Allowance / Site Allowance section – show only if Yes */}
 {formData.stillInSite === "Yes" && (
   <div
@@ -822,6 +819,10 @@ useEffect(() => {
       </div>
     </div>
   </div>
+     </div>
+
+ 
+
 
 
 
@@ -1204,6 +1205,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
