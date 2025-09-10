@@ -22,6 +22,9 @@ const TripRequestForm = () => {
     workPlan: '', 
     purpose: '',
     purpose1: '',
+    fromDateAcc: "",
+  toDateAcc: "",
+  accommodationDays: 0,
     accommodation: '',
     dailyAllowance: '',
     transportAmount: '',
@@ -86,6 +89,48 @@ const TripRequestForm = () => {
           updated.workPlan = "";
           updated.days = "";
           updated.nights = "";
+        }
+      }
+    }
+
+    return updated;
+  });
+
+    setFormData((prev) => {
+    let updated = { ...prev, [name]: value };
+
+    if (name === "fromDateAcc" || name === "toDateAcc") {
+      if (updated.fromDateAcc && updated.toDateAcc) {
+        const from = new Date(updated.fromDateAcc);
+        const to = new Date(updated.toDateAcc);
+
+        const diffTime = to.getTime() - from.getTime();
+        if (diffTime >= 0) {
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+          // find month max days (30 / 31 / Feb)
+          const maxDaysInMonth = new Date(
+            from.getFullYear(),
+            from.getMonth() + 1,
+            0
+          ).getDate();
+
+          if (diffDays > maxDaysInMonth) {
+            setError(`This month has only ${maxDaysInMonth} days!`);
+            updated.workPlan = "";
+            updated.days = "";
+            updated.nightsacc = "";
+          } else {
+            setError("");
+            updated.workPlan = `${diffDays} days`;
+            updated.days = diffDays;
+            updated.nightsacc = diffDays - 1 < 0 ? 0 : diffDays - 1;
+          }
+        } else {
+          setError("To date cannot be before From date!");
+          updated.workPlan = "";
+          updated.days = "";
+          updated.nightsacc = "";
         }
       }
     }
@@ -192,7 +237,7 @@ const handleTransportChange = (index, field, value) => {
 
       // Multiply by days & nights
       const totalAccommodation =
-        (formData.nights || 0) * (parseFloat(baseAccommodation) || 0);
+        (formData.nightsacc || 0) * (parseFloat(baseAccommodation) || 0);
       const totalDaily =
         (formData.days || 0) * (parseFloat(baseDaily) || 0);
 
@@ -204,6 +249,8 @@ const handleTransportChange = (index, field, value) => {
     }
   }
 }, [formData.designation, formData.place, formData.days, formData.nights]);
+
+  
 
 useEffect(() => {
   if (formData.fromDate && formData.toDate) {
@@ -545,6 +592,43 @@ useEffect(() => {
     <option value="Assistant VicePresident (AVP)/VicePresident (VP)/SeniorVicePresident (Sr.VP)">Assistant VicePresident (AVP)/VicePresident (VP)/SeniorVicePresident (Sr.VP)</option>
     <option value="General Manager/Sr.General Manager">General Manager/Sr.General Manager</option>
   </select>
+</div>
+
+
+      <div style={styles.field}>
+  <label style={styles.label}>From Date</label>
+  <input
+    type="date"
+    name="fromDateAcc"
+    value={formData.fromDateAcc}
+    min={new Date().toISOString().split("T")[0]}
+    onChange={handleChange}
+    style={styles.input1}
+  />
+</div>
+
+{/* To Date */}
+<div style={styles.field}>
+  <label style={styles.label}>To Date</label>
+  <input
+    type="date"
+    name="toDateAcc"
+    value={formData.toDateAcc}
+    min={formData.fromDateAcc}
+    onChange={handleChange}
+    style={styles.input1}
+  />
+</div>
+
+{/* Days */}
+<div style={styles.field}>
+  <label style={styles.label}>Days</label>
+  <input
+    type="text"
+    value={formData.accommodationDays}
+    readOnly
+    style={styles.input1}
+  />
 </div>
 
       <div style={styles.field}>
@@ -1300,6 +1384,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
