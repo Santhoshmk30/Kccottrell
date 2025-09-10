@@ -1068,55 +1068,38 @@ useEffect(() => {
 )}
 
 
- 
-
-
-
-
-          <input
-            type="text"
-            name="purpose"
-            value={formData.purpose}
-            onChange={handleChange}
-            placeholder="Enter Purpose"
-            style={styles.input}
-          />
-
-
 {/* Transport Section with Multiple Entries */}
 <div>
-  
-
   {formData.transports?.map((item, index) => (
     <div
       key={index}
-     style={{
-    marginTop: "25px",
-    padding: "25px",
-    borderRadius: "15px",
-    background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
-    boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
-    border: "1px solid #bbdefb",
-    fontFamily: "Segoe UI, sans-serif",
-  }}
+      style={{
+        marginTop: "25px",
+        padding: "25px",
+        borderRadius: "15px",
+        background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
+        boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+        border: "1px solid #bbdefb",
+        fontFamily: "Segoe UI, sans-serif",
+      }}
     >
+      <h3
+        style={{
+          marginBottom: "20px",
+          color: "#1565c0",
+          borderBottom: "2px solid #90caf9",
+          paddingBottom: "8px",
+          fontSize: "20px",
+        }}
+      >
+        Travel Details
+      </h3>
 
- <h3
-    style={{
-      marginBottom: "20px",
-      color: "#1565c0",
-      borderBottom: "2px solid #90caf9",
-      paddingBottom: "8px",
-      fontSize: "20px",
-    }}
-  >
-   Travel Details
-  </h3>
       {/* Transport Mode */}
       <div style={styles.field}>
         <label style={styles.label}>Transport Mode</label>
         <div style={styles.radioGroup}>
-          {["Air", "Train", "Bus", "Taxi"].map((mode) => (
+          {["Air", "Train", "Bus", "Taxi", "Auto", "Bike"].map((mode) => (
             <label key={mode} style={styles.radioLabel}>
               <input
                 type="radio"
@@ -1133,6 +1116,39 @@ useEffect(() => {
           ))}
         </div>
       </div>
+
+      {/* Auto → Own / Uber */}
+      {item.transportMode === "Auto" && (
+        <div style={{ marginTop: "10px" }}>
+          <label style={styles.label}>Auto Type</label>
+          <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
+            <label>
+              <input
+                type="radio"
+                name={`autoType-${index}`}
+                value="Own"
+                checked={item.autoType === "Own"}
+                onChange={(e) =>
+                  handleTransportChange(index, "autoType", e.target.value)
+                }
+              />
+              Own
+            </label>
+            <label>
+              <input
+                type="radio"
+                name={`autoType-${index}`}
+                value="Uber"
+                checked={item.autoType === "Uber"}
+                onChange={(e) =>
+                  handleTransportChange(index, "autoType", e.target.value)
+                }
+              />
+              Uber
+            </label>
+          </div>
+        </div>
+      )}
 
       {/* Ticket Booked By */}
       <div style={styles.field}>
@@ -1171,9 +1187,7 @@ useEffect(() => {
           type="text"
           placeholder="From"
           value={item.from}
-          onChange={(e) =>
-            handleTransportChange(index, "from", e.target.value)
-          }
+          onChange={(e) => handleTransportChange(index, "from", e.target.value)}
           style={styles.input1}
         />
         <input
@@ -1206,7 +1220,7 @@ useEffect(() => {
           background: "red",
           color: "#fff",
           border: "none",
-          borderRadius: "5px"
+          borderRadius: "5px",
         }}
       >
         Remove
@@ -1223,7 +1237,7 @@ useEffect(() => {
       background: "green",
       color: "#fff",
       border: "none",
-      borderRadius: "5px"
+      borderRadius: "5px",
     }}
   >
     + Add Transport
@@ -1454,3 +1468,4 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
