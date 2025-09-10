@@ -1272,7 +1272,75 @@ useEffect(() => {
 </div>
 
      
-      
+      <div
+  style={{
+    marginTop: "25px",
+    padding: "25px",
+    borderRadius: "15px",
+    background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
+    boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+    border: "1px solid #bbdefb",
+    fontFamily: "Segoe UI, sans-serif",
+  }}
+>
+  <h3
+    style={{
+      marginBottom: "20px",
+      color: "#1565c0",
+      borderBottom: "2px solid #90caf9",
+      paddingBottom: "8px",
+      fontSize: "20px",
+    }}
+  >
+    Miscellaneous
+  </h3>
+
+  <h4
+    style={{
+      marginBottom: "15px",
+      color: "#0d47a1",
+      fontSize: "16px",
+    }}
+  >
+    Nature of Expense
+  </h4>
+
+  <div
+    style={{
+      display: "flex",
+      gap: "15px",
+      alignItems: "center",
+      marginBottom: "10px",
+    }}
+  >
+    <input
+      type="text"
+      placeholder="Enter nature"
+      style={{
+        flex: 1,
+        padding: "10px",
+        borderRadius: "8px",
+        border: "1px solid #90caf9",
+        outline: "none",
+        fontSize: "14px",
+      }}
+    />
+    <input
+      type="number"
+      placeholder="Value"
+      style={{
+        width: "150px",
+        padding: "10px",
+        borderRadius: "8px",
+        border: "1px solid #90caf9",
+        outline: "none",
+        fontSize: "14px",
+        textAlign: "right",
+      }}
+    />
+  </div>
+</div>
+
  
           <div style={styles.totalBox}>
             Total Amount: {total}
@@ -1486,6 +1554,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
