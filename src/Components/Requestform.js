@@ -62,6 +62,13 @@ const TripRequestForm = () => {
   const [error, setError] = useState("");
 
 
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+
+
 
   const getTier = (city) => {
     if (cityTiers.Tier1.includes(city)) return "Tier 1  ('A' Area)";
@@ -371,25 +378,30 @@ useEffect(() => {
         <div>
           <form onSubmit={handleSubmit} style={styles.form}>
 <div
-  style={{
-    marginTop: "25px",
-    padding: "25px",
-    borderRadius: "15px",
-    background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
-    boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
-    border: "1px solid #bbdefb",
-    fontFamily: "Segoe UI, sans-serif",
-  }}
->
-  <h3
-    style={{
-      marginBottom: "20px",
-      color: "#1565c0",
-      borderBottom: "2px solid #90caf9",
-      paddingBottom: "8px",
-      fontSize: "20px",
-    }}
-  >
+      style={{
+        marginTop: "25px",
+        padding: "25px",
+        borderRadius: "15px",
+        background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
+        boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+        border: "1px solid #bbdefb",
+        fontFamily: "Segoe UI, sans-serif",
+        maxWidth: "600px",
+        transform: loaded ? "translateX(0)" : "translateX(100%)",
+        opacity: loaded ? 1 : 0,
+        transition: "transform 0.8s ease, opacity 0.8s ease",
+      }}
+    >
+      <h3
+        style={{
+          marginBottom: "20px",
+          color: "#1565c0",
+          borderBottom: "2px solid #90caf9",
+          paddingBottom: "8px",
+          fontSize: "20px",
+        }}
+      >
+
    Travel Details
   </h3>
 
@@ -1608,6 +1620,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
