@@ -666,7 +666,7 @@ useEffect(() => {
       <input
         type="date"
         name="fromDateacc"
-        value={formData.fromDate}
+        value={formData.fromDateacc}
         min={new Date().toISOString().split("T")[0]}
         onChange={handleChange}
         style={styles.input1}
@@ -679,8 +679,8 @@ useEffect(() => {
       <input
         type="date"
         name="toDateacc"
-        value={formData.toDate}
-        min={formData.fromDate}
+        value={formData.toDateacc}
+        min={formData.fromDateacc}
         max={
           formData.fromDateacc
             ? new Date(
@@ -1326,6 +1326,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
