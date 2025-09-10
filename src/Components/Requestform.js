@@ -1317,9 +1317,9 @@ const removeExpense = (index) => {
   </h3>
 
   {/* Expense Items */}
-  {expenses.map((exp, i) => (
+  {expenses.map((exp, index) => (
     <div
-      key={i}
+      key={index}
       style={{
         display: "flex",
         gap: "10px",
@@ -1332,7 +1332,7 @@ const removeExpense = (index) => {
         type="text"
         placeholder="Nature of Expense"
         value={exp.nature}
-        onChange={(e) => handleExpenseChange(i, "nature", e.target.value)}
+        onChange={(e) => handleExpenseChange(index, "nature", e.target.value)}
         style={{ ...styles.input1, flex: 2 }}
       />
 
@@ -1341,14 +1341,14 @@ const removeExpense = (index) => {
         type="number"
         placeholder="Amount"
         value={exp.amount}
-        onChange={(e) => handleExpenseChange(i, "amount", e.target.value)}
+        onChange={(e) => handleExpenseChange(index, "amount", e.target.value)}
         style={{ ...styles.input1, flex: 1 }}
       />
 
       {/* Remove Button */}
       <button
         type="button"
-        onClick={() => removeExpense(i)}
+        onClick={() => removeExpense(index)}
         style={{
           padding: "6px 12px",
           background: "red",
@@ -1608,6 +1608,7 @@ const removeExpense = (index) => {
 
 
 export default TripRequestForm;
+
 
 
 
