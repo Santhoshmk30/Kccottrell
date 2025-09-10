@@ -22,9 +22,6 @@ const TripRequestForm = () => {
     workPlan: '', 
     purpose: '',
     purpose1: '',
-    fromDateAcc: "",
-  toDateAcc: "",
-  accommodationDays: 0,
     accommodation: '',
     dailyAllowance: '',
     transportAmount: '',
@@ -95,7 +92,6 @@ const TripRequestForm = () => {
 
     return updated;
   });
-
 };
 
 
@@ -196,7 +192,7 @@ const handleTransportChange = (index, field, value) => {
 
       // Multiply by days & nights
       const totalAccommodation =
-        (formData.nightsacc || 0) * (parseFloat(baseAccommodation) || 0);
+        (formData.nights || 0) * (parseFloat(baseAccommodation) || 0);
       const totalDaily =
         (formData.days || 0) * (parseFloat(baseDaily) || 0);
 
@@ -208,8 +204,6 @@ const handleTransportChange = (index, field, value) => {
     }
   }
 }, [formData.designation, formData.place, formData.days, formData.nights]);
-
-  
 
 useEffect(() => {
   if (formData.fromDate && formData.toDate) {
@@ -553,43 +547,6 @@ useEffect(() => {
   </select>
 </div>
 
-
-      <div style={styles.field}>
-  <label style={styles.label}>From Date</label>
-  <input
-    type="date"
-    name="fromDateAcc"
-    value={formData.fromDateAcc}
-    min={new Date().toISOString().split("T")[0]}
-    onChange={handleChange}
-    style={styles.input1}
-  />
-</div>
-
-{/* To Date */}
-<div style={styles.field}>
-  <label style={styles.label}>To Date</label>
-  <input
-    type="date"
-    name="toDateAcc"
-    value={formData.toDateAcc}
-    min={formData.fromDateAcc}
-    onChange={handleChange}
-    style={styles.input1}
-  />
-</div>
-
-{/* Days */}
-<div style={styles.field}>
-  <label style={styles.label}>Days</label>
-  <input
-    type="text"
-    value={formData.accommodationDays}
-    readOnly
-    style={styles.input1}
-  />
-</div>
-
       <div style={styles.field}>
   <label style={styles.label}>Is Company Providing Accommodation?</label>
   <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
@@ -675,50 +632,17 @@ useEffect(() => {
         </div>
         {/* Conditionally render Extra Amount */}
 {formData.specialApproval === "Yes" && (
- <>
-      {/* Extra Amount */}
-      <div style={styles.field}>
-        <label style={styles.label}>Extra Amount</label>
-        <input
-          type="number"
-          name="extraAmount"
-          value={formData.extraAmount ?? ""}
-          onChange={handleChange}
-          style={styles.input1}
-          placeholder="Enter extra amount"
-        />
-      </div>
-
-      {/* Purpose */}
-      <div style={styles.field}>
-        <label style={styles.label}>Purpose</label>
-        <input
-          type="text"
-          name="approvalPurpose"
-          value={formData.approvalPurpose ?? ""}
-          onChange={handleChange}
-          style={styles.input1}
-          placeholder="Enter purpose"
-        />
-      </div>
-
-      {/* Document Upload */}
-      <div style={styles.field}>
-        <label style={styles.label}>Upload Document</label>
-        <input
-          type="file"
-          name="approvalDocument"
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              approvalDocument: e.target.files[0],
-            }))
-          }
-          style={styles.input1}
-        />
-      </div>
-    </>
-
+  <div style={styles.field}>
+    <label style={styles.label}>Extra Amount</label>
+    <input
+      type="number"
+      name="extraAmount"
+      value={formData.extraAmount ?? ""}
+      onChange={handleChange}
+      style={styles.input1}
+      placeholder="Enter extra amount"
+    />
+  </div>
 )}
 
 
@@ -793,49 +717,17 @@ useEffect(() => {
         </div>
 
         {formData.specialApprovalSite === "Yes" && (
-           <>
-      {/* Extra Amount */}
-      <div style={styles.field}>
-        <label style={styles.label}>Extra Amount</label>
-        <input
-          type="number"
-          name="extraAmount"
-          value={formData.extraAmount ?? ""}
-          onChange={handleChange}
-          style={styles.input1}
-          placeholder="Enter extra amount"
-        />
-      </div>
-
-      {/* Purpose */}
-      <div style={styles.field}>
-        <label style={styles.label}>Purpose</label>
-        <input
-          type="text"
-          name="approvalPurpose"
-          value={formData.approvalPurpose ?? ""}
-          onChange={handleChange}
-          style={styles.input1}
-          placeholder="Enter purpose"
-        />
-      </div>
-
-      {/* Document Upload */}
-      <div style={styles.field}>
-        <label style={styles.label}>Upload Document</label>
-        <input
-          type="file"
-          name="approvalDocument"
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              approvalDocument: e.target.files[0],
-            }))
-          }
-          style={styles.input1}
-        />
-      </div>
-    </>
+          <div style={styles.field}>
+            <label style={styles.label}>Extra Amount</label>
+            <input
+              type="number"
+              name="extraAmountSite"
+              value={formData.extraAmountSite ?? ""}
+              onChange={handleChange}
+              style={styles.input1}
+              placeholder="Enter extra amount"
+            />
+          </div>
         )}
       </div>
     </div>
@@ -907,49 +799,17 @@ useEffect(() => {
         </div>
 
         {formData.specialApproval1 === "Yes" && (
-          <>
-      {/* Extra Amount */}
-      <div style={styles.field}>
-        <label style={styles.label}>Extra Amount</label>
-        <input
-          type="number"
-          name="extraAmount"
-          value={formData.extraAmount ?? ""}
-          onChange={handleChange}
-          style={styles.input1}
-          placeholder="Enter extra amount"
-        />
-      </div>
-
-      {/* Purpose */}
-      <div style={styles.field}>
-        <label style={styles.label}>Purpose</label>
-        <input
-          type="text"
-          name="approvalPurpose"
-          value={formData.approvalPurpose ?? ""}
-          onChange={handleChange}
-          style={styles.input1}
-          placeholder="Enter purpose"
-        />
-      </div>
-
-      {/* Document Upload */}
-      <div style={styles.field}>
-        <label style={styles.label}>Upload Document</label>
-        <input
-          type="file"
-          name="approvalDocument"
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              approvalDocument: e.target.files[0],
-            }))
-          }
-          style={styles.input1}
-        />
-      </div>
-    </>
+          <div style={styles.field}>
+            <label style={styles.label}>Extra Amount</label>
+            <input
+              type="number"
+              name="extraAmount"
+              value={formData.extraAmount ?? ""}
+              onChange={handleChange}
+              style={styles.input1}
+              placeholder="Enter extra amount"
+            />
+          </div>
         )}
       </div>
     </div>
@@ -1343,72 +1203,3 @@ useEffect(() => {
 
 
 export default TripRequestForm;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
