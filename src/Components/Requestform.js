@@ -1272,29 +1272,7 @@ useEffect(() => {
 </div>
 
      
-       <div
-      key={index}
-      style={{
-        marginTop: "25px",
-        padding: "25px",
-        borderRadius: "15px",
-        background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
-        boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
-        border: "1px solid #bbdefb",
-        fontFamily: "Segoe UI, sans-serif",
-      }}
-    >
-      <h3
-        style={{
-          marginBottom: "20px",
-          color: "#1565c0",
-          borderBottom: "2px solid #90caf9",
-          paddingBottom: "8px",
-          fontSize: "20px",
-        }}
-      >
-        Travel Details
-      </h3>
+      
           <input
             type="number"
             name="miscellaneous"
@@ -1303,7 +1281,6 @@ useEffect(() => {
             placeholder="Miscellaneous"
             style={styles.input}
           />
-</div>
 
      
 
@@ -1519,6 +1496,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
