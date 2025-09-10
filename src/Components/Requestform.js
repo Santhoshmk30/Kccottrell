@@ -701,20 +701,36 @@ useEffect(() => {
     </div>
 
 <div style={styles.row}>
-  <div style={styles.field}>
-    <label style={styles.label}>Accommodation Allowance</label>
-    <input
-      type="text"
-      name="accommodation"
-      value={
-        formData.companyProvidesAccommodation === "Yes" 
-          ? " "   
-          : formData.accommodation ?? ''  
+ <div style={styles.field}>
+  <label style={styles.label}>Accommodation Allowance</label>
+  <input
+    type="number"
+    name="accommodation"
+    value={
+      formData.companyProvidesAccommodation === "Yes"
+        ? ""
+        : formData.accommodation ?? ""
+    }
+    onChange={(e) => {
+      const value = parseFloat(e.target.value) || 0;
+
+      // Prevent user from entering more than allowed
+      if (value <= (formData.accommodation || 0)) {
+        setFormData((prev) => ({
+          ...prev,
+          accommodation: value,
+        }));
       }
-      readOnly
-      style={styles.input1}
-    />
-  </div>
+    }}
+    max={formData.accommodation || 0} // restrict max
+    style={styles.input1}
+    disabled={formData.companyProvidesAccommodation === "Yes"}
+  />
+  <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
+    You cannot claim more than ₹{formData.accommodation || 0}
+  </p>
+</div>
+
 
  </div>
        </div>
@@ -1319,6 +1335,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
