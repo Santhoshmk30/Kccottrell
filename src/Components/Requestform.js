@@ -266,17 +266,8 @@ const handleTransportChange = (index, field, value) => {
         </motion.h2>
 
         {activeForm === "domestic" ? (
-        <div>
-          <form onSubmit={handleSubmit} style={styles.form}>
-<div
-  style={{
-    marginTop: "25px",
-    padding: "25px",
-    borderRadius: "15px",
-    background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
-    boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
-    border: "1px solid #bbdefb",
-    fontFamily: "Segoe U<div>
+      
+      <div>
   <form onSubmit={handleSubmit} style={styles.form}>
     <div
       style={{
@@ -1109,6 +1100,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
