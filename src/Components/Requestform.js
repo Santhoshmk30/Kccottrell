@@ -40,6 +40,23 @@ const TripRequestForm = () => {
   ]
   });
 
+    const [expenses, setExpenses] = useState([{ nature: "", value: "" }]);
+ const handleChange = (index, field, value) => {
+    const updated = [...expenses];
+    updated[index][field] = value;
+    setExpenses(updated);
+  };
+
+  const addExpense = () => {
+    setExpenses([...expenses, { nature: "", value: "" }]);
+  };
+
+  const removeExpense = (index) => {
+    const updated = [...expenses];
+    updated.splice(index, 1);
+    setExpenses(updated);
+  };
+
   const [activeForm, setActiveForm] = useState("domestic");
 
   const [error, setError] = useState("");
@@ -1271,76 +1288,110 @@ useEffect(() => {
   </button>
 </div>
 
-     
-      <div
-  style={{
-    marginTop: "25px",
-    padding: "25px",
-    borderRadius: "15px",
-    background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
-    boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
-    border: "1px solid #bbdefb",
-    fontFamily: "Segoe UI, sans-serif",
-  }}
->
-  <h3
-    style={{
-      marginBottom: "20px",
-      color: "#1565c0",
-      borderBottom: "2px solid #90caf9",
-      paddingBottom: "8px",
-      fontSize: "20px",
-    }}
-  >
-    Miscellaneous
-  </h3>
-
-  <h4
-    style={{
-      marginBottom: "15px",
-      color: "#0d47a1",
-      fontSize: "16px",
-    }}
-  >
-    Nature of Expense
-  </h4>
-
-  <div
-    style={{
-      display: "flex",
-      gap: "15px",
-      alignItems: "center",
-      marginBottom: "10px",
-    }}
-  >
-    <input
-      type="text"
-      placeholder="Enter nature"
+   <div
       style={{
-        flex: 1,
-        padding: "10px",
-        borderRadius: "8px",
-        border: "1px solid #90caf9",
-        outline: "none",
-        fontSize: "14px",
+        marginTop: "25px",
+        padding: "25px",
+        borderRadius: "15px",
+        background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
+        boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+        border: "1px solid #bbdefb",
+        fontFamily: "Segoe UI, sans-serif",
       }}
-    />
-    <input
-      type="number"
-      placeholder="Value"
-      style={{
-        width: "150px",
-        padding: "10px",
-        borderRadius: "8px",
-        border: "1px solid #90caf9",
-        outline: "none",
-        fontSize: "14px",
-        textAlign: "right",
-      }}
-    />
-  </div>
-</div>
+    >
+      <h3
+        style={{
+          marginBottom: "20px",
+          color: "#1565c0",
+          borderBottom: "2px solid #90caf9",
+          paddingBottom: "8px",
+          fontSize: "20px",
+        }}
+      >
+        Miscellaneous
+      </h3>
 
+      <h4
+        style={{
+          marginBottom: "15px",
+          color: "#0d47a1",
+          fontSize: "16px",
+        }}
+      >
+        Nature of Expense
+      </h4>
+
+      {expenses.map((exp, index) => (
+        <div
+          key={index}
+          style={{
+            display: "flex",
+            gap: "15px",
+            alignItems: "center",
+            marginBottom: "10px",
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Enter nature"
+            value={exp.nature}
+            onChange={(e) => handleChange(index, "nature", e.target.value)}
+            style={{
+              flex: 1,
+              padding: "10px",
+              borderRadius: "8px",
+              border: "1px solid #90caf9",
+              outline: "none",
+              fontSize: "14px",
+            }}
+          />
+          <input
+            type="number"
+            placeholder="Value"
+            value={exp.value}
+            onChange={(e) => handleChange(index, "value", e.target.value)}
+            style={{
+              width: "150px",
+              padding: "10px",
+              borderRadius: "8px",
+              border: "1px solid #90caf9",
+              outline: "none",
+              fontSize: "14px",
+              textAlign: "right",
+            }}
+          />
+          <button
+            onClick={() => removeExpense(index)}
+            style={{
+              background: "#ef5350",
+              border: "none",
+              color: "#fff",
+              padding: "8px 12px",
+              borderRadius: "6px",
+              cursor: "pointer",
+            }}
+          >
+            X
+          </button>
+        </div>
+      ))}
+
+      <button
+        onClick={addExpense}
+        style={{
+          marginTop: "10px",
+          background: "#42a5f5",
+          border: "none",
+          color: "#fff",
+          padding: "10px 15px",
+          borderRadius: "8px",
+          cursor: "pointer",
+          fontSize: "14px",
+        }}
+      >
+        + Add Expense
+      </button>
+    </div>
  
           <div style={styles.totalBox}>
             Total Amount: {total}
@@ -1554,6 +1605,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
