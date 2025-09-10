@@ -76,7 +76,6 @@ if (value.length > 0) {
       justifyContent: 'center',
       alignItems: 'center',
       height: '100vh',
-      backgroundImage: "url('/images/background.jpg')",
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       padding: '20px',
@@ -224,6 +223,7 @@ if (value.length > 0) {
 }
 
 export default Login;
+
 
 
 
