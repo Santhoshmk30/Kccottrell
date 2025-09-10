@@ -95,12 +95,8 @@ const TripRequestForm = () => {
 
     return updated;
   });
-};
 
-   const handleChange = (e) => {
-  const { name, value } = e.target;
-
-  setFormData((prev) => {
+     setFormData((prev) => {
     let updated = { ...prev, [name]: value };
 
     if (name === "fromDateacc" || name === "toDateacc") {
@@ -142,6 +138,11 @@ const TripRequestForm = () => {
     return updated;
   });
 };
+
+   
+
+
+
 
 
 useEffect(() => {
@@ -1325,6 +1326,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
