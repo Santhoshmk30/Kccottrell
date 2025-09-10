@@ -269,11 +269,10 @@ const handleTransportChange = (index, field, value) => {
       setFormData((prev) => ({
         ...prev,
         accommodation: totalAccommodation,
-        dailyAllowance: totalDaily,
       }));
     }
   }
-}, [formData.designation, formData.place, formData.daysacc, formData.nightsacc]);
+}, [formData.designation, formData.place,formData.nightsacc]);
 
 
 useEffect(() => {
@@ -1322,6 +1321,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
