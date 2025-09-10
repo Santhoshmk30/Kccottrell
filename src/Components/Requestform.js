@@ -205,6 +205,29 @@ const handleTransportChange = (index, field, value) => {
   }
 }, [formData.designation, formData.place, formData.days, formData.nights]);
 
+useEffect(() => {
+  if (formData.fromDate && formData.toDate) {
+    const from = new Date(formData.fromDate);
+    const to = new Date(formData.toDate);
+
+    const diffTime = Math.abs(to - from);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+    
+    const formatDate = (date) => {
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    };
+
+    setFormData((prev) => ({
+      ...prev,
+      days: diffDays,
+      workPlan: `${formatDate(from)} - ${formatDate(to)}`,
+    }));
+  }
+}, [formData.fromDate, formData.toDate]);
 
 
 
@@ -1097,6 +1120,7 @@ const handleTransportChange = (index, field, value) => {
 
 
 export default TripRequestForm;
+
 
 
 
