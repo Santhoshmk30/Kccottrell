@@ -298,23 +298,28 @@ useEffect(() => {
 }, [formData.fromDate, formData.toDate]);
 
 
-  // State for extra expenses
-const [expenses, setExpenses] = useState([]);
+   // Handle expense change
+  const handleExpenseChange = (index, field, value) => {
+    setExpenses((prevExpenses) =>
+      prevExpenses.map((expense, i) =>
+        i === index ? { ...expense, [field]: value } : expense
+      )
+    );
+  };
 
-const handleExpenseChange = (index, field, value) => {
-  const updated = [...expenses];
-  updated[index][field] = value;
-  setExpenses(updated);
-};
+  // Add new expense row
+  const addExpense = () => {
+    setExpenses((prevExpenses) => [
+      ...prevExpenses,
+      { nature: "", amount: "" },
+    ]);
+  };
 
-const addExpense = () => {
-  setExpenses([...expenses, { nature: "", amount: "" }]);
-};
+  // Remove expense row
+  const removeExpense = (index) => {
+    setExpenses((prevExpenses) => prevExpenses.filter((_, i) => i !== index));
+  };
 
-const removeExpense = (index) => {
-  const updated = expenses.filter((_, i) => i !== index);
-  setExpenses(updated);
-};
 
 
 
@@ -1292,107 +1297,105 @@ const removeExpense = (index) => {
 
      
       
-<div
-  key={index}
-  style={{
-    marginTop: "25px",
-    padding: "25px",
-    borderRadius: "15px",
-    background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
-    boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
-    border: "1px solid #bbdefb",
-    fontFamily: "Segoe UI, sans-serif",
-  }}
->
-  <h3
-    style={{
-      marginBottom: "20px",
-      color: "#1565c0",
-      borderBottom: "2px solid #90caf9",
-      paddingBottom: "8px",
-      fontSize: "20px",
-    }}
-  >
-    Travel Details
-  </h3>
-
-  {/* Expense Items */}
-{expenses.map((exp, i) => (
-  <div
-    key={i}
-    style={{
-      display: "flex",
-      gap: "10px",
-      marginBottom: "10px",
-      alignItems: "center",
-    }}
-  >
-    {/* Nature of Expense */}
-    <input
-      type="text"
-      placeholder="Nature of Expense"
-      value={exp.nature}
-      onChange={(e) => handleExpenseChange(i, "nature", e.target.value)}
-      style={{ ...styles.input1, flex: 2 }}
-    />
-
-    {/* Amount */}
-    <input
-      type="number"
-      placeholder="Amount"
-      value={exp.amount}
-      onChange={(e) => handleExpenseChange(i, "amount", e.target.value)}
-      style={{ ...styles.input1, flex: 1 }}
-    />
-
-    {/* Remove Button */}
-    <button
-      type="button"
-      onClick={() => removeExpense(i)}
+ <div
       style={{
-        padding: "6px 12px",
-        background: "red",
-        color: "#fff",
-        border: "none",
-        borderRadius: "6px",
-        cursor: "pointer",
+        marginTop: "25px",
+        padding: "25px",
+        borderRadius: "15px",
+        background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
+        boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+        border: "1px solid #bbdefb",
+        fontFamily: "Segoe UI, sans-serif",
       }}
     >
-      Remove
-    </button>
-  </div>
-))}
+      <h3
+        style={{
+          marginBottom: "20px",
+          color: "#1565c0",
+          borderBottom: "2px solid #90caf9",
+          paddingBottom: "8px",
+          fontSize: "20px",
+        }}
+      >
+        Travel Details
+      </h3>
 
+      {/* Expense Items */}
+      {expenses.map((exp, i) => (
+        <div
+          key={i}
+          style={{
+            display: "flex",
+            gap: "10px",
+            marginBottom: "10px",
+            alignItems: "center",
+          }}
+        >
+          {/* Nature of Expense */}
+          <input
+            type="text"
+            placeholder="Nature of Expense"
+            value={exp.nature}
+            onChange={(e) => handleExpenseChange(i, "nature", e.target.value)}
+            style={{ ...styles.input1, flex: 2 }}
+          />
 
-  {/* Add Button */}
-  <button
-    type="button"
-    onClick={addExpense}
-    style={{
-      marginTop: "10px",
-      padding: "8px 16px",
-      background: "#1565c0",
-      color: "#fff",
-      border: "none",
-      borderRadius: "6px",
-      cursor: "pointer",
-    }}
-  >
-    + Add Expense
-  </button>
+          {/* Amount */}
+          <input
+            type="number"
+            placeholder="Amount"
+            value={exp.amount}
+            onChange={(e) => handleExpenseChange(i, "amount", e.target.value)}
+            style={{ ...styles.input1, flex: 1 }}
+          />
 
-  {/* Miscellaneous Input */}
-  <div style={{ marginTop: "20px" }}>
-    <input
-      type="number"
-      name="miscellaneous"
-      value={formData.miscellaneous}
-      onChange={handleChange}
-      placeholder="Miscellaneous"
-      style={styles.input}
-    />
-  </div>
-</div>
+          {/* Remove Button */}
+          <button
+            type="button"
+            onClick={() => removeExpense(i)}
+            style={{
+              padding: "6px 12px",
+              background: "red",
+              color: "#fff",
+              border: "none",
+              borderRadius: "6px",
+              cursor: "pointer",
+            }}
+          >
+            Remove
+          </button>
+        </div>
+      ))}
+
+      {/* Add Button */}
+      <button
+        type="button"
+        onClick={addExpense}
+        style={{
+          marginTop: "10px",
+          padding: "8px 16px",
+          background: "#1565c0",
+          color: "#fff",
+          border: "none",
+          borderRadius: "6px",
+          cursor: "pointer",
+        }}
+      >
+        + Add Expense
+      </button>
+
+      {/* Miscellaneous Input */}
+      <div style={{ marginTop: "20px" }}>
+        <input
+          type="number"
+          name="miscellaneous"
+          value={formData.miscellaneous}
+          onChange={handleChange}
+          placeholder="Miscellaneous"
+          style={styles.input}
+        />
+      </div>
+    </div>
 
 
      
@@ -1609,6 +1612,7 @@ const removeExpense = (index) => {
 
 
 export default TripRequestForm;
+
 
 
 
