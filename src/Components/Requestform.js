@@ -1271,7 +1271,29 @@ useEffect(() => {
   </button>
 </div>
 
-         
+          <div
+      key={index}
+      style={{
+        marginTop: "25px",
+        padding: "25px",
+        borderRadius: "15px",
+        background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
+        boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+        border: "1px solid #bbdefb",
+        fontFamily: "Segoe UI, sans-serif",
+      }}
+    >
+      <h3
+        style={{
+          marginBottom: "20px",
+          color: "#1565c0",
+          borderBottom: "2px solid #90caf9",
+          paddingBottom: "8px",
+          fontSize: "20px",
+        }}
+      >
+        Miscellaneous
+      </h3>
           <input
             type="number"
             name="miscellaneous"
@@ -1280,6 +1302,22 @@ useEffect(() => {
             placeholder="Miscellaneous"
             style={styles.input}
           />
+
+              <button
+    type="button"
+    onClick={addTransport}
+    style={{
+      padding: "8px 15px",
+      background: "green",
+      color: "#fff",
+      border: "none",
+      borderRadius: "5px",
+      marginTop:"10px",
+    }}
+  >
+    + Add
+  </button>
+            </div>
 
      
 
@@ -1495,6 +1533,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
