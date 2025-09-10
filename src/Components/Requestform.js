@@ -545,116 +545,120 @@ useEffect(() => {
       fontSize: "20px",
     }}
   >
-   Accommodation Details
+    Accommodation Details
   </h3>
 
-  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
-<div style={styles.row}>
-  {/* State */}
-  <div style={styles.field}>
-    <label style={styles.label}>State</label>
-    <select
-      name="state"
-      value={formData.state || ""}
-      onChange={handleChange}
-      style={styles.select}
-    >
-      <option value="">-- Select State --</option>
-      {Object.keys(citiesByState).map((state, index) => (
-        <option key={index} value={state}>
-          {state}
-        </option>
-      ))}
-    </select>
-  </div>
-
-  {/* City */}
-  <div style={styles.field}>
-    <label style={styles.label}>City</label>
-    <select
-      name="place"
-      value={formData.place || ""}
-      onChange={handleChange}
-      style={styles.select}
-      disabled={!formData.state}
-    >
-      <option value="">-- Select City --</option>
-      {formData.state &&
-        citiesByState[formData.state].map((city, index) => (
-          <option key={index} value={city}>
-            {city}
+  {/* === First row: State / City / Tier === */}
+  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "20px" }}>
+    {/* State */}
+    <div style={styles.field}>
+      <label style={styles.label}>State</label>
+      <select
+        name="state"
+        value={formData.state || ""}
+        onChange={handleChange}
+        style={styles.select}
+      >
+        <option value="">-- Select State --</option>
+        {Object.keys(citiesByState).map((state, index) => (
+          <option key={index} value={state}>
+            {state}
           </option>
         ))}
-    </select>
-  </div>
+      </select>
+    </div>
 
-  {/* Tier */}
-  <div style={styles.field}>
-    <label style={styles.label}>Tier</label>
-    <input
-      type="text"
-      value={formData.place ? getTier(formData.place) : ""}
-      readOnly
-      style={styles.input1}
-    />
-  </div>
-</div>
+    {/* City */}
+    <div style={styles.field}>
+      <label style={styles.label}>City</label>
+      <select
+        name="place"
+        value={formData.place || ""}
+        onChange={handleChange}
+        style={styles.select}
+        disabled={!formData.state}
+      >
+        <option value="">-- Select City --</option>
+        {formData.state &&
+          citiesByState[formData.state].map((city, index) => (
+            <option key={index} value={city}>
+              {city}
+            </option>
+          ))}
+      </select>
+    </div>
 
-<div style={styles.field}>
-  <label style={styles.label}>Designation</label>
-  <select
-    name="designation"
-    value={formData.designation || ""}
-    onChange={handleChange}
-    style={styles.select}
-  >
-    <option value="">-- Select Designation --</option>
-    <option value="Managing Director/Director/COO/CFO">Managing Director/Director/COO/CFO</option>
-    <option value="Assistant VicePresident (AVP)/VicePresident (VP)/SeniorVicePresident (Sr.VP)">Assistant VicePresident (AVP)/VicePresident (VP)/SeniorVicePresident (Sr.VP)</option>
-    <option value="General Manager/Sr.General Manager">General Manager/Sr.General Manager</option>
-  </select>
-</div>
-
-
-      <div style={styles.field}>
-  <label style={styles.label}>Is Company Providing Accommodation?</label>
-  <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
-    <label>
+    {/* Tier */}
+    <div style={styles.field}>
+      <label style={styles.label}>Tier</label>
       <input
-        type="radio"
-        name="companyProvidesAccommodation"
-        value="Yes"
-        checked={formData.companyProvidesAccommodation === "Yes"}
-        onChange={(e) =>
-          setFormData((prev) => ({
-            ...prev,
-            companyProvidesAccommodation: e.target.value,
-          }))
-        }
+        type="text"
+        value={formData.place ? getTier(formData.place) : ""}
+        readOnly
+        style={styles.input1}
       />
-      Yes
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="companyProvidesAccommodation"
-        value="No"
-        checked={formData.companyProvidesAccommodation === "No"}
-        onChange={(e) =>
-          setFormData((prev) => ({
-            ...prev,
-            companyProvidesAccommodation: e.target.value,
-          }))
-        }
-      />
-      No
-    </label>
+    </div>
   </div>
-</div>
 
-           
-       <div style={styles.field}>
+  {/* === Second row: Designation / Company Provides === */}
+  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginTop: "20px" }}>
+    <div style={styles.field}>
+      <label style={styles.label}>Designation</label>
+      <select
+        name="designation"
+        value={formData.designation || ""}
+        onChange={handleChange}
+        style={styles.select}
+      >
+        <option value="">-- Select Designation --</option>
+        <option value="Managing Director/Director/COO/CFO">Managing Director/Director/COO/CFO</option>
+        <option value="Assistant VicePresident (AVP)/VicePresident (VP)/SeniorVicePresident (Sr.VP)">
+          Assistant VicePresident (AVP)/VicePresident (VP)/SeniorVicePresident (Sr.VP)
+        </option>
+        <option value="General Manager/Sr.General Manager">General Manager/Sr.General Manager</option>
+      </select>
+    </div>
+
+    <div style={styles.field}>
+      <label style={styles.label}>Is Company Providing Accommodation?</label>
+      <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
+        <label>
+          <input
+            type="radio"
+            name="companyProvidesAccommodation"
+            value="Yes"
+            checked={formData.companyProvidesAccommodation === "Yes"}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                companyProvidesAccommodation: e.target.value,
+              }))
+            }
+          />
+          Yes
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="companyProvidesAccommodation"
+            value="No"
+            checked={formData.companyProvidesAccommodation === "No"}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                companyProvidesAccommodation: e.target.value,
+              }))
+            }
+          />
+          No
+        </label>
+      </div>
+    </div>
+  </div>
+
+  {/* === Third row: From / To / Nights === */}
+  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "20px", marginTop: "20px" }}>
+    <div style={styles.field}>
       <label style={styles.label}>From</label>
       <input
         type="date"
@@ -665,8 +669,6 @@ useEffect(() => {
         style={styles.input1}
       />
     </div>
-
-    {/* To */}
     <div style={styles.field}>
       <label style={styles.label}>To</label>
       <input
@@ -689,8 +691,7 @@ useEffect(() => {
         style={styles.input1}
       />
     </div>
-
-         <div style={styles.field}>
+    <div style={styles.field}>
       <label style={styles.label}>Nights</label>
       <input
         type="text"
@@ -699,149 +700,131 @@ useEffect(() => {
         style={styles.input1}
       />
     </div>
-
-<div style={styles.row}>
-<div style={styles.field}>
-  <label style={styles.label}>Maximum Accommodation Allowance</label>
-  <input
-    type="text"
-    value={formData.accommodation ?? ""}
-    readOnly
-    style={styles.input1}
-  />
-</div>
-
-{/* User entered accommodation amount */}
-<div style={styles.field}>
-  <label style={styles.label}>Enter Accommodation Amount</label>
-  <input
-    type="text"
-    name="enteredAccommodation"
-    value={formData.enteredAccommodation ?? ""}
-    onChange={(e) => {
-      let value = e.target.value.replace(/\D/g, "");
-      value = value === "" ? "" : parseFloat(value);
-
-      if (value === "" || value <= (formData.accommodation)) {
-        setFormData((prev) => ({
-          ...prev,
-          enteredAccommodation: value,
-        }));
-      }
-    }}
-    style={styles.input1}
-    placeholder={`Enter up to ₹${formData.accommodation }`}
-  />
-  <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
-    You cannot claim more than ₹{formData.accommodation }
-  </p>
-</div>
-
-     <div style={styles.field}>
-    <label style={styles.label}>GST Amount</label>
-    <input
-      type="text"
-      name="gstAmount"
-      value={formData.gstAmount ?? ""}
-      onChange={(e) => {
-        let value = e.target.value.replace(/\D/g, "");
-        value = value === "" ? "" : parseFloat(value);
-
-        setFormData((prev) => ({
-          ...prev,
-          gstAmount: value,
-        }));
-      }}
-      style={styles.input1}
-      placeholder="Enter GST amount"
-    />
   </div>
 
-
- </div>
-       </div>
-
- 
-
-      <div style={styles.field}>
-  <label style={styles.label}>Do You Need Special Approval</label>
-      <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
-    <label>
+  {/* === Fourth row: Allowance / Entered / GST === */}
+  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "20px", marginTop: "20px" }}>
+    <div style={styles.field}>
+      <label style={styles.label}>Maximum Accommodation Allowance</label>
       <input
-      type="radio"
-      name="specialApproval"
-      value="Yes"
-      checked={formData.specialApproval === "Yes"}
-      onChange={handleChange}
-    />
-    Yes
-  </label>
-  
-  <label>
-    <input
-      type="radio"
-      name="specialApproval"
-      value="No"
-      checked={formData.specialApproval === "No"}
-      onChange={handleChange}
-    />
-    No
-  </label>
-        </div>
-        {/* Conditionally render Extra Amount */}
-{formData.specialApproval === "Yes" && (
+        type="text"
+        value={formData.accommodation ?? ""}
+        readOnly
+        style={styles.input1}
+      />
+    </div>
+    <div style={styles.field}>
+      <label style={styles.label}>Enter Accommodation Amount</label>
+      <input
+        type="text"
+        name="enteredAccommodation"
+        value={formData.enteredAccommodation ?? ""}
+        onChange={(e) => {
+          let value = e.target.value.replace(/\D/g, "");
+          value = value === "" ? "" : parseFloat(value);
 
-    <>
-      {/* Extra Amount */}
-      <div style={styles.field}>
-        <label style={styles.label}>Extra Amount</label>
-        <input
-          type="number"
-          name="extraAmount"
-          value={formData.extraAmount ?? ""}
-          onChange={handleChange}
-          style={styles.input1}
-          placeholder="Enter extra amount"
-        />
-      </div>
-
-      {/* Purpose */}
-      <div style={styles.field}>
-        <label style={styles.label}>Purpose</label>
-        <input
-          type="text"
-          name="approvalPurpose"
-          value={formData.approvalPurpose ?? ""}
-          onChange={handleChange}
-          style={styles.input1}
-          placeholder="Enter purpose"
-        />
-      </div>
-
-      {/* Document Upload */}
-      <div style={styles.field}>
-        <label style={styles.label}>Upload Document</label>
-        <input
-          type="file"
-          name="approvalDocument"
-          onChange={(e) =>
+          if (value === "" || value <= (formData.accommodation)) {
             setFormData((prev) => ({
               ...prev,
-              approvalDocument: e.target.files[0],
-            }))
+              enteredAccommodation: value,
+            }));
           }
-          style={styles.input1}
+        }}
+        style={styles.input1}
+        placeholder={`Enter up to ₹${formData.accommodation}`}
+      />
+      <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
+        You cannot claim more than ₹{formData.accommodation}
+      </p>
+    </div>
+    <div style={styles.field}>
+      <label style={styles.label}>GST Amount</label>
+      <input
+        type="text"
+        name="gstAmount"
+        value={formData.gstAmount ?? ""}
+        onChange={(e) => {
+          let value = e.target.value.replace(/\D/g, "");
+          value = value === "" ? "" : parseFloat(value);
+          setFormData((prev) => ({
+            ...prev,
+            gstAmount: value,
+          }));
+        }}
+        style={styles.input1}
+        placeholder="Enter GST amount"
+      />
+    </div>
+  </div>
+
+  {/* === Special Approval row === */}
+  <div style={{ marginTop: "20px" }}>
+    <label style={styles.label}>Do You Need Special Approval</label>
+    <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
+      <label>
+        <input
+          type="radio"
+          name="specialApproval"
+          value="Yes"
+          checked={formData.specialApproval === "Yes"}
+          onChange={handleChange}
         />
+        Yes
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="specialApproval"
+          value="No"
+          checked={formData.specialApproval === "No"}
+          onChange={handleChange}
+        />
+        No
+      </label>
+    </div>
+
+    {formData.specialApproval === "Yes" && (
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "20px", marginTop: "15px" }}>
+        <div style={styles.field}>
+          <label style={styles.label}>Extra Amount</label>
+          <input
+            type="number"
+            name="extraAmount"
+            value={formData.extraAmount ?? ""}
+            onChange={handleChange}
+            style={styles.input1}
+            placeholder="Enter extra amount"
+          />
+        </div>
+        <div style={styles.field}>
+          <label style={styles.label}>Purpose</label>
+          <input
+            type="text"
+            name="approvalPurpose"
+            value={formData.approvalPurpose ?? ""}
+            onChange={handleChange}
+            style={styles.input1}
+            placeholder="Enter purpose"
+          />
+        </div>
+        <div style={styles.field}>
+          <label style={styles.label}>Upload Document</label>
+          <input
+            type="file"
+            name="approvalDocument"
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                approvalDocument: e.target.files[0],
+              }))
+            }
+            style={styles.input1}
+          />
+        </div>
       </div>
-    </>
-
-)}
-
-
+    )}
+  </div>
 </div>
-</div>
-
-   
 
 
 {/* Allowance Section */}
@@ -1466,6 +1449,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
