@@ -159,7 +159,7 @@ if (value.length > 0) {
       zIndex: "-1",
     }}
   >
-    <source src="/videos/bg-video.webm" type="video/webm" />
+    <source src="src/videos/bg-video.webm" type="video/webm" />
     Your browser does not support the video tag.
   </video>
 
@@ -224,6 +224,7 @@ if (value.length > 0) {
 }
 
 export default Login;
+
 
 
 
