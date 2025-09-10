@@ -605,45 +605,80 @@ useEffect(() => {
 
  
 
-      <div style={styles.field}>
+     <div style={styles.field}>
   <label style={styles.label}>Do You Need Special Approval</label>
-      <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
+  <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
     <label>
       <input
-      type="radio"
-      name="specialApproval"
-      value="Yes"
-      checked={formData.specialApproval === "Yes"}
-      onChange={handleChange}
-    />
-    Yes
-  </label>
-  
-  <label>
-    <input
-      type="radio"
-      name="specialApproval"
-      value="No"
-      checked={formData.specialApproval === "No"}
-      onChange={handleChange}
-    />
-    No
-  </label>
-        </div>
-        {/* Conditionally render Extra Amount */}
-{formData.specialApproval === "Yes" && (
-  <div style={styles.field}>
-    <label style={styles.label}>Extra Amount</label>
-    <input
-      type="number"
-      name="extraAmount"
-      value={formData.extraAmount ?? ""}
-      onChange={handleChange}
-      style={styles.input1}
-      placeholder="Enter extra amount"
-    />
+        type="radio"
+        name="specialApproval"
+        value="Yes"
+        checked={formData.specialApproval === "Yes"}
+        onChange={handleChange}
+      />
+      Yes
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="specialApproval"
+        value="No"
+        checked={formData.specialApproval === "No"}
+        onChange={handleChange}
+      />
+      No
+    </label>
   </div>
-)}
+
+  {/* Conditionally render Extra Fields if Yes */}
+  {formData.specialApproval === "Yes" && (
+    <>
+      {/* Extra Amount */}
+      <div style={styles.field}>
+        <label style={styles.label}>Extra Amount</label>
+        <input
+          type="number"
+          name="extraAmount"
+          value={formData.extraAmount ?? ""}
+          onChange={handleChange}
+          style={styles.input1}
+          placeholder="Enter extra amount"
+        />
+      </div>
+
+      {/* Purpose */}
+      <div style={styles.field}>
+        <label style={styles.label}>Purpose</label>
+        <input
+          type="text"
+          name="approvalPurpose"
+          value={formData.approvalPurpose ?? ""}
+          onChange={handleChange}
+          style={styles.input1}
+          placeholder="Enter purpose"
+        />
+      </div>
+
+      {/* Document Upload */}
+      <div style={styles.field}>
+        <label style={styles.label}>Upload Document</label>
+        <input
+          type="file"
+          name="approvalDocument"
+          onChange={(e) =>
+            setFormData((prev) => ({
+              ...prev,
+              approvalDocument: e.target.files[0],
+            }))
+          }
+          style={styles.input1}
+        />
+      </div>
+    </>
+  )}
+</div>
+
 
 
 </div>
@@ -1203,6 +1238,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
