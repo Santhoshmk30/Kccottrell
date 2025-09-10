@@ -118,18 +118,15 @@ const TripRequestForm = () => {
           if (diffDays > maxDaysInMonth) {
             setError(`This month has only ${maxDaysInMonth} days!`);
             updated.workPlanacc = "";
-            updated.daysacc= "";
             updated.nightsacc = "";
           } else {
             setError("");
             updated.workPlanacc = `${diffDays} days`;
-            updated.daysacc = diffDays;
             updated.nightsacc = diffDays - 1 < 0 ? 0 : diffDays - 1;
           }
         } else {
           setError("To date cannot be before From date!");
           updated.workPlanacc = "";
-          updated.daysacc = "";
           updated.nightsacc = "";
         }
       }
@@ -267,8 +264,7 @@ const handleTransportChange = (index, field, value) => {
       // Multiply by days & nights
       const totalAccommodation =
         (formData.nightsacc || 0) * (parseFloat(baseAccommodation) || 0);
-      const totalDaily =
-        (formData.daysacc || 0) * (parseFloat(baseDaily) || 0);
+      
 
       setFormData((prev) => ({
         ...prev,
@@ -1326,6 +1322,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
