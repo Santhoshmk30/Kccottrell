@@ -386,7 +386,6 @@ useEffect(() => {
         boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
         border: "1px solid #bbdefb",
         fontFamily: "Segoe UI, sans-serif",
-        maxWidth: "600px",
         transform: loaded ? "translateX(0)" : "translateX(100%)",
         opacity: loaded ? 1 : 0,
         transition: "transform 0.8s ease, opacity 0.8s ease",
@@ -555,25 +554,28 @@ useEffect(() => {
 
     
 <div
-  style={{
-    marginTop: "25px",
-    padding: "25px",
-    borderRadius: "15px",
-    background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
-    boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
-    border: "1px solid #bbdefb",
-    fontFamily: "Segoe UI, sans-serif",
-  }}
->
-  <h3
-    style={{
-      marginBottom: "20px",
-      color: "#1565c0",
-      borderBottom: "2px solid #90caf9",
-      paddingBottom: "8px",
-      fontSize: "20px",
-    }}
-  >
+      style={{
+        marginTop: "25px",
+        padding: "25px",
+        borderRadius: "15px",
+        background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
+        boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+        border: "1px solid #bbdefb",
+        fontFamily: "Segoe UI, sans-serif",
+        transform: loaded ? "translateX(0)" : "translateX(100%)",
+        opacity: loaded ? 1 : 0,
+        transition: "transform 0.8s ease, opacity 0.8s ease",
+      }}
+    >
+      <h3
+        style={{
+          marginBottom: "20px",
+          color: "#1565c0",
+          borderBottom: "2px solid #90caf9",
+          paddingBottom: "8px",
+          fontSize: "20px",
+        }}
+      >
     Accommodation Details
   </h3>
 
@@ -865,25 +867,28 @@ useEffect(() => {
 {formData.stillInSite === "Yes" ? (
   // Show Site Allowance
   <div
-    style={{
-      marginTop: "25px",
-      padding: "25px",
-      borderRadius: "15px",
-      background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
-      boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
-      border: "1px solid #bbdefb",
-      fontFamily: "Segoe UI, sans-serif",
-    }}
-  >
-    <h3
       style={{
-        marginBottom: "20px",
-        color: "#1565c0",
-        borderBottom: "2px solid #90caf9",
-        paddingBottom: "8px",
-        fontSize: "20px",
+        marginTop: "25px",
+        padding: "25px",
+        borderRadius: "15px",
+        background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
+        boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+        border: "1px solid #bbdefb",
+        fontFamily: "Segoe UI, sans-serif",
+        transform: loaded ? "translateX(0)" : "translateX(100%)",
+        opacity: loaded ? 1 : 0,
+        transition: "transform 0.8s ease, opacity 0.8s ease",
       }}
     >
+      <h3
+        style={{
+          marginBottom: "20px",
+          color: "#1565c0",
+          borderBottom: "2px solid #90caf9",
+          paddingBottom: "8px",
+          fontSize: "20px",
+        }}
+      >
       Site Allowance Details
     </h3>
 
@@ -981,25 +986,28 @@ useEffect(() => {
 ) : (
   // Show Daily Allowance
   <div
-    style={{
-      marginTop: "25px",
-      padding: "25px",
-      borderRadius: "15px",
-      background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
-      boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
-      border: "1px solid #bbdefb",
-      fontFamily: "Segoe UI, sans-serif",
-    }}
-  >
-    <h3
       style={{
-        marginBottom: "20px",
-        color: "#1565c0",
-        borderBottom: "2px solid #90caf9",
-        paddingBottom: "8px",
-        fontSize: "20px",
+        marginTop: "25px",
+        padding: "25px",
+        borderRadius: "15px",
+        background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
+        boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+        border: "1px solid #bbdefb",
+        fontFamily: "Segoe UI, sans-serif",
+        transform: loaded ? "translateX(0)" : "translateX(100%)",
+        opacity: loaded ? 1 : 0,
+        transition: "transform 0.8s ease, opacity 0.8s ease",
       }}
     >
+      <h3
+        style={{
+          marginBottom: "20px",
+          color: "#1565c0",
+          borderBottom: "2px solid #90caf9",
+          paddingBottom: "8px",
+          fontSize: "20px",
+        }}
+      >
       Daily Allowance Details
     </h3>
 
@@ -1100,8 +1108,7 @@ useEffect(() => {
 {/* Transport Section with Multiple Entries */}
 <div>
   {formData.transports?.map((item, index) => (
-    <div
-      key={index}
+   <div
       style={{
         marginTop: "25px",
         padding: "25px",
@@ -1110,6 +1117,9 @@ useEffect(() => {
         boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
         border: "1px solid #bbdefb",
         fontFamily: "Segoe UI, sans-serif",
+        transform: loaded ? "translateX(0)" : "translateX(100%)",
+        opacity: loaded ? 1 : 0,
+        transition: "transform 0.8s ease, opacity 0.8s ease",
       }}
     >
       <h3
@@ -1300,7 +1310,7 @@ useEffect(() => {
   </button>
 </div>
 
-   <div
+  <div
       style={{
         marginTop: "25px",
         padding: "25px",
@@ -1309,6 +1319,9 @@ useEffect(() => {
         boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
         border: "1px solid #bbdefb",
         fontFamily: "Segoe UI, sans-serif",
+        transform: loaded ? "translateX(0)" : "translateX(100%)",
+        opacity: loaded ? 1 : 0,
+        transition: "transform 0.8s ease, opacity 0.8s ease",
       }}
     >
       <h3
@@ -1620,6 +1633,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
