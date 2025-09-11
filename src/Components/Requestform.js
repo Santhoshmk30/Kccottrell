@@ -976,11 +976,12 @@ useEffect(() => {
           readOnly
           style={styles.input1}
         />
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 2fr", gap: "15px" }}>
+       <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
   <p><b>Base Daily:</b> {allowances[formData.designation]?.[getTier(formData.place)]?.daily ?? 0}</p>
   <p><b>Days Entered:</b> {formData.days ?? 0}</p>
   <p><b>Total Daily Allowance:</b> {allowances[formData.designation]?.[getTier(formData.place)]?.daily ?? 0} × {formData.days ?? 0} = {formData.dailyAllowance ?? 0}</p>
 </div>
+
 
 
         <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
@@ -1590,6 +1591,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
