@@ -68,7 +68,8 @@ const TripRequestForm = () => {
     setLoaded(true);
   }, []);
 
-
+const [leaveTaken, setLeaveTaken] = useState("No");
+const [leaveDates, setLeaveDates] = useState([]);
 
   const getTier = (city) => {
     if (cityTiers.Tier1.includes(city)) return "Tier 1  ('A' Area)";
@@ -444,7 +445,34 @@ useEffect(() => {
       />
     </div>
 
-
+<div style={styles.field}>
+  <label style={styles.label}>Have you taken any leave?</label>
+  <div>
+    <label>
+      <input
+        type="radio"
+        name="leaveTaken"
+        value="Yes"
+        checked={leaveTaken === "Yes"}
+        onChange={(e) => setLeaveTaken(e.target.value)}
+      />{" "}
+      Yes
+    </label>
+    <label style={{ marginLeft: "15px" }}>
+      <input
+        type="radio"
+        name="leaveTaken"
+        value="No"
+        checked={leaveTaken === "No"}
+        onChange={(e) => {
+          setLeaveTaken(e.target.value);
+          setLeaveDates([]);
+        }}
+      />{" "}
+      No
+    </label>
+  </div>
+</div>
 
     {/* Period */}
     <div style={styles.field}>
@@ -1637,6 +1665,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
