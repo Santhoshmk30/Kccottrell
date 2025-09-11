@@ -1030,6 +1030,15 @@ useEffect(() => {
         {formData.specialApproval1 === "Yes" && (
          
     <>
+           <div
+  style={{
+    display: "flex",
+    gap: "40px",
+    alignItems: "center",
+    whiteSpace: "nowrap", 
+    fontSize: "16px",
+  }}
+>
       {/* Extra Amount */}
       <div style={styles.field}>
         <label style={styles.label}>Extra Amount</label>
@@ -1075,6 +1084,7 @@ useEffect(() => {
 
         )}
       </div>
+            </div>
     </div>
   </div>
 )}
@@ -1603,6 +1613,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
