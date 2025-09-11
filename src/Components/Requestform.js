@@ -120,9 +120,7 @@ const TripRequestForm = () => {
     return updated;
   });
 
-   const [leaveTaken, setLeaveTaken] = useState("No");
-const [leaveDates, setLeaveDates] = useState([]);
-
+ 
 
      setFormData((prev) => {
     let updated = { ...prev, [name]: value };
@@ -446,54 +444,6 @@ useEffect(() => {
       />
     </div>
 
-{/* Leave Taken */}
-<div style={styles.field}>
-  <label style={styles.label}>Have you taken any leave?</label>
-  <div>
-    <label>
-      <input
-        type="radio"
-        name="leaveTaken"
-        value="Yes"
-        checked={leaveTaken === "Yes"}
-        onChange={(e) => setLeaveTaken(e.target.value)}
-      />{" "}
-      Yes
-    </label>
-    <label style={{ marginLeft: "15px" }}>
-      <input
-        type="radio"
-        name="leaveTaken"
-        value="No"
-        checked={leaveTaken === "No"}
-        onChange={(e) => {
-          setLeaveTaken(e.target.value);
-          setLeaveDates([]);
-        }}
-      />{" "}
-      No
-    </label>
-  </div>
-</div>
-
-{/* Show Dates only if Yes */}
-{leaveTaken === "Yes" && (
-  <div style={styles.field}>
-    <label style={styles.label}>Select Leave Dates</label>
-    {leaveDates.map((date, index) => (
-      <input
-        key={index}
-        type="date"
-        value={date}
-        onChange={(e) => handleLeaveDateChange(index, e.target.value)}
-        style={{ marginBottom: "10px", display: "block" }}
-      />
-    ))}
-    <button type="button" onClick={addLeaveDate}>
-      + Add Date
-    </button>
-  </div>
-)}
 
 
     {/* Period */}
@@ -1687,6 +1637,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
