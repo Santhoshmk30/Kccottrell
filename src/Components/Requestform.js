@@ -61,8 +61,6 @@ const TripRequestForm = () => {
 
   const [error, setError] = useState("");
   
-const [leaveDates, setLeaveDates] = useState([]);
-
 
   const [loaded, setLoaded] = useState(false);
 
@@ -164,61 +162,7 @@ const [leaveDates, setLeaveDates] = useState([]);
      
      });
 
-     if (name === "leaveTaken") {
-    setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // If user selects "No", clear leaveDates
-    if (value === "No") {
-      setLeaveDates([]);
-    }
-    return;
-  }
-
-  setFormData((prev) => {
-    let updated = { ...prev, [name]: value };
-
-    if (name === "fromDate" || name === "toDate") {
-      if (updated.fromDate && updated.toDate) {
-        const from = new Date(updated.fromDate);
-        const to = new Date(updated.toDate);
-
-        const diffTime = to.getTime() - from.getTime();
-        if (diffTime >= 0) {
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-          const maxDaysInMonth = new Date(
-            from.getFullYear(),
-            from.getMonth() + 1,
-            0
-          ).getDate();
-
-          if (diffDays > maxDaysInMonth) {
-            setError(`This month has only ${maxDaysInMonth} days!`);
-            updated.workPlan = "";
-            updated.days = "";
-            updated.nights = "";
-          } else {
-            setError("");
-
-            // minus leave days if selected
-            const leaveCount = leaveDates.length;
-            const actualDays = diffDays - leaveCount;
-
-            updated.workPlan = `${actualDays} days`;
-            updated.days = actualDays;
-            updated.nights = actualDays - 1 < 0 ? 0 : actualDays - 1;
-          }
-        } else {
-          setError("To date cannot be before From date!");
-          updated.workPlan = "";
-          updated.days = "";
-          updated.nights = "";
-        }
-      }
-    }
-
-    return updated;
-       });
+   
 };
 
    
@@ -503,69 +447,6 @@ useEffect(() => {
       />
     </div>
 
-<div style={styles.field}>
-  <label style={styles.label}>Have you taken any leave?</label>
-  <div>
-    <label>
-      <input
-        type="radio"
-        name="leaveTaken"
-        value="Yes"
-        checked={leaveTaken === "Yes"}
-        onChange={handleChange}
-      />
-      Yes
-    </label>
-    <label style={{ marginLeft: "15px" }}>
-      <input
-        type="radio"
-        name="leaveTaken"
-        value="No"
-        checked={leaveTaken === "No"}
-        onChange={handleChange}
-        }}
-      />
-      No
-    </label>
-  </div>
-</div>
-
-{formData.leaveTaken === "Yes" && (
-  <div style={{ marginTop: "15px" }}>
-    <label style={styles.label}>Select Leave Dates:</label>
-    <div>
-      {leaveDates.map((date, i) => (
-        <div key={i}>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => {
-              const newDates = [...leaveDates];
-              newDates[i] = e.target.value;
-              setLeaveDates(newDates);
-            }}
-          />
-          <button
-            type="button"
-            onClick={() => {
-              const newDates = leaveDates.filter((_, idx) => idx !== i);
-              setLeaveDates(newDates);
-            }}
-          >
-            Remove
-          </button>
-        </div>
-      ))}
-      <button
-        type="button"
-        onClick={() => setLeaveDates([...leaveDates, ""])}
-        style={{ marginTop: "10px" }}
-      >
-        + Add Leave Date
-      </button>
-    </div>
-  </div>
-)}
 
 
     {/* Period */}
@@ -1759,6 +1640,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
