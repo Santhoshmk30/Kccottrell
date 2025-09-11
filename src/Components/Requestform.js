@@ -68,8 +68,7 @@ const TripRequestForm = () => {
     setLoaded(true);
   }, []);
 
-const [leaveTaken, setLeaveTaken] = useState("No");
-const [leaveDates, setLeaveDates] = useState([]);
+
 
   const getTier = (city) => {
     if (cityTiers.Tier1.includes(city)) return "Tier 1  ('A' Area)";
@@ -1665,6 +1664,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
