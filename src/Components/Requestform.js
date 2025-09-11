@@ -299,48 +299,6 @@ const handleTransportChange = (index, field, value) => {
     
 
 
-  // For Sight Allowance direct values
-useEffect(() => {
-  if (formData.designation && formData.place) {
-    const tier = getTier(formData.place);
-    const desig = formData.designation;
-
-    if (sightAllowances[desig] && sightAllowances[desig][tier]) {
-      setFormData((prev) => ({
-        ...prev,
-        sightAccommodation: sightAllowances[desig][tier].accommodation,
-        sightDaily: sightAllowances[desig][tier].daily
-      }));
-    }
-  }
-}, [formData.designation, formData.place]);
-
-// For Sight Allowance total calculation
-useEffect(() => {
-  if (formData.designation && formData.place) {
-    const tier = getTier(formData.place);
-    const desig = formData.designation;
-
-    if (sightAllowances[desig] && sightAllowances[desig][tier]) {
-      const baseAccommodation = sightAllowances[desig][tier].accommodation;
-      const baseDaily = sightAllowances[desig][tier].daily;
-
-      // Multiply by days & nights
-      const totalAccommodation =
-        (formData.nights || 0) * (parseFloat(baseAccommodation) || 0);
-      const totalDaily =
-        (formData.days || 0) * (parseFloat(baseDaily) || 0);
-
-      setFormData((prev) => ({
-        ...prev,
-        sightAccommodation: totalAccommodation,
-        sightDaily: totalDaily
-      }));
-    }
-  }
-}, [formData.designation, formData.place, formData.days, formData.nights]);
-
-
     useEffect(() => {
   if (formData.designation && formData.place) {
     const tier = getTier(formData.place);
@@ -1693,6 +1651,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
