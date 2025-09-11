@@ -502,32 +502,7 @@ useEffect(() => {
           />
         </div>
 
-        {/* Still in site */}
-        <div style={styles.field}>
-          <label style={styles.label}>Are you still in the site?</label>
-          <div>
-            <label>
-              <input
-                type="radio"
-                name="stillInSite"
-                value="Yes"
-                checked={formData.stillInSite === "Yes"}
-                onChange={handleChange}
-              />{" "}
-              Yes
-            </label>
-            <label style={{ marginLeft: "15px" }}>
-              <input
-                type="radio"
-                name="stillInSite"
-                value="No"
-                checked={formData.stillInSite === "No"}
-                onChange={handleChange}
-              />{" "}
-              No
-            </label>
-          </div>
-        </div>
+      
 
           
   </div>
