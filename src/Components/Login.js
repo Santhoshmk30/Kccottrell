@@ -89,7 +89,7 @@ function Login() {
   width: '100%',
   maxWidth: '400px',
   backgroundColor: 'rgba(255,255,255,0)', 
-  backdropFilter: 'blur(10px)',        
+  backdropFilter: 'blur(1px)',        
   borderRadius: '16px',
   boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
   padding: '35px 30px',
@@ -200,5 +200,6 @@ function Login() {
 }
 
 export default Login;
+
 
 
