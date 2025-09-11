@@ -453,8 +453,8 @@ useEffect(() => {
         name="leaveTaken"
         value="Yes"
         checked={leaveTaken === "Yes"}
-        onChange={(e) => setLeaveTaken(e.target.value)}
-      />{" "}
+        onChange={handleChange}
+      />
       Yes
     </label>
     <label style={{ marginLeft: "15px" }}>
@@ -463,11 +463,9 @@ useEffect(() => {
         name="leaveTaken"
         value="No"
         checked={leaveTaken === "No"}
-        onChange={(e) => {
-          setLeaveTaken(e.target.value);
-          setLeaveDates([]);
+        onChange={handleChange);
         }}
-      />{" "}
+      />
       No
     </label>
   </div>
@@ -1664,6 +1662,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
