@@ -139,7 +139,12 @@ function Login() {
       textAlign: 'center',
       fontSize: '14px',
       color: '#2c3e50',
-    }
+    },
+    input::placeholder {
+  color: "#2c3e50";
+  opacity: 1;
+}
+
   };
 
   return (
@@ -200,6 +205,7 @@ function Login() {
 }
 
 export default Login;
+
 
 
 
