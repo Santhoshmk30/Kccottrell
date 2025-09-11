@@ -1080,11 +1080,12 @@ useEffect(() => {
           style={styles.input1}
         />
       </div>
+             </div>
     </>
 
         )}
       </div>
-            </div>
+         
     </div>
   </div>
 )}
@@ -1613,6 +1614,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
