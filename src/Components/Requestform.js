@@ -463,7 +463,7 @@ useEffect(() => {
         name="leaveTaken"
         value="No"
         checked={leaveTaken === "No"}
-        onChange={handleChange);
+        onChange={handleChange}
         }}
       />
       No
@@ -1662,6 +1662,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
