@@ -60,13 +60,6 @@ const TripRequestForm = () => {
   const [activeForm, setActiveForm] = useState("domestic");
 
   const [error, setError] = useState("");
-  
-
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
 
 
 
@@ -120,8 +113,6 @@ const TripRequestForm = () => {
     return updated;
   });
 
- 
-
      setFormData((prev) => {
     let updated = { ...prev, [name]: value };
 
@@ -159,10 +150,7 @@ const TripRequestForm = () => {
     }
 
     return updated;
-     
-     });
-
-   
+  });
 };
 
    
@@ -383,29 +371,25 @@ useEffect(() => {
         <div>
           <form onSubmit={handleSubmit} style={styles.form}>
 <div
-      style={{
-        marginTop: "25px",
-        padding: "25px",
-        borderRadius: "15px",
-        background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
-        boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
-        border: "1px solid #bbdefb",
-        fontFamily: "Segoe UI, sans-serif",
-        transform: loaded ? "translateX(0)" : "translateX(100%)",
-        opacity: loaded ? 1 : 0,
-        transition: "transform 0.8s ease, opacity 0.8s ease",
-      }}
-    >
-      <h3
-        style={{
-          marginBottom: "20px",
-          color: "#1565c0",
-          borderBottom: "2px solid #90caf9",
-          paddingBottom: "8px",
-          fontSize: "20px",
-        }}
-      >
-
+  style={{
+    marginTop: "25px",
+    padding: "25px",
+    borderRadius: "15px",
+    background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
+    boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+    border: "1px solid #bbdefb",
+    fontFamily: "Segoe UI, sans-serif",
+  }}
+>
+  <h3
+    style={{
+      marginBottom: "20px",
+      color: "#1565c0",
+      borderBottom: "2px solid #90caf9",
+      paddingBottom: "8px",
+      fontSize: "20px",
+    }}
+  >
    Travel Details
   </h3>
 
@@ -446,8 +430,6 @@ useEffect(() => {
         style={styles.input1}
       />
     </div>
-
-
 
     {/* Period */}
     <div style={styles.field}>
@@ -561,28 +543,25 @@ useEffect(() => {
 
     
 <div
-      style={{
-        marginTop: "25px",
-        padding: "25px",
-        borderRadius: "15px",
-        background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
-        boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
-        border: "1px solid #bbdefb",
-        fontFamily: "Segoe UI, sans-serif",
-        transform: loaded ? "translateX(0)" : "translateX(100%)",
-        opacity: loaded ? 1 : 0,
-        transition: "transform 0.8s ease, opacity 0.8s ease",
-      }}
-    >
-      <h3
-        style={{
-          marginBottom: "20px",
-          color: "#1565c0",
-          borderBottom: "2px solid #90caf9",
-          paddingBottom: "8px",
-          fontSize: "20px",
-        }}
-      >
+  style={{
+    marginTop: "25px",
+    padding: "25px",
+    borderRadius: "15px",
+    background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
+    boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+    border: "1px solid #bbdefb",
+    fontFamily: "Segoe UI, sans-serif",
+  }}
+>
+  <h3
+    style={{
+      marginBottom: "20px",
+      color: "#1565c0",
+      borderBottom: "2px solid #90caf9",
+      paddingBottom: "8px",
+      fontSize: "20px",
+    }}
+  >
     Accommodation Details
   </h3>
 
@@ -771,10 +750,10 @@ useEffect(() => {
           }
         }}
         style={styles.input1}
-        placeholder={`Enter up to ₹${formData.accommodation}`}
+        placeholder={`Enter up to â‚¹${formData.accommodation}`}
       />
       <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
-        You cannot claim more than ₹{formData.accommodation}
+        You cannot claim more than â‚¹{formData.accommodation}
       </p>
     </div>
     <div style={styles.field}>
@@ -874,28 +853,25 @@ useEffect(() => {
 {formData.stillInSite === "Yes" ? (
   // Show Site Allowance
   <div
+    style={{
+      marginTop: "25px",
+      padding: "25px",
+      borderRadius: "15px",
+      background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
+      boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+      border: "1px solid #bbdefb",
+      fontFamily: "Segoe UI, sans-serif",
+    }}
+  >
+    <h3
       style={{
-        marginTop: "25px",
-        padding: "25px",
-        borderRadius: "15px",
-        background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
-        boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
-        border: "1px solid #bbdefb",
-        fontFamily: "Segoe UI, sans-serif",
-        transform: loaded ? "translateX(0)" : "translateX(100%)",
-        opacity: loaded ? 1 : 0,
-        transition: "transform 0.8s ease, opacity 0.8s ease",
+        marginBottom: "20px",
+        color: "#1565c0",
+        borderBottom: "2px solid #90caf9",
+        paddingBottom: "8px",
+        fontSize: "20px",
       }}
     >
-      <h3
-        style={{
-          marginBottom: "20px",
-          color: "#1565c0",
-          borderBottom: "2px solid #90caf9",
-          paddingBottom: "8px",
-          fontSize: "20px",
-        }}
-      >
       Site Allowance Details
     </h3>
 
@@ -993,28 +969,25 @@ useEffect(() => {
 ) : (
   // Show Daily Allowance
   <div
+    style={{
+      marginTop: "25px",
+      padding: "25px",
+      borderRadius: "15px",
+      background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
+      boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+      border: "1px solid #bbdefb",
+      fontFamily: "Segoe UI, sans-serif",
+    }}
+  >
+    <h3
       style={{
-        marginTop: "25px",
-        padding: "25px",
-        borderRadius: "15px",
-        background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
-        boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
-        border: "1px solid #bbdefb",
-        fontFamily: "Segoe UI, sans-serif",
-        transform: loaded ? "translateX(0)" : "translateX(100%)",
-        opacity: loaded ? 1 : 0,
-        transition: "transform 0.8s ease, opacity 0.8s ease",
+        marginBottom: "20px",
+        color: "#1565c0",
+        borderBottom: "2px solid #90caf9",
+        paddingBottom: "8px",
+        fontSize: "20px",
       }}
     >
-      <h3
-        style={{
-          marginBottom: "20px",
-          color: "#1565c0",
-          borderBottom: "2px solid #90caf9",
-          paddingBottom: "8px",
-          fontSize: "20px",
-        }}
-      >
       Daily Allowance Details
     </h3>
 
@@ -1115,7 +1088,8 @@ useEffect(() => {
 {/* Transport Section with Multiple Entries */}
 <div>
   {formData.transports?.map((item, index) => (
-   <div
+    <div
+      key={index}
       style={{
         marginTop: "25px",
         padding: "25px",
@@ -1124,9 +1098,6 @@ useEffect(() => {
         boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
         border: "1px solid #bbdefb",
         fontFamily: "Segoe UI, sans-serif",
-        transform: loaded ? "translateX(0)" : "translateX(100%)",
-        opacity: loaded ? 1 : 0,
-        transition: "transform 0.8s ease, opacity 0.8s ease",
       }}
     >
       <h3
@@ -1317,7 +1288,7 @@ useEffect(() => {
   </button>
 </div>
 
-  <div
+   <div
       style={{
         marginTop: "25px",
         padding: "25px",
@@ -1326,9 +1297,6 @@ useEffect(() => {
         boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
         border: "1px solid #bbdefb",
         fontFamily: "Segoe UI, sans-serif",
-        transform: loaded ? "translateX(0)" : "translateX(100%)",
-        opacity: loaded ? 1 : 0,
-        transition: "transform 0.8s ease, opacity 0.8s ease",
       }}
     >
       <h3
@@ -1444,7 +1412,7 @@ useEffect(() => {
         </div>
       ) : (
         <div>
-          {/* ðŸ‘‰ International Form  */}
+          {/* Ã°Å¸â€˜â€° International Form  */}
           <p>International Form will be displayed here</p>
         </div>
       )}
@@ -1640,17 +1608,6 @@ useEffect(() => {
 
 
 export default TripRequestForm;
-
-
-
-
-
-
-
-
-
-
-
 
 
 
