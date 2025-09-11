@@ -976,6 +976,12 @@ useEffect(() => {
           readOnly
           style={styles.input1}
         />
+          <div>
+  <p><b>Base Daily:</b> {allowances[formData.designation]?.[getTier(formData.place)]?.daily ?? 0}</p>
+  <p><b>Days Entered:</b> {formData.days ?? 0}</p>
+  <p><b>Total Daily Allowance:</b> {formData.dailyAllowance ?? 0}</p>
+</div>
+
         <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
           For any expenses more than the daily allowance, reimbursement requires
           proper justification and special approval from the management.
@@ -1583,6 +1589,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
