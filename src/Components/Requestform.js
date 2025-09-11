@@ -195,7 +195,8 @@ useEffect(() => {
       setFormData((prev) => ({
         ...prev,
         accommodation: allowances[desig][tier].accommodation,
-        dailyAllowance: allowances[desig][tier].daily
+        dailyAllowance: allowances[desig][tier].daily,
+        sightAllowance: allowances[desig][tier].sight
       }));
     }
   }
@@ -280,11 +281,14 @@ const handleTransportChange = (index, field, value) => {
     if (allowances[desig] && allowances[desig][tier]) {
       const baseAccommodation = allowances[desig][tier].accommodation;
       const baseDaily = allowances[desig][tier].daily;
+      const baseSight = allowances[desig][tier].sight;
 
       // Multiply by days & nights
       const totalAccommodation =
         (formData.nights || 0) * (parseFloat(baseAccommodation) || 0);
       const totalDaily =
+        (formData.days || 0) * (parseFloat(baseDaily) || 0);
+      const totalsight =
         (formData.days || 0) * (parseFloat(baseDaily) || 0);
 
       setFormData((prev) => ({
@@ -459,18 +463,6 @@ useEffect(() => {
         style={styles.input1}
       />
     </div>
-
-{/* Leave Taken Dates */}
-<div style={styles.field}>
-  <label style={styles.label}>Leave Taken</label>
-  <input
-    type="date"
-    name="leaveDate"
-    value={formData.leaveDate || ""}
-    onChange={handleChange}
-    style={styles.input1}
-  />
-</div>
 
 
     {/* Period */}
@@ -1650,6 +1642,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
