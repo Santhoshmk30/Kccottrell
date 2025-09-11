@@ -32,13 +32,6 @@ const Dashboard = () => {
     setSelected(item);
   };
   
-    const cardStyle = {
-  background: "#fff",
-  borderRadius: "12px",
-  padding: "16px",
-  boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
-};
-
   const handleClose = () => {
     setSelected(null);
   };
@@ -246,6 +239,7 @@ addBtn: {
 
 };
 export default Dashboard;
+
 
 
 
