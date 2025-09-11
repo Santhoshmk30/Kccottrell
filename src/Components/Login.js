@@ -85,16 +85,20 @@ function Login() {
       objectFit: "cover",
       zIndex: -1,
     },
-    card: {
-      width: '100%',
-      maxWidth: '400px',
-      backgroundColor: 'rgba(255,255,255,0.85)',
-      backdropFilter: 'blur(10px)',
-      borderRadius: '16px',
-      boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
-      padding: '35px 30px',
-      border: '2px solid #fff',
-    },
+   card: {
+  width: '100%',
+  maxWidth: '400px',
+  backgroundColor: 'rgba(255,255,255,0)', 
+  backdropFilter: 'blur(10px)',        
+  borderRadius: '16px',
+  boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+  padding: '35px 30px',
+  border: '2px solid rgba(255,255,255,0.3)',
+  border: 'none',
+  boxShadow: 'none',
+
+}
+,
     heading: {
       textAlign: 'center',
       color: '#2c3e50',
@@ -155,7 +159,7 @@ function Login() {
         <div style={styles.card}>
           <div style={{ textAlign: "center", marginBottom: "20px" }}>
             <img
-              src="/logo full.png"
+              src="/logologin.png"
               alt="Logo"
               style={{ width: "300px", height: "100px", objectFit: "contain" }}
             />
@@ -198,3 +202,4 @@ function Login() {
 }
 
 export default Login;
+
