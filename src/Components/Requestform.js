@@ -294,12 +294,11 @@ const handleTransportChange = (index, field, value) => {
       }));
     }
   }
-}, [formData.designation, formData.place, formData.days, formData.nights
+}, [formData.designation, formData.place, formData.days, formData.nights]);
 
     
 
-
-    useEffect(() => {
+ useEffect(() => {
   if (formData.designation && formData.place) {
     const tier = getTier(formData.place);
     const desig = formData.designation;
@@ -1651,6 +1650,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
