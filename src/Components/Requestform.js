@@ -120,6 +120,10 @@ const TripRequestForm = () => {
     return updated;
   });
 
+   const [leaveTaken, setLeaveTaken] = useState("No");
+const [leaveDates, setLeaveDates] = useState([]);
+
+
      setFormData((prev) => {
     let updated = { ...prev, [name]: value };
 
@@ -441,6 +445,55 @@ useEffect(() => {
         style={styles.input1}
       />
     </div>
+
+ {/* Leave Taken */}
+<div style={styles.field}>
+  <label style={styles.label}>Have you taken any leave?</label>
+  <div>
+    <label>
+      <input
+        type="radio"
+        name="leaveTaken"
+        value="Yes"
+        checked={leaveTaken === "Yes"}
+        onChange={(e) => setLeaveTaken(e.target.value)}
+      />{" "}
+      Yes
+    </label>
+    <label style={{ marginLeft: "15px" }}>
+      <input
+        type="radio"
+        name="leaveTaken"
+        value="No"
+        checked={leaveTaken === "No"}
+        onChange={(e) => {
+          setLeaveTaken(e.target.value);
+          setLeaveDates([]); // clear if No
+        }}
+      />{" "}
+      No
+    </label>
+  </div>
+</div>
+
+{leaveTaken === "Yes" && (
+  <div style={styles.field}>
+    <label style={styles.label}>Select Leave Dates</label>
+    <DatePicker
+      multiple
+      value={leaveDates}
+      onChange={(dates) => {
+        setLeaveDates(dates);
+        setFormData({
+          ...formData,
+          period: `${dates[0]} - ${dates[dates.length - 1]}`,
+          days: dates.length,
+          dailyAllowance: dates.length * 500,
+        });
+      }}
+    />
+  </div>
+)}
 
     {/* Period */}
     <div style={styles.field}>
@@ -1633,6 +1686,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
