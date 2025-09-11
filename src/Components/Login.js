@@ -140,10 +140,6 @@ function Login() {
       fontSize: '14px',
       color: '#2c3e50',
     },
-   custom-input::placeholder {
-  color: '#2c3e50'; 
-},
-
   };
 
   return (
@@ -175,8 +171,7 @@ function Login() {
               value={employee_id}
               onChange={handleEmployeeChange}
               required
-              style={styles.input}
-              className="custom-input"/>
+              style={styles.input}/>
             {name && <p style={{ color: '#2980b9', marginTop: '5px' }}>Hii, {name}!</p>}
 
             <input
@@ -186,7 +181,6 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               required
               style={styles.input}
-              className="custom-input"
             />
             <button type="submit" style={styles.button}>Login</button>
           </form>
@@ -205,6 +199,7 @@ function Login() {
 }
 
 export default Login;
+
 
 
 
