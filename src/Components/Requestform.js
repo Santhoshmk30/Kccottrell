@@ -110,6 +110,32 @@ const TripRequestForm = () => {
       }
     }
 
+    if (name === "leaveDate") {
+  updated.leaveDate = value;
+
+  // If fromDate exists, auto-calc days difference
+  if (updated.fromDate && updated.leaveDate) {
+    const from = new Date(updated.fromDate);
+    const to = new Date(updated.leaveDate);
+
+    const diffTime = to.getTime() - from.getTime();
+    if (diffTime >= 0) {
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+      updated.workPlan = `${diffDays} days`;
+      updated.days = diffDays;
+      updated.nights = diffDays - 1 < 0 ? 0 : diffDays - 1;
+      setError("");
+    } else {
+      setError("Leave date cannot be before From date!");
+      updated.workPlan = "";
+      updated.days = "";
+      updated.nights = "";
+    }
+  }
+}
+
+
     return updated;
   });
 
@@ -430,6 +456,19 @@ useEffect(() => {
         style={styles.input1}
       />
     </div>
+
+{/* Leave Taken Dates */}
+<div style={styles.field}>
+  <label style={styles.label}>Leave Taken</label>
+  <input
+    type="date"
+    name="leaveDate"
+    value={formData.leaveDate || ""}
+    onChange={handleChange}
+    style={styles.input1}
+  />
+</div>
+
 
     {/* Period */}
     <div style={styles.field}>
@@ -1608,6 +1647,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
