@@ -10,7 +10,6 @@ import allowances from "./states/allowances.json";
 
 
 
-
 const TripRequestForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -111,32 +110,6 @@ const TripRequestForm = () => {
       }
     }
 
-    if (name === "leaveDate") {
-  updated.leaveDate = value;
-
-  // If fromDate exists, auto-calc days difference
-  if (updated.fromDate && updated.leaveDate) {
-    const from = new Date(updated.fromDate);
-    const to = new Date(updated.leaveDate);
-
-    const diffTime = to.getTime() - from.getTime();
-    if (diffTime >= 0) {
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-      updated.workPlan = `${diffDays} days`;
-      updated.days = diffDays;
-      updated.nights = diffDays - 1 < 0 ? 0 : diffDays - 1;
-      setError("");
-    } else {
-      setError("Leave date cannot be before From date!");
-      updated.workPlan = "";
-      updated.days = "";
-      updated.nights = "";
-    }
-  }
-}
-
-
     return updated;
   });
 
@@ -195,8 +168,7 @@ useEffect(() => {
       setFormData((prev) => ({
         ...prev,
         accommodation: allowances[desig][tier].accommodation,
-        dailyAllowance: allowances[desig][tier].daily,
-        sightAllowance: allowances[desig][tier].sight
+        dailyAllowance: allowances[desig][tier].daily
       }));
     }
   }
@@ -281,14 +253,11 @@ const handleTransportChange = (index, field, value) => {
     if (allowances[desig] && allowances[desig][tier]) {
       const baseAccommodation = allowances[desig][tier].accommodation;
       const baseDaily = allowances[desig][tier].daily;
-      const baseSight = allowances[desig][tier].sight;
 
       // Multiply by days & nights
       const totalAccommodation =
         (formData.nights || 0) * (parseFloat(baseAccommodation) || 0);
       const totalDaily =
-        (formData.days || 0) * (parseFloat(baseDaily) || 0);
-      const totalsight =
         (formData.days || 0) * (parseFloat(baseDaily) || 0);
 
       setFormData((prev) => ({
@@ -300,9 +269,7 @@ const handleTransportChange = (index, field, value) => {
   }
 }, [formData.designation, formData.place, formData.days, formData.nights]);
 
-    
-
- useEffect(() => {
+    useEffect(() => {
   if (formData.designation && formData.place) {
     const tier = getTier(formData.place);
     const desig = formData.designation;
@@ -463,7 +430,6 @@ useEffect(() => {
         style={styles.input1}
       />
     </div>
-
 
     {/* Period */}
     <div style={styles.field}>
@@ -1642,12 +1608,6 @@ useEffect(() => {
 
 
 export default TripRequestForm;
-
-
-
-
-
-
 
 
 
