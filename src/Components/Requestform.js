@@ -446,7 +446,7 @@ useEffect(() => {
       />
     </div>
 
- {/* Leave Taken */}
+{/* Leave Taken */}
 <div style={styles.field}>
   <label style={styles.label}>Have you taken any leave?</label>
   <div>
@@ -468,7 +468,7 @@ useEffect(() => {
         checked={leaveTaken === "No"}
         onChange={(e) => {
           setLeaveTaken(e.target.value);
-          setLeaveDates([]); // clear if No
+          setLeaveDates([]);
         }}
       />{" "}
       No
@@ -476,24 +476,25 @@ useEffect(() => {
   </div>
 </div>
 
+{/* Show Dates only if Yes */}
 {leaveTaken === "Yes" && (
   <div style={styles.field}>
     <label style={styles.label}>Select Leave Dates</label>
-    <DatePicker
-      multiple
-      value={leaveDates}
-      onChange={(dates) => {
-        setLeaveDates(dates);
-        setFormData({
-          ...formData,
-          period: `${dates[0]} - ${dates[dates.length - 1]}`,
-          days: dates.length,
-          dailyAllowance: dates.length * 500,
-        });
-      }}
-    />
+    {leaveDates.map((date, index) => (
+      <input
+        key={index}
+        type="date"
+        value={date}
+        onChange={(e) => handleLeaveDateChange(index, e.target.value)}
+        style={{ marginBottom: "10px", display: "block" }}
+      />
+    ))}
+    <button type="button" onClick={addLeaveDate}>
+      + Add Date
+    </button>
   </div>
 )}
+
 
     {/* Period */}
     <div style={styles.field}>
@@ -1686,6 +1687,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
