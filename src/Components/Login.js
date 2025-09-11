@@ -147,7 +147,7 @@ function Login() {
       {loading && <Preloader />}
       {/* 🔥 Video Background */}
       <video autoPlay loop muted playsInline style={styles.videoBackground}>
-        <source src="/videos/background.mp4" type="video/mp4" />
+        <source src="/videos/background1.mp4" type="video/mp4" />
         <source src="/videos/background.webm" type="video/webm" />
         <source src="/videos/background.ogv" type="video/ogg" />
         Your browser does not support the video tag.
@@ -200,6 +200,7 @@ function Login() {
 }
 
 export default Login;
+
 
 
 
