@@ -38,6 +38,29 @@ const Dashboard = () => {
 
   return (
     <div style={styles.container}>
+<div
+  style={styles.profileCard}
+  onMouseOver={(e) => Object.assign(e.currentTarget.style, styles.profileCardHover)}
+  onMouseOut={(e) => Object.assign(e.currentTarget.style, styles.profileCard)}
+>
+  <div style={styles.profileTop}>
+    <div>
+      <div style={styles.profileName}>Stephan Peralt</div>
+      <div style={styles.profileTitle}>Senior Product Designer</div>
+    </div>
+  </div>
+  <div style={styles.profileBody}>
+    <div style={styles.profileBodyDiv}>
+      <span style={styles.profileMuted}>Phone Number</span><br />
+      +1 324 3453 545
+    </div>
+    <div style={styles.profileBodyDiv}>
+      <span style={styles.profileMuted}>Email</span><br />
+      Steperde124@example.com
+    </div>
+  </div>
+</div>
+
 
   <div style={styles.headerWrapper}>
   <h1 style={styles.heading}>Trip Request</h1>
@@ -235,9 +258,52 @@ addBtn: {
   fontWeight: 'bold',
   cursor: 'pointer',
   boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
-}
+},
+ 
+  profileCard: {
+    background: '#fff',
+    borderRadius: '12px',
+    padding: '20px',
+    boxShadow: '0 6px 15px rgba(0, 0, 0, 0.08)',
+    transition: 'all 0.3s ease',
+  },
+  profileCardHover: {
+    transform: 'translateY(-3px)',
+    boxShadow: '0 10px 20px rgba(0, 0, 0, 0.12)',
+  },
+  profileTop: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '12px',
+  },
+  profileName: {
+    fontWeight: 700,
+    fontSize: '18px',
+    color: '#2c3e50',
+  },
+  profileTitle: {
+    color: 'var(--muted, #7f8c8d)',
+    fontSize: '13px',
+    marginTop: '4px',
+  },
+  profileBody: {
+    marginTop: '12px',
+  },
+  profileMuted: {
+    color: 'var(--muted, #95a5a6)',
+    marginTop: '6px',
+    fontSize: '13px',
+  },
+  profileBodyDiv: {
+    marginBottom: '10px',
+    fontSize: '14px',
+    color: '#34495e',
+  },
+  
 };
 export default Dashboard;
+
 
 
 
