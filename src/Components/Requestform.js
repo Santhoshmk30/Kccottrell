@@ -1496,17 +1496,19 @@ useEffect(() => {
     marginRight: "0", 
     marginLeft: "auto", 
   },
-    leftCard: {
-    width: "30%",
-    maxWidth: "100px",
-    background: "#fff",
-    borderRadius: "75px",
-    boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
-    padding: "50px",
-    border: "2px solid #000",
-    marginRight: "auto", 
-    marginLeft: "0", 
-  },
+   leftCard: {
+  display: "inline-block",  
+  background: "#fff",
+  borderRadius: "75px",
+  boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+  padding: "20px 30px",     
+  border: "2px solid #000",
+  marginRight: "auto", 
+  marginLeft: "0",
+  width: "fit-content",      
+  maxWidth: "100%",        
+}
+
   body: {
     background: "transparent", 
     padding: "0",
@@ -1667,6 +1669,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
