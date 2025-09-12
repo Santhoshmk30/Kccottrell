@@ -319,21 +319,28 @@ useEffect(() => {
   return (
       <div style={styles.container}>
     <div style={styles.leftCard}>
-  <div>
-  <button 
-  style={styles.tabButton(activeForm === "domestic")}
-  onClick={() => setActiveForm("domestic")}
->
-  Domestic
-</button>
-
-<button 
-  style={styles.tabButton(activeForm === "international")}
-  onClick={() => setActiveForm("international")}
->
-  International
-</button>
-  </div>
+  <div style={styles.field}>
+      <label style={styles.label}>To</label>
+      <input
+        type="date"
+        name="toDate"
+        value={formData.toDate}
+        min={formData.fromDate}
+        max={
+          formData.fromDate
+            ? new Date(
+                new Date(formData.fromDate).setDate(
+                  new Date(formData.fromDate).getDate() + 30
+                )
+              )
+                .toISOString()
+                .split("T")[0]
+            : ""
+        }
+        onChange={handleChange}
+        style={styles.input1}
+      />
+    </div>
   
   </div>
   <div style={styles.rightCard}>
@@ -1660,6 +1667,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
