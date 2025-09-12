@@ -1507,7 +1507,7 @@ useEffect(() => {
   marginLeft: "0",
   width: "fit-content",      
   maxWidth: "100%",        
-}
+},
 
   body: {
     background: "transparent", 
@@ -1669,6 +1669,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
