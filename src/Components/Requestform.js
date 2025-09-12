@@ -1696,9 +1696,9 @@ useEffect(() => {
     leftCard: {
     display: "inline-block",
     background: "#fff",
-    borderRadius: "75px",
+    borderRadius: "25px",
     boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
-    padding: "20px 30px",
+    padding: "5px 30px",
     border: "2px solid #000",
     marginRight: "auto",
     marginLeft: "0",
@@ -1741,6 +1741,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
