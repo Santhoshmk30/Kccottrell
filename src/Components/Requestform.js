@@ -1696,14 +1696,15 @@ useEffect(() => {
     leftCard: {
     display: "inline-block",
     background: "#fff",
-    borderRadius: "25px",
+    borderRadius: "80px",
     boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
-    padding: "5px 30px",
+    padding: "10px 30px",
     border: "2px solid #000",
     marginRight: "auto",
     marginLeft: "0",
     width: "fit-content",
     maxWidth: "100%",
+    height: "auto", 
     fontFamily: "Segoe UI, sans-serif",
   },
   heading1: {
@@ -1741,6 +1742,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
