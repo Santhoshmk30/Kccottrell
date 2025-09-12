@@ -321,6 +321,7 @@ useEffect(() => {
 
   return (
       <div style={styles.container}>
+  <div style={styles.page}>
     <div style={styles.leftCard}>
       {/* Business Trip Tabs */}
       <h2 style={styles.heading1}>Business Trip</h2>
@@ -384,6 +385,8 @@ useEffect(() => {
         )}
       </div>
     </div>
+                </div>
+
   <div style={styles.rightCard}>
     <div style={styles.body}>
        <div style={styles.card1}>
@@ -1693,18 +1696,22 @@ useEffect(() => {
       marginTop: "4px",
       fontWeight: "500",
     },
-    leftCard: {
-    display: "inline-block",
+    page: {
+    display: "flex",
+    justifyContent: "center",  // horizontal center
+    alignItems: "center",      // vertical center
+    minHeight: "100vh",        // full screen height
+    background: "#f9f9f9",     // light bg
+  },
+  leftCard: {
     background: "#fff",
-    borderRadius: "80px",
+    borderRadius: "20px",
     boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
-    padding: "10px 30px",
+    padding: "20px 25px",
     border: "2px solid #000",
-    marginRight: "auto",
-    marginLeft: "0",
-    width: "fit-content",
-    maxWidth: "100%",
-    height: "auto", 
+    width: "fit-content",  // content ku fit
+    maxWidth: "400px",     // kutty box (limit width)
+    height: "auto",        // only content height
     fontFamily: "Segoe UI, sans-serif",
   },
   heading1: {
@@ -1742,6 +1749,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
