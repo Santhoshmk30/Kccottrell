@@ -318,6 +318,24 @@ useEffect(() => {
 
   return (
       <div style={styles.container}>
+    <div style={styles.leftCard}>
+  <div>
+  <button 
+  style={styles.tabButton(activeForm === "domestic")}
+  onClick={() => setActiveForm("domestic")}
+>
+  Domestic
+</button>
+
+<button 
+  style={styles.tabButton(activeForm === "international")}
+  onClick={() => setActiveForm("international")}
+>
+  International
+</button>
+  </div>
+  
+  </div>
   <div style={styles.rightCard}>
     <div style={styles.body}>
        <div style={styles.card1}>
@@ -1471,6 +1489,17 @@ useEffect(() => {
     marginRight: "0", 
     marginLeft: "auto", 
   },
+    leftCard: {
+    width: "100%",
+    maxWidth: "1000px",
+    background: "#fff",
+    borderRadius: "75px",
+    boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+    padding: "30px",
+    border: "2px solid #000",
+    marginRight: "auto", 
+    marginLeft: "0", 
+  },
   body: {
     background: "transparent", 
     padding: "0",
@@ -1631,6 +1660,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
