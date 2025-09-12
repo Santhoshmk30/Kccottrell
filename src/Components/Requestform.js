@@ -40,6 +40,9 @@ const TripRequestForm = () => {
   ]
   });
 
+   const [activeTab, setActiveTab] = useState("domestic");
+  const [activeAllowance, setActiveAllowance] = useState("daily");
+
     const [expenses, setExpenses] = useState([{ nature: "", value: "" }]);
  const handleChange1 = (index, field, value) => {
     const updated = [...expenses];
@@ -1738,6 +1741,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
