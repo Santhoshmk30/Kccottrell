@@ -319,30 +319,68 @@ useEffect(() => {
   return (
       <div style={styles.container}>
     <div style={styles.leftCard}>
-  <div style={styles.field}>
-      <label style={styles.label}>To</label>
-      <input
-        type="date"
-        name="toDate"
-        value={formData.toDate}
-        min={formData.fromDate}
-        max={
-          formData.fromDate
-            ? new Date(
-                new Date(formData.fromDate).setDate(
-                  new Date(formData.fromDate).getDate() + 30
-                )
-              )
-                .toISOString()
-                .split("T")[0]
-            : ""
-        }
-        onChange={handleChange}
-        style={styles.input1}
-      />
+      {/* Business Trip Tabs */}
+      <h2 style={styles.heading1}>Business Trip</h2>
+      <div style={styles.tabContainer}>
+        <button
+          style={{
+            ...styles.tab,
+            ...(activeTab === "domestic" ? styles.activeTab : {}),
+          }}
+          onClick={() => setActiveTab("domestic")}
+        >
+          Domestic
+        </button>
+        <button
+          style={{
+            ...styles.tab,
+            ...(activeTab === "international" ? styles.activeTab : {}),
+          }}
+          onClick={() => setActiveTab("international")}
+        >
+          International
+        </button>
+      </div>
+
+      <div style={styles.content1}>
+        {activeTab === "domestic" ? (
+          <p>Domestic trip details...</p>
+        ) : (
+          <p>International trip details...</p>
+        )}
+      </div>
+
+      {/* Site Allowance Tabs */}
+      <h2 style={styles.heading1}>Site Allowance</h2>
+      <div style={styles.tabContainer}>
+        <button
+          style={{
+            ...styles.tab,
+            ...(activeAllowance === "daily" ? styles.activeTab : {}),
+          }}
+          onClick={() => setActiveAllowance("daily")}
+        >
+          Daily
+        </button>
+        <button
+          style={{
+            ...styles.tab,
+            ...(activeAllowance === "monthly" ? styles.activeTab : {}),
+          }}
+          onClick={() => setActiveAllowance("monthly")}
+        >
+          Monthly
+        </button>
+      </div>
+
+      <div style={styles.content1}>
+        {activeAllowance === "daily" ? (
+          <p>Daily allowance details...</p>
+        ) : (
+          <p>Monthly allowance details...</p>
+        )}
+      </div>
     </div>
-  
-  </div>
   <div style={styles.rightCard}>
     <div style={styles.body}>
        <div style={styles.card1}>
@@ -1496,18 +1534,6 @@ useEffect(() => {
     marginRight: "0", 
     marginLeft: "auto", 
   },
-   leftCard: {
-  display: "inline-block",
-  background: "#fff",
-  borderRadius: "75px",
-  boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
-  padding: "20px 30px",
-  border: "2px solid #000",
-  marginRight: "auto", 
-  marginLeft: "0",
-  width: "fit-content",  
-  maxWidth: "100%",       
-},
   body: {
     background: "transparent", 
     padding: "0",
@@ -1663,11 +1689,56 @@ useEffect(() => {
       fontSize: "14px",
       marginTop: "4px",
       fontWeight: "500",
-    }
+    },
+    leftCard: {
+    display: "inline-block",
+    background: "#fff",
+    borderRadius: "75px",
+    boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+    padding: "20px 30px",
+    border: "2px solid #000",
+    marginRight: "auto",
+    marginLeft: "0",
+    width: "fit-content",
+    maxWidth: "100%",
+    fontFamily: "Segoe UI, sans-serif",
+  },
+  heading1: {
+    fontSize: "20px",
+    fontWeight: "bold",
+    margin: "15px 0 10px",
+  },
+  tabContainer: {
+    display: "flex",
+    gap: "10px",
+    marginBottom: "15px",
+  },
+  tab: {
+    padding: "8px 20px",
+    borderRadius: "30px",
+    border: "2px solid #000",
+    background: "#f5f5f5",
+    cursor: "pointer",
+    fontSize: "14px",
+    fontWeight: "500",
+    transition: "0.3s",
+  },
+  activeTab: {
+    background: "#000",
+    color: "#fff",
+  },
+  content1: {
+    padding: "10px 15px",
+    borderRadius: "10px",
+    background: "#fafafa",
+    marginBottom: "20px",
+    fontSize: "14px",
+  },
   };
 
 
 export default TripRequestForm;
+
 
 
 
