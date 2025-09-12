@@ -725,10 +725,10 @@ useEffect(() => {
           }
         }}
         style={styles.input1}
-        placeholder={`Enter up to â‚¹${formData.accommodation}`}
+        placeholder={`Enter up to ${formData.accommodation}`}
       />
       <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
-        You cannot claim more than â‚¹{formData.accommodation}
+        You cannot claim more than {formData.accommodation}
       </p>
     </div>
     <div style={styles.field}>
@@ -1398,14 +1398,15 @@ useEffect(() => {
             Total Amount: {total}
           </div>
 
-          <motion.button
-            type="submit"
-            style={styles.button}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Submit
-          </motion.button>
+         <motion.button
+  type="button"           
+  style={styles.button}
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+  onClick={handleSubmit}      
+>
+  Submit
+</motion.button>
         </form>
         </div>
       ) : (
@@ -1606,6 +1607,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
