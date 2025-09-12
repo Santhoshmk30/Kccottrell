@@ -321,7 +321,7 @@ useEffect(() => {
 
   return (
       <div style={styles.container}>
-  <div style={styles.page}>
+ 
     <div style={styles.leftCard}>
       {/* Business Trip Tabs */}
       <h2 style={styles.heading1}>Business Trip</h2>
@@ -385,7 +385,6 @@ useEffect(() => {
         )}
       </div>
     </div>
-                </div>
 
   <div style={styles.rightCard}>
     <div style={styles.body}>
@@ -1749,6 +1748,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
