@@ -1264,6 +1264,18 @@ useEffect(() => {
             style={styles.input1}
           />
 
+        )}
+             {item.ticketBookedBy === "Self" && (
+          <input
+            type="number"
+            placeholder="Amount"
+            value={item.amount}
+            onChange={(e) =>
+              handleTransportChange(index, "amount", e.target.value)
+            }
+            style={styles.input1}
+          />
+
  <div style={styles.field}>
         <label style={styles.label}>Upload Document</label>
         <input
@@ -1638,6 +1650,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
