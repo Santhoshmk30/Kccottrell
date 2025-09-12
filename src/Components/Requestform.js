@@ -1525,7 +1525,6 @@ useEffect(() => {
     justifyContent: "flex-end",
     padding: "90px",
     backgroundcolor: "#ffffff",
-    minHeight: "100vh",
     boxSizing: "border-box",
   },
   rightCard: {
@@ -1697,10 +1696,10 @@ useEffect(() => {
     },
     page: {
     display: "flex",
-    justifyContent: "center",  // horizontal center
-    alignItems: "center",      // vertical center
-    minHeight: "100vh",        // full screen height
-    background: "#f9f9f9",     // light bg
+    justifyContent: "center",  
+    alignItems: "center",      
+    minHeight: "100vh",       
+    background: "#f9f9f9",  
   },
   leftCard: {
     background: "#fff",
@@ -1708,9 +1707,9 @@ useEffect(() => {
     boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
     padding: "20px 25px",
     border: "2px solid #000",
-    width: "fit-content",  // content ku fit
-    maxWidth: "400px",     // kutty box (limit width)
-    height: "auto",        // only content height
+    width: "fit-content",  
+    maxWidth: "400px",    
+    height: "auto",        
     fontFamily: "Segoe UI, sans-serif",
   },
   heading1: {
@@ -1748,6 +1747,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
