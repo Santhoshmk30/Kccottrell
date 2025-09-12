@@ -986,7 +986,7 @@ useEffect(() => {
   }}
 >
   <p><b>Base Daily:</b> {allowances[formData.designation]?.[getTier(formData.place)]?.daily ?? 0}</p>
-  <p><b>Days Entered:</b> {formData.days ?? 0}</p>
+  <p><b>Days:</b> {formData.days ?? 0}</p>
   <p>
     <b>Total Daily Allowance:</b>{" "}
     {allowances[formData.designation]?.[getTier(formData.place)]?.daily ?? 0} ×{" "}
@@ -1606,6 +1606,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
