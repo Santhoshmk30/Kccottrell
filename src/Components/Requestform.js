@@ -1490,12 +1490,12 @@ useEffect(() => {
     marginLeft: "auto", 
   },
     leftCard: {
-    width: "100%",
-    maxWidth: "1000px",
+    width: "10%",
+    maxWidth: "10px",
     background: "#fff",
     borderRadius: "75px",
     boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
-    padding: "30px",
+    padding: "50px",
     border: "2px solid #000",
     marginRight: "auto", 
     marginLeft: "0", 
@@ -1660,6 +1660,7 @@ useEffect(() => {
 
 
 export default TripRequestForm;
+
 
 
 
