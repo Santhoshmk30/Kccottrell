@@ -47,7 +47,7 @@ const SightAllowance = () => {
  const getActiveTab = () => {
     if (location.pathname === "/request") return "domestic";
     if (location.pathname === "/international-trip") return "international";
-    if (location.pathname === "/Site-allowance") return "Site";
+    if (location.pathname === "/site-allowance") return "site";
     if (location.pathname === "/local-trip") return "local";
     return "";
   };
@@ -57,7 +57,7 @@ const SightAllowance = () => {
   const buttons = [
     { key: "domestic", label: "Domestic Trip", path: "/request" },
     { key: "international", label: "International Trip", path: "/international-trip" },
-    { key: "Site", label: "Site Allowance", path: "/Site-allowance" },
+    { key: "site", label: "Site Allowance", path: "/site-allowance" },
     { key: "local", label: "Local Trip", path: "/local-trip" },
   ];
 
@@ -223,7 +223,7 @@ useEffect(() => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "https://darkslategrey-shrew-424102.hostingerSite.com/api/save_trip.php",
+        "https://darkslategrey-shrew-424102.hostingersite.com/api/save_trip.php",
         {
           method: "POST",
           headers: {
@@ -286,8 +286,8 @@ useEffect(() => {
       const year = formData.year || new Date().getFullYear();
       const daysInMonth = new Date(year, month, 0).getDate();
 
-      // Per-day Siteallowance
-      const perDaySite= totalSightInMonth / daysInMonth;
+      // Per-day sight allowance
+      const perDaySight = totalSightInMonth / daysInMonth;
 
       // Trip period
       const from = new Date(formData.fromDate);
@@ -303,8 +303,8 @@ useEffect(() => {
       // Adjusted trip days
       const adjustedTripDays = Math.max(diffDays - validLeaveDays, 0);
 
-      // Siteallowance for trip
-      const totalSightForTrip = Math.min(perDaySite* adjustedTripDays, totalSightInMonth);
+      // Sight allowance for trip
+      const totalSightForTrip = Math.min(perDaySight * adjustedTripDays, totalSightInMonth);
 
       setFormData((prev) => ({
         ...prev,
@@ -1213,13 +1213,13 @@ const handleClear = () => {
         <label style={styles.label}>Site Allowance</label>
         <input
           type="text"
-          name="SiteAllowance"
-          value={formData.SiteAllowance ?? ""}
+          name="siteAllowance"
+          value={formData.siteAllowance ?? ""}
           readOnly
           style={styles.input1}
         />
         <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
-          For any expenses more than the Site allowance, reimbursement requires
+          For any expenses more than the site allowance, reimbursement requires
           proper justification and special approval from the management.
         </p>
       </div>
@@ -1325,12 +1325,12 @@ const handleClear = () => {
         fontSize: "20px",
       }}
     >
-      SiteAllowance Details
+      Site Allowance Details
     </h3>
 
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
       <div style={styles.field}>
-        <label style={styles.label}>SiteAllowance</label>
+        <label style={styles.label}>Sight Allowance</label>
         <input
           type="text"
           name="sightAllowance"
@@ -1353,7 +1353,7 @@ const handleClear = () => {
 
 
         <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
-          For any expenses more than the Siteallowance, reimbursement requires
+          For any expenses more than the site allowance, reimbursement requires
           proper justification and special approval from the management.
         </p>
       </div>
@@ -2157,7 +2157,6 @@ rightCard: {
 
 
 export default SightAllowance;
-
 
 
 
