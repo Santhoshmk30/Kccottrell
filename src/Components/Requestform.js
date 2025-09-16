@@ -1519,13 +1519,70 @@ useEffect(() => {
 };
 
 
-  const styles = {
-   container: {
+ const styles = {
+  container: {
     display: "flex",
     justifyContent: "flex-end",
+    alignItems: "flex-start",
     padding: "90px",
-    backgroundcolor: "#ffffff",
+    backgroundColor: "#ffffff",
     boxSizing: "border-box",
+  },
+  leftCard: {
+    position: "fixed",
+    top: "220px",
+    left: "150px",
+    background: "#fff",
+    padding: "20px",
+    borderRadius: "70px",
+    boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+    border: "2px solid #000",
+    width: "250px",
+    height: "auto",
+    zIndex: 1000,
+  },
+  leftHeading: {
+    marginBottom: "15px",
+    fontSize: "20px",
+    fontWeight: "600",
+    color: "#333",
+    textAlign: "center",
+  },
+  buttonContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "12px",
+  },
+  mainButton: {
+    position: "relative",
+    padding: "12px 20px",
+    fontSize: "16px",
+    fontWeight: "500",
+    border: "none",
+    borderRadius: "12px",
+    background: "#f1f3f6",
+    color: "#333",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+  },
+  mainButtonActive: {
+    background: "#2c3e50",
+    color: "#fff",
+    fontWeight: "600",
+    boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
+  },
+  activeIndicator: {
+    position: "absolute",
+    bottom: "4px",
+    left: "50%",
+    transform: "translateX(-50%)",
+    width: "40%",
+    height: "3px",
+    borderRadius: "2px",
+    background: "#fff",
+  },
+  mainButtonHover: {
+    background: "#e0e3e8",
   },
   rightCard: {
     width: "100%",
@@ -1535,11 +1592,20 @@ useEffect(() => {
     boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
     padding: "30px",
     border: "2px solid #000",
-    marginRight: "0", 
-    marginLeft: "auto", 
+    marginLeft: "auto",
+  },
+  card: {
+    width: "100%",
+    maxWidth: "1000px",
+    background: "#fff",
+    borderRadius: "30px",
+    boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+    padding: "30px",
+    border: "2px solid #000",
+    margin: "20px auto",
   },
   body: {
-    background: "transparent", 
+    background: "transparent",
     padding: "0",
     margin: "0",
     fontFamily: "Segoe UI, sans-serif",
@@ -1558,6 +1624,7 @@ useEffect(() => {
     color: "#1a237e",
     textAlign: "center",
     marginBottom: "20px",
+    marginRight: "180px",
   },
   subheading: {
     background: "linear-gradient(90deg, #2196f3, #21cbf3)",
@@ -1589,41 +1656,41 @@ useEffect(() => {
     marginBottom: "8px",
     fontSize: "14px",
   },
-    transportSection: {
-      marginTop: "20px",
-      padding: "15px",
-      border: "1px solid #ddd",
-      borderRadius: "8px",
-      backgroundColor: "#fafafa"
-    },
-    radioGroup: {
-      display: "flex",
-      gap: "20px",
-      marginTop: "10px"
-    },
-    radioLabel: {
-      fontSize: "14px",
-      cursor: "pointer",
-      display: "flex",
-      alignItems: "center",
-      gap: "5px"
-    },
-    radioInput: {
-      cursor: "pointer"
-    },
-    resultBox: {
-      marginTop: "15px",
-      padding: "10px",
-      backgroundColor: "#e9f5ff",
-      border: "1px solid #b3daff",
-      borderRadius: "6px",
-      fontWeight: "600",
-      fontSize: "14px"
-    },
-    resultText: {
-      color: "#0073e6"
-    },
-     input: {
+  transportSection: {
+    marginTop: "20px",
+    padding: "15px",
+    border: "1px solid #ddd",
+    borderRadius: "8px",
+    backgroundColor: "#fafafa",
+  },
+  radioGroup: {
+    display: "flex",
+    gap: "20px",
+    marginTop: "10px",
+  },
+  radioLabel: {
+    fontSize: "14px",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    gap: "5px",
+  },
+  radioInput: {
+    cursor: "pointer",
+  },
+  resultBox: {
+    marginTop: "15px",
+    padding: "10px",
+    backgroundColor: "#e9f5ff",
+    border: "1px solid #b3daff",
+    borderRadius: "6px",
+    fontWeight: "600",
+    fontSize: "14px",
+  },
+  resultText: {
+    color: "#0073e6",
+  },
+  input: {
     padding: "12px",
     border: "1px solid #ccc",
     borderRadius: "10px",
@@ -1639,29 +1706,29 @@ useEffect(() => {
     minWidth: "150px",
     background: "transparent",
   },
-    inputFocus: {
-      borderColor: "#2980b9",
-      boxShadow: "0 0 6px rgba(41, 128, 185, 0.25)",
-    },
-   select: {
+  inputFocus: {
+    borderColor: "#2980b9",
+    boxShadow: "0 0 6px rgba(41, 128, 185, 0.25)",
+  },
+  select: {
     padding: "12px",
     border: "1px solid #ccc",
     borderRadius: "8px",
     fontSize: "14px",
     backgroundColor: "white",
   },
-    totalBox: {
-      marginTop: "25px",
-      padding: "14px",
-      backgroundColor: "#f0f8ff",
-      borderRadius: "8px",
-      fontSize: "18px",
-      textAlign: "center",
-      fontWeight: "bold",
-      color: "#0d47a1",
-      border: "1px solid #bbdefb",
-    },
-   button: {
+  totalBox: {
+    marginTop: "25px",
+    padding: "14px",
+    backgroundColor: "#f0f8ff",
+    borderRadius: "8px",
+    fontSize: "18px",
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "#0d47a1",
+    border: "1px solid #bbdefb",
+  },
+  button: {
     marginTop: "25px",
     padding: "14px",
     background: "linear-gradient(135deg, #2980b9, #3498db)",
@@ -1674,79 +1741,80 @@ useEffect(() => {
     width: "100%",
     transition: "all 0.3s ease",
   },
-    buttonHover: {
-      background: "linear-gradient(135deg, #1f6391, #2980b9)",
-    },
-    tabButton: (isActive) => ({
-      padding: "8px 15px",
-      marginLeft: "10px",
-      borderRadius: "20px",
-      border: "none",
-      cursor: "pointer",
-      background: isActive ? "#2196f3" : "#ddd",
-      color: isActive ? "white" : "black",
-      fontWeight: "600",
-      transition: "0.3s",
-    }),
-    error: {
-      color: "red",
-      fontSize: "14px",
-      marginTop: "4px",
-      fontWeight: "500",
-    },
-    page: {
-    display: "flex",
-    justifyContent: "center",  
-    alignItems: "center",      
-    minHeight: "100vh",       
-    background: "#f9f9f9",  
+  buttonHover: {
+    background: "linear-gradient(135deg, #1f6391, #2980b9)",
   },
-  leftCard: {
-    background: "#fff",
+  tabButton: (isActive) => ({
+    padding: "8px 15px",
+    marginLeft: "10px",
     borderRadius: "20px",
-    boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
-    padding: "20px 25px",
-    border: "2px solid #000",
-    width: "fit-content",  
-    maxWidth: "400px",    
-    height: "auto",        
-    fontFamily: "Segoe UI, sans-serif",
-  },
-  heading1: {
-    fontSize: "20px",
-    fontWeight: "bold",
-    margin: "15px 0 10px",
-  },
-  tabContainer: {
-    display: "flex",
-    gap: "10px",
-    marginBottom: "15px",
-  },
-  tab: {
-    padding: "8px 20px",
-    borderRadius: "30px",
-    border: "2px solid #000",
-    background: "#f5f5f5",
+    border: "none",
     cursor: "pointer",
-    fontSize: "14px",
-    fontWeight: "500",
+    background: isActive ? "#2196f3" : "#ddd",
+    color: isActive ? "white" : "black",
+    fontWeight: "600",
     transition: "0.3s",
-  },
-  activeTab: {
-    background: "#000",
-    color: "#fff",
-  },
-  content1: {
-    padding: "10px 15px",
-    borderRadius: "10px",
-    background: "#fafafa",
-    marginBottom: "20px",
+  }),
+  error: {
+    color: "red",
     fontSize: "14px",
+    marginTop: "4px",
+    fontWeight: "500",
   },
-  };
+  page: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "100vh",
+    background: "#f9f9f9",
+  },
+
+  // ==========================
+  // MEDIA QUERIES FOR MOBILE
+  // ==========================
+  "@media (max-width: 768px)": {
+    container: {
+      flexDirection: "column",
+      padding: "20px",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    leftCard: {
+      position: "static",
+      top: "auto",
+      left: "auto",
+      width: "90%",
+      borderRadius: "30px",
+      marginBottom: "20px",
+    },
+    heading: {
+      fontSize: "18px",
+      marginRight: "0",
+    },
+    rightCard: {
+      width: "95%",
+      padding: "20px",
+      borderRadius: "30px",
+    },
+    card: {
+      width: "95%",
+      padding: "20px",
+      borderRadius: "20px",
+    },
+    mainButton: {
+      fontSize: "14px",
+      padding: "10px 15px",
+    },
+    totalBox: {
+      fontSize: "16px",
+      padding: "10px",
+    },
+  },
+};
 
 
 export default TripRequestForm;
+
 
 
 
