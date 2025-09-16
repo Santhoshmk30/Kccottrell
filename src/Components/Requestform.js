@@ -1518,32 +1518,30 @@ useEffect(() => {
   );
 };
 
-
- const styles = {
+const styles = {
   container: {
     display: "flex",
-    justifyContent: "flex-end",
-    alignItems: "flex-start",
-    padding: "90px",
+    flexDirection: "column",      // mobile-friendly column layout
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "20px",              // smaller padding for mobile
     backgroundColor: "#ffffff",
     boxSizing: "border-box",
   },
   leftCard: {
-    position: "fixed",
-    top: "220px",
-    left: "150px",
+    position: "relative",         // no fixed position for mobile
+    width: "90%",                 // responsive width
     background: "#fff",
     padding: "20px",
-    borderRadius: "70px",
+    borderRadius: "30px",
     boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
     border: "2px solid #000",
-    width: "250px",
-    height: "auto",
+    marginBottom: "20px",
     zIndex: 1000,
   },
   leftHeading: {
     marginBottom: "15px",
-    fontSize: "20px",
+    fontSize: "18px",
     fontWeight: "600",
     color: "#333",
     textAlign: "center",
@@ -1555,8 +1553,8 @@ useEffect(() => {
   },
   mainButton: {
     position: "relative",
-    padding: "12px 20px",
-    fontSize: "16px",
+    padding: "10px 15px",
+    fontSize: "14px",
     fontWeight: "500",
     border: "none",
     borderRadius: "12px",
@@ -1581,26 +1579,23 @@ useEffect(() => {
     borderRadius: "2px",
     background: "#fff",
   },
-  mainButtonHover: {
-    background: "#e0e3e8",
-  },
   rightCard: {
-    width: "100%",
-    maxWidth: "1000px",
-    background: "#fff",
-    borderRadius: "75px",
-    boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
-    padding: "30px",
-    border: "2px solid #000",
-    marginLeft: "auto",
-  },
-  card: {
-    width: "100%",
+    width: "95%",                 // responsive width
     maxWidth: "1000px",
     background: "#fff",
     borderRadius: "30px",
     boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
-    padding: "30px",
+    padding: "20px",
+    border: "2px solid #000",
+    marginBottom: "20px",
+  },
+  card: {
+    width: "95%",
+    maxWidth: "1000px",
+    background: "#fff",
+    borderRadius: "20px",
+    boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+    padding: "20px",
     border: "2px solid #000",
     margin: "20px auto",
   },
@@ -1612,42 +1607,44 @@ useEffect(() => {
   },
   header: {
     display: "flex",
-    justifyContent: "space-between",
+    flexDirection: "column",     // stack header items on mobile
+    justifyContent: "center",
     alignItems: "center",
     paddingBottom: "15px",
     borderBottom: "2px solid #eee",
-    marginBottom: "25px",
+    marginBottom: "20px",
   },
   heading: {
-    fontSize: "22px",
+    fontSize: "20px",
     fontWeight: "700",
     color: "#1a237e",
     textAlign: "center",
-    marginBottom: "20px",
-    marginRight: "180px",
+    marginBottom: "15px",
+    marginRight: "0",
   },
   subheading: {
     background: "linear-gradient(90deg, #2196f3, #21cbf3)",
     color: "#fff",
     padding: "10px 15px",
     borderRadius: "6px",
-    margin: "25px 0 15px 0",
+    margin: "20px 0 15px 0",
     fontWeight: "600",
     textAlign: "center",
   },
   form: {
     display: "flex",
     flexDirection: "column",
-    gap: "20px",
+    gap: "15px",
   },
   row: {
     display: "flex",
-    gap: "20px",
+    flexDirection: "column",    // stack fields on mobile
+    gap: "15px",
     flexWrap: "wrap",
     marginBottom: "15px",
   },
   field: {
-    flex: 1,
+    width: "100%",
     display: "flex",
     flexDirection: "column",
   },
@@ -1657,7 +1654,7 @@ useEffect(() => {
     fontSize: "14px",
   },
   transportSection: {
-    marginTop: "20px",
+    marginTop: "15px",
     padding: "15px",
     border: "1px solid #ddd",
     borderRadius: "8px",
@@ -1665,7 +1662,8 @@ useEffect(() => {
   },
   radioGroup: {
     display: "flex",
-    gap: "20px",
+    flexDirection: "column",    // stack radio buttons
+    gap: "10px",
     marginTop: "10px",
   },
   radioLabel: {
@@ -1691,68 +1689,62 @@ useEffect(() => {
     color: "#0073e6",
   },
   input: {
-    padding: "12px",
+    padding: "10px",
     border: "1px solid #ccc",
     borderRadius: "10px",
     fontSize: "14px",
     outline: "none",
     background: "transparent",
-  },
-  input1: {
-    padding: "10px",
-    border: "1px solid #ccc",
-    borderRadius: "10px",
-    fontSize: "14px",
-    minWidth: "150px",
-    background: "transparent",
+    width: "100%",
   },
   inputFocus: {
     borderColor: "#2980b9",
     boxShadow: "0 0 6px rgba(41, 128, 185, 0.25)",
   },
   select: {
-    padding: "12px",
+    padding: "10px",
     border: "1px solid #ccc",
     borderRadius: "8px",
     fontSize: "14px",
     backgroundColor: "white",
+    width: "100%",
   },
   totalBox: {
-    marginTop: "25px",
-    padding: "14px",
+    marginTop: "20px",
+    padding: "12px",
     backgroundColor: "#f0f8ff",
     borderRadius: "8px",
-    fontSize: "18px",
+    fontSize: "16px",
     textAlign: "center",
     fontWeight: "bold",
     color: "#0d47a1",
     border: "1px solid #bbdefb",
   },
   button: {
-    marginTop: "25px",
-    padding: "14px",
+    marginTop: "20px",
+    padding: "12px",
     background: "linear-gradient(135deg, #2980b9, #3498db)",
     color: "white",
     fontWeight: "bold",
     border: "none",
     borderRadius: "8px",
     cursor: "pointer",
-    fontSize: "16px",
+    fontSize: "14px",
     width: "100%",
     transition: "all 0.3s ease",
   },
-  buttonHover: {
-    background: "linear-gradient(135deg, #1f6391, #2980b9)",
-  },
   tabButton: (isActive) => ({
-    padding: "8px 15px",
-    marginLeft: "10px",
+    padding: "8px 12px",
+    marginLeft: "0",
+    marginBottom: "10px",
     borderRadius: "20px",
     border: "none",
     cursor: "pointer",
     background: isActive ? "#2196f3" : "#ddd",
     color: isActive ? "white" : "black",
     fontWeight: "600",
+    width: "100%",                 // full width on mobile
+    textAlign: "center",
     transition: "0.3s",
   }),
   error: {
@@ -1763,57 +1755,19 @@ useEffect(() => {
   },
   page: {
     display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     minHeight: "100vh",
     background: "#f9f9f9",
-  },
-
-  // ==========================
-  // MEDIA QUERIES FOR MOBILE
-  // ==========================
-  "@media (max-width: 768px)": {
-    container: {
-      flexDirection: "column",
-      padding: "20px",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    leftCard: {
-      position: "static",
-      top: "auto",
-      left: "auto",
-      width: "90%",
-      borderRadius: "30px",
-      marginBottom: "20px",
-    },
-    heading: {
-      fontSize: "18px",
-      marginRight: "0",
-    },
-    rightCard: {
-      width: "95%",
-      padding: "20px",
-      borderRadius: "30px",
-    },
-    card: {
-      width: "95%",
-      padding: "20px",
-      borderRadius: "20px",
-    },
-    mainButton: {
-      fontSize: "14px",
-      padding: "10px 15px",
-    },
-    totalBox: {
-      fontSize: "16px",
-      padding: "10px",
-    },
+    padding: "10px",
   },
 };
 
 
+
 export default TripRequestForm;
+
 
 
 
