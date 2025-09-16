@@ -85,17 +85,16 @@ function Login() {
       objectFit: "cover",
       zIndex: -1,
     },
-   card: {
+  card: {
   width: '100%',
   maxWidth: '400px',
-  backgroundColor: 'rgba(255,255,255,0)', 
-  backdropFilter: 'blur(1px)',        
+  backgroundColor: '#fff',       // solid white background
   borderRadius: '16px',
   boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
   padding: '35px 30px',
   border: '2px solid rgba(255,255,255,0.3)',
-
 }
+
 ,
     heading: {
       textAlign: 'center',
@@ -199,6 +198,7 @@ function Login() {
 }
 
 export default Login;
+
 
 
 
