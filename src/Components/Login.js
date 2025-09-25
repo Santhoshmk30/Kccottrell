@@ -34,37 +34,43 @@ function Login() {
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const form = new FormData();
-      form.append("employee_id", employee_id);
-      form.append("password", password);
+  e.preventDefault();
+  setLoading(true);
 
-      const response = await axios.post(
-        'https://darkslategrey-shrew-424102.hostingersite.com/api/login.php',
-        form
-      );
+  try {
+    const form = new FormData();
+    form.append("employee_id", employee_id); // match PHP field
+    form.append("password", password);
 
-      const data = response.data;
-      setLoading(false);
+    const response = await axios.post(
+      'https://darkslategrey-shrew-424102.hostingersite.com/api/employeelogin.php',
+      form
+    );
 
-      if (data.success) {
-        const role = data.role.toLowerCase();
-        if (role === 'ceo') navigate('/approval');
-        else if (role === 'manager') navigate('/certification');
-        else if (role === 'employee') navigate('/dashboard');
-        else if (role === 'admin') navigate('/admin');
-        else alert('Unknown role');
-      } else {
-        setMessage(data.message || 'Invalid credentials');
-      }
-    } catch (err) {
-      console.error(err);
-      setMessage('Login failed. Please try again.');
-      setLoading(false);
+    const data = response.data;
+    setLoading(false);
+
+    if (data.success) {
+      // ✅ Store employee ID and other info in localStorage
+      localStorage.setItem("employee_id", employee_id);
+      localStorage.setItem("designation", data.designation);
+      localStorage.setItem("name", data.name);
+
+      const designation = data.designation?.trim().toLowerCase() || "";
+
+      if (designation === "director") navigate("/approval");
+      else if (designation === "manager") navigate("/certification");
+      else if (designation === "sr.manager") navigate("/admin");
+      else navigate("/dashboard");
+    } else {
+      setMessage(data.message || "Invalid credentials");
     }
-  };
+  } catch (err) {
+    console.error(err);
+    setMessage("Login failed. Please try again.");
+    setLoading(false);
+  }
+};
 
   const styles = {
     container: {
@@ -198,6 +204,7 @@ function Login() {
 }
 
 export default Login;
+
 
 
 
