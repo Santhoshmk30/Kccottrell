@@ -13,21 +13,36 @@ import allowances from "./states/allowances.json";
 
 const TripRequestForm = () => {
   const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     fromDate: '',
     Date: '',
     toDate: '',
-     fromDateacc: '',
+    fromDateacc: '',
     Dateacc: '',
     toDateacc: '',
+    nightsacc:'',
     department: '',
     projectCode: '',
+     projectName:'',
+    state:'',
     place: '',
+    companyProvidesAccommodation: "",
     workPlan: '', 
     purpose: '',
     purpose1: '',
     accommodation: '',
+    enteredAccommodation:'',
+    gstAmount:'',
+    accommodation_document:'',
+    accom_special_approval_amount:'',
+    accom_special_approval_document:'',
+    accom_special_approval_purpose:'',
     dailyAllowance: '',
+    da_special_approval:'',
+    special_approval_amount:'',
+    special_approval_purpose:'',
+    special_approval_document:'',
     transportAmount: '',
     parking: '',
     toll: '',
@@ -36,10 +51,27 @@ const TripRequestForm = () => {
     others: '',
     modeOfPayment: '',
     ticketBookedBy: "",
-    transports: [
-    { transportMode: "", ticketBookedBy: "", from: "", to: "", amount: "" }
-  ]
+    designation: '',
+  
+     transports: [
+    {
+      ticket_booked_by: "",
+      from_place: "",
+      to_place: "",
+      amount: "",
+      approval_document: null,
+    },
+  ],
   });
+
+  useEffect(() => {
+  
+    const savedDesignation = localStorage.getItem("employee_designation");
+    if (savedDesignation) {
+      setFormData(prev => ({ ...prev, designation: savedDesignation }));
+    }
+  }, []);
+
 
    const location = useLocation();
    
@@ -64,23 +96,29 @@ const TripRequestForm = () => {
 
   
 
-    const [expenses, setExpenses] = useState([{ nature: "", value: "" }]);
- const handleChange1 = (index, field, value) => {
-    const updated = [...expenses];
-    updated[index][field] = value;
-    setExpenses(updated);
-  };
+   const [expenses, setExpenses] = useState([
+  { nature: "", value: "", approvalDocument: null },
+]);
 
-  const addExpense = () => {
-    setExpenses([...expenses, { nature: "", value: "" }]);
-  };
+ const handleExpenseChange = (index, field, value) => {
+  setExpenses((prev) => {
+    const updatedExpenses = [...prev];
+    updatedExpenses[index] = { ...updatedExpenses[index], [field]: value };
+    return updatedExpenses;
+  });
+};
 
-  const removeExpense = (index) => {
-    const updated = [...expenses];
-    updated.splice(index, 1);
-    setExpenses(updated);
-  };
 
+ const addExpense = () => {
+  setExpenses((prev) => [
+    ...prev,
+    { nature: "", value: "", approvalDocument: null },
+  ]);
+};
+
+const removeExpense = (index) => {
+  setExpenses((prev) => prev.filter((_, i) => i !== index));
+};
 
 
   const [error, setError] = useState("");
@@ -92,6 +130,8 @@ const TripRequestForm = () => {
     if (cityTiers.Tier2.includes(city)) return "Tier 2 ('B' Area)";
     return "Tier 3 ('C' Area)"; 
   };
+
+
  const handleChange = (e) => {
   const { name, value } = e.target;
 
@@ -213,42 +253,139 @@ useEffect(() => {
     .map((val) => parseFloat(val) || 0)
     .reduce((a, b) => a + b, 0);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(
-        "https://darkslategrey-shrew-424102.hostingersite.com/api/save_trip.php",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
 
-      const result = await response.json();
-      console.log(result);
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-      if (result.status === "success") {
-        alert("Trip request submitted successfully!");
-        navigate("/dashboard");
-      } else {
-        alert("Failed to submit: " + result.message);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Network error while submitting form.");
+  const payload = new FormData();
+
+
+    // Add Local Storage values
+  const name = localStorage.getItem("employee_name") || "";
+  const department = localStorage.getItem("employee_department") || "";
+  const designation = localStorage.getItem("employee_designation") || "";
+  const employee_id = localStorage.getItem("employee_id") || "";
+
+  payload.append("name", name);
+  payload.append("department", department);
+  payload.append("designation", designation);
+  payload.append("employee_id", employee_id);
+  // Trip Details
+  payload.append("from_date", formData.fromDate || "");
+  payload.append("to_date", formData.toDate || "");
+  payload.append("period", formData.workPlan || "");
+  payload.append("days", formData.days || 0);
+  payload.append("project_code", formData.projectCode || "");
+  payload.append("project_name", formData.projectName || "");
+  payload.append("purpose_of_visit", formData.purpose || "");
+
+
+  
+  // Location
+  payload.append("state", formData.state || "");
+  payload.append("city", formData.place || "");
+    payload.append("tier", formData.place ? getTier(formData.place) : "");
+  payload.append("company_provides_accommodation", formData.companyProvidesAccommodation || "");
+  payload.append("from_date_acc", formData.fromDateacc || "");
+  payload.append("to_date_acc", formData.toDateacc || "");
+  payload.append("nights_acc", formData.nightsacc || 0);
+  payload.append("max_accommodation_amount", formData.accommodation || 0);
+  payload.append("entered_accommodation_amount", formData.enteredAccommodation || 0);
+  payload.append("gst_amount", formData.gstAmount || 0);
+
+ payload.append("accommodation_document", formData.accommodation_document);
+
+  payload.append("specialApproval", formData.specialApproval || "");
+  payload.append("accom_special_approval_amount", formData.accom_special_approval_amount || "");
+  payload.append("accom_special_approval_purpose", formData.accom_special_approval_purpose || "");
+
+  payload.append("accom_special_approval_document", formData.accom_special_approval_document);
+  payload.append("daily_allowance", formData.dailyAllowance || 0);
+
+ payload.append("da_special_approval", formData.da_special_approval || "");
+  payload.append("special_approval_amount", formData.special_approval_amount || "");
+  payload.append("special_approval_purpose", formData.special_approval_purpose || "");
+    payload.append("special_approval_document", formData.special_approval_document);
+
+
+  payload.append("transports", JSON.stringify(formData.transports || []));
+ 
+ 
+  // --- Transports ---
+  payload.append("transports", JSON.stringify(formData.transports || []));
+
+  // --- Transport documents (one or multiple) ---
+  formData.transports.forEach((t, index) => {
+    if (t.approval_document) {
+      payload.append(`approval_document${index}`, t.approval_document);
     }
-  };
+  });
+
+
+   expenses.forEach((exp, index) => {
+    payload.append(`nature${index}`, exp.nature);
+    payload.append(`value${index}`, exp.value);
+    if (exp.approvalDocument) {
+      payload.append(`approvalDocument${index}`, exp.approvalDocument);
+    }
+  });
+  
+  
+  try {
+    const res = await fetch("https://darkslategrey-shrew-424102.hostingersite.com/api/save_domestic_trip.php", {
+   method: "POST",
+      body: payload,
+    });
+
+    const data = await res.json();
+    console.log("Response:", data);
+
+    if (data.status === "success") {
+      alert("Data saved successfully!");
+    } else {
+      alert("Error: " + data.message);
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong while submitting the form.");
+  }
+};
+
+
+
+ const [projects, setProjects] = useState([]);
+
+
+  useEffect(() => {
+    fetch("https://darkslategrey-shrew-424102.hostingersite.com/api/get_project_codes.php")
+    .then(res => res.json())
+    .then(data => {
+        console.log("API Data:", data);  // <--- check this
+        if(data.status === "success") setProjects(data.data);
+    })
+    .catch(err => console.error("API error:", err));
+}, []);
+
+
+
 
 const addTransport = () => {
   setFormData((prev) => ({
     ...prev,
     transports: [
       ...prev.transports,
-      { transportMode: "", ticketBookedBy: "", from: "", to: "", amount: "" }
-    ]
+      {
+        transportMode: "",
+        autoType: "",
+        bikeType: "",
+        taxiType: "",
+        ticketBookedBy: "",
+        from: "",
+        to: "",
+        amount: "",
+        approvalDocument: null,
+      },
+    ],
   }));
 };
 
@@ -260,6 +397,28 @@ const removeTransport = (index) => {
   });
 };
 
+// const addTransport = () => {
+//   setTransports([
+//     ...transports,
+//     {
+//       transportMode: "",
+//       autoType: "",
+//       bikeType: "",
+//       taxiType: "",
+//       ticketBookedBy: "",
+//       from: "",
+//       to: "",
+//       amount: "",
+//       approvalDocument: null,
+//     },
+//   ]);
+// };
+
+// const removeTransport = (index) => {
+//   const updated = transports.filter((_, i) => i !== index);
+//   setTransports(updated);
+// };
+
 const handleTransportChange = (index, field, value) => {
   setFormData((prev) => {
     const newTransports = [...prev.transports];
@@ -267,6 +426,17 @@ const handleTransportChange = (index, field, value) => {
     return { ...prev, transports: newTransports };
   });
 };
+
+
+
+
+// const handleTransportChange = (index, field, value) => {
+//   const updated = [...transports];
+//   updated[index][field] = value;
+//   setTransports(updated);
+// };
+
+
 
   useEffect(() => {
   if (formData.designation && formData.place) {
@@ -311,6 +481,7 @@ const handleTransportChange = (index, field, value) => {
     }
   }
 }, [formData.designation, formData.place,formData.nightsacc]);
+
 
 
 useEffect(() => {
@@ -407,7 +578,7 @@ const initialFormData = {
   ticketBookedBy: "",
   companyProvidesAccommodation: '',
   specialApproval: '',
-  specialApproval1: '',
+  da_special_approval: '',
   specialApprovalSite: '',
   designation: '',
   nightsacc: '',
@@ -599,39 +770,39 @@ const handleClear = () => {
       />
     </div>
 
-
-    {/* Department */}
-    <div style={styles.field}>
-      <label style={styles.label}>Department</label>
-      <select
-        name="department"
-        value={formData.department}
-        onChange={handleChange}
-        style={{
-          ...styles.select,
-          backgroundColor: "#f1f8ff",
-          border: "1px solid #90caf9",
-        }}
-      >
-        <option value="">Select department</option>
-        <option value="HR">HR</option>
-        <option value="Finance">Finance</option>
-        <option value="IT">IT</option>
-      </select>
-    </div>
-
-    {/* Project Code */}
-    <div style={styles.field}>
-      <label style={styles.label}>Project Code</label>
-      <input
-        type="text"
-        name="projectCode"
-        value={formData.projectCode}
-        onChange={handleChange}
-        placeholder="Enter project code"
-        style={styles.input}
-      />
-    </div>
+      {/* Project Code */}
+  <div style={styles.field1}>
+  <label style={styles.label1}>Select Project: </label>
+  <select
+    style={styles.input2}
+    value={formData.projectCode}
+    onChange={(e) => {
+      const selectedProj = projects.find(
+        (p) => p.ProjectCode === e.target.value
+      );
+      setFormData({
+        ...formData,
+        projectCode: selectedProj?.ProjectCode || "",
+        projectName: selectedProj?.ProjectName || "",
+      });
+    }}
+  >
+    <option value="">-- Select Project --</option>
+    {projects.length > 0 ? (
+      projects.map((proj) => (
+        <option
+          key={proj.ProjectCodeId}
+          value={proj.ProjectCode}
+          title={`${proj.ProjectCode} - ${proj.ProjectName}`}
+        >
+          {proj.ProjectCode} - {proj.ProjectName}
+        </option>
+      ))
+    ) : (
+      <option value="" disabled>No Projects Found</option>
+    )}
+  </select>
+</div>
 
         
 
@@ -743,22 +914,6 @@ const handleClear = () => {
   </div>
 
   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginTop: "20px" }}>
-    <div style={styles.field}>
-      <label style={styles.label}>Designation</label>
-      <select
-        name="designation"
-        value={formData.designation || ""}
-        onChange={handleChange}
-        style={styles.select}
-      >
-        <option value="">-- Select Designation --</option>
-        <option value="Managing Director/Director/COO/CFO">Managing Director/Director/COO/CFO</option>
-        <option value="Assistant VicePresident (AVP)/VicePresident (VP)/SeniorVicePresident (Sr.VP)">
-          Assistant VicePresident (AVP)/VicePresident (VP)/SeniorVicePresident (Sr.VP)
-        </option>
-        <option value="General Manager/Sr.General Manager">General Manager/Sr.General Manager</option>
-      </select>
-    </div>
 
     <div style={styles.field}>
       <label style={styles.label}>Is Company Providing Accommodation?</label>
@@ -899,20 +1054,21 @@ const handleClear = () => {
       />
     </div>
 
-            <div style={styles.field}>
-          <label style={styles.label}>Upload Document</label>
-          <input
-            type="file"
-            name="approvalDocument"
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                approvalDocument: e.target.files[0],
-              }))
-            }
-            style={styles.input1}
-          />
-        </div>
+           <div style={styles.field}>
+  <label style={styles.label}>Upload Document</label>
+  <input
+    type="file"
+    name="accommodation_document"
+    onChange={(e) =>
+      setFormData((prev) => ({
+        ...prev,
+        accommodation_document: e.target.files[0],
+      }))
+    }
+    style={styles.input1}
+  />
+</div>
+
   </div>
 
   {/* === Special Approval row === */}
@@ -944,11 +1100,11 @@ const handleClear = () => {
     {formData.specialApproval === "Yes" && (
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "20px", marginTop: "15px" }}>
         <div style={styles.field}>
-          <label style={styles.label}>Extra Amount</label>
+          <label style={styles.label}>Special Approval Amount</label>
           <input
             type="number"
-            name="extraAmount"
-            value={formData.extraAmount ?? ""}
+            name="accom_special_approval_amount"
+            value={formData.accom_special_approval_amount ?? ""}
             onChange={handleChange}
             style={styles.input1}
             placeholder="Enter extra amount"
@@ -958,8 +1114,8 @@ const handleClear = () => {
           <label style={styles.label}>Purpose</label>
           <input
             type="text"
-            name="approvalPurpose"
-            value={formData.approvalPurpose ?? ""}
+            name="accom_special_approval_purpose"
+            value={formData.accom_special_approval_purpose ?? ""}
             onChange={handleChange}
             style={styles.input1}
             placeholder="Enter purpose"
@@ -969,11 +1125,11 @@ const handleClear = () => {
           <label style={styles.label}>Upload Document</label>
           <input
             type="file"
-            name="approvalDocument"
+            name="accom_special_approval_document"
             onChange={(e) =>
               setFormData((prev) => ({
                 ...prev,
-                approvalDocument: e.target.files[0],
+                accom_special_approval_document: e.target.files[0],
               }))
             }
             style={styles.input1}
@@ -1093,7 +1249,7 @@ const handleClear = () => {
         <label style={styles.label}>Upload Document</label>
         <input
           type="file"
-          name="approvalDocument"
+          name="accom_special_approval_document"
           onChange={(e) =>
             setFormData((prev) => ({
               ...prev,
@@ -1180,9 +1336,9 @@ const handleClear = () => {
           <label>
             <input
               type="radio"
-              name="specialApproval1"
+              name="da_special_approval"
               value="Yes"
-              checked={formData.specialApproval1 === "Yes"}
+              checked={formData.da_special_approval === "Yes"}
               onChange={handleChange}
             />
             Yes
@@ -1190,16 +1346,16 @@ const handleClear = () => {
           <label>
             <input
               type="radio"
-              name="specialApproval1"
+              name="da_special_approval"
               value="No"
-              checked={formData.specialApproval1 === "No"}
+              checked={formData.da_special_approval === "No"}
               onChange={handleChange}
             />
             No
           </label>
         </div>
 
-        {formData.specialApproval1 === "Yes" && (
+        {formData.da_special_approval === "Yes" && (
          
     <>
            
@@ -1208,8 +1364,8 @@ const handleClear = () => {
         <label style={styles.label}>Extra Amount</label>
         <input
           type="number"
-          name="extraAmount"
-          value={formData.extraAmount ?? ""}
+          name="special_approval_amount"
+          value={formData.special_approval_amount ?? ""}
           onChange={handleChange}
           style={styles.input1}
           placeholder="Enter extra amount"
@@ -1221,8 +1377,8 @@ const handleClear = () => {
         <label style={styles.label}>Purpose</label>
         <input
           type="text"
-          name="approvalPurpose"
-          value={formData.approvalPurpose ?? ""}
+          name="special_approval_purpose"
+          value={formData.special_approval_purpose ?? ""}
           onChange={handleChange}
           style={styles.input1}
           placeholder="Enter purpose"
@@ -1234,11 +1390,11 @@ const handleClear = () => {
         <label style={styles.label}>Upload Document</label>
         <input
           type="file"
-          name="approvalDocument"
+          name="special_approval_document"
           onChange={(e) =>
             setFormData((prev) => ({
               ...prev,
-              approvalDocument: e.target.files[0],
+              special_approval_document: e.target.files[0],
             }))
           }
           style={styles.input1}
@@ -1294,11 +1450,11 @@ const handleClear = () => {
             <label key={mode} style={styles.radioLabel}>
               <input
                 type="radio"
-                name={`transportMode-${index}`}
+                name={`transport_mode-${index}`}
                 value={mode}
-                checked={item.transportMode === mode}
+                checked={item.transport_mode === mode}
                 onChange={(e) =>
-                  handleTransportChange(index, "transportMode", e.target.value)
+                  handleTransportChange(index, "transport_mode", e.target.value)
                 }
                 style={styles.radioInput}
               />
@@ -1310,7 +1466,7 @@ const handleClear = () => {
 
  
      {/* Auto Extra Input */}
-{item.transportMode === "Auto" && (
+{item.transport_mode === "Auto" && (
   <div style={{ marginTop: "10px" }}>
     <label style={styles.label}>
       Mention Auto Type (Rapido / Uber / Ola / Self / etc...)
@@ -1329,7 +1485,7 @@ const handleClear = () => {
 )}
 
 {/* Bike Extra Input */}
-{item.transportMode === "Bike" && (
+{item.transport_mode === "Bike" && (
   <div style={{ marginTop: "10px" }}>
     <label style={styles.label}>
       Mention Bike Type (Own / Rapido / Self / etc...)
@@ -1348,7 +1504,7 @@ const handleClear = () => {
 )}
 
 {/* Taxi Extra Input */}
-{item.transportMode === "Taxi" && (
+{item.transport_mode === "Taxi" && (
   <div style={{ marginTop: "10px" }}>
     <label style={styles.label}>
       Mention Taxi Type (Uber / Ola / Self / etc...)
@@ -1367,98 +1523,89 @@ const handleClear = () => {
 )}
 
 
-      {/* Ticket Booked By */}
-      <div style={styles.field}>
-        <label style={styles.label}>Booked By</label>
-        <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
-          <label>
-            <input
-              type="radio"
-              name={`ticketBookedBy-${index}`}
-              value="Self"
-              checked={item.ticketBookedBy === "Self"}
-              onChange={(e) =>
-                handleTransportChange(index, "ticketBookedBy", e.target.value)
-              }
-            />
-            Self
-          </label>
-          <label>
-            <input
-              type="radio"
-              name={`ticketBookedBy-${index}`}
-              value="Company"
-              checked={item.ticketBookedBy === "Company"}
-              onChange={(e) =>
-                handleTransportChange(index, "ticketBookedBy", e.target.value)
-              }
-            />
-            Company
-          </label>
-        </div>
-      </div>
-
-      {/* From / To / Amount */}
-      <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-        <input
-          type="text"
-          placeholder="From"
-          value={item.from}
-          onChange={(e) => handleTransportChange(index, "from", e.target.value)}
-          style={styles.input1}
-        />
-        <input
-          type="text"
-          placeholder="To"
-          value={item.to}
-          onChange={(e) => handleTransportChange(index, "to", e.target.value)}
-          style={styles.input1}
-        />
-        {item.ticketBookedBy === "Self" && (
-          <>
+      <div key={index} style={{ marginBottom: "20px" }}>
+    {/* Ticket Booked By */}
+    <div style={styles.field}>
+      <label style={styles.label}>Booked By</label>
+      <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
+        <label>
           <input
-            type="number"
-            placeholder="Amount"
-            value={item.amount}
+            type="radio"
+            name={`ticket_booked_by-${index}`}
+            value="Self"
+            checked={item.ticket_booked_by === "Self"}
             onChange={(e) =>
-              handleTransportChange(index, "amount", e.target.value)
+              handleTransportChange(index, "ticket_booked_by", e.target.value)
             }
-            style={styles.input1}
-          />    
-       
-    </>
-   )}
- {item.ticketBookedBy === "Self" && (
-          <>
-      <label style={styles.label}>Upload Document</label>
-       
+          />
+          Self
+        </label>
+        <label>
+          <input
+            type="radio"
+            name={`ticket_booked_by-${index}`}
+            value="Company"
+            checked={item.ticket_booked_by === "Company"}
+            onChange={(e) =>
+              handleTransportChange(index, "ticket_booked_by", e.target.value)
+            }
+          />
+          Company
+        </label>
+      </div>
+    </div>
+
+    {/* From / To / Amount */}
+    <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+      <input
+        type="text"
+        placeholder="From"
+        value={item.from_place}
+        onChange={(e) => handleTransportChange(index, "from_place", e.target.value)}
+        style={styles.input1}
+      />
+      <input
+        type="text"
+        placeholder="To"
+        value={item.to_place}
+        onChange={(e) => handleTransportChange(index, "to_place", e.target.value)}
+        style={styles.input1}
+      />
+      {item.ticket_booked_by === "Self" && (
         <input
-          type="file"
-          name="approvalDocument"
+          type="number"
+          placeholder="Amount"
+          value={item.amount}
           onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              approvalDocument: e.target.files[0],
-            }))
+            handleTransportChange(index, "amount", e.target.value)
           }
           style={styles.input1}
         />
-     
-    </>
+      )}
+    </div>
 
-
-          
-
-          
-          
-
-        )}
-        
-
-          
+    {/* Approval Document */}
+    {item.ticket_booked_by === "Self" && (
+      <div style={{ marginTop: "10px" }}>
+        <label style={styles.label}>Upload Document</label>
+        <input
+          type="file"
+          onChange={(e) => {
+            const file = e.target.files[0];
+            setFormData((prev) => {
+              const updatedTransports = [...prev.transports];
+              updatedTransports[index] = {
+                ...updatedTransports[index],
+                approval_document: file, // store file per transport
+              };
+              return { ...prev, transports: updatedTransports };
+            });
+          }}
+          style={styles.input1}
+        />
       </div>
-
-
+    )}
+  </div>
 
         
 
@@ -1497,130 +1644,119 @@ const handleClear = () => {
   </button>
 </div>
 
-  <motion.div
-  initial={{ opacity: 0, x: -100 }}       // left la start
-  whileInView={{ opacity: 1, x: 0 }}      // screen ku vandha podhu
-  viewport={{ once: true, amount: 0.5 }}  // once:true → animation one time; amount: 0.5 → 50% visible
+ <motion.div
+  initial={{ opacity: 0, x: -100 }}
+  whileInView={{ opacity: 1, x: 0 }}
+  viewport={{ once: true, amount: 0.5 }}
   transition={{ duration: 0.8, ease: "easeOut" }}
-      style={{
-        marginTop: "25px",
-        padding: "25px",
-        borderRadius: "15px",
-        background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
-        boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
-        border: "1px solid #bbdefb",
-        fontFamily: "Segoe UI, sans-serif",
-      }}
-    >
-      <h3
-        style={{
-          marginBottom: "20px",
-          color: "#1565c0",
-          borderBottom: "2px solid #90caf9",
-          paddingBottom: "8px",
-          fontSize: "20px",
-        }}
-      >
-        Miscellaneous
-      </h3>
-
-      <h4
-        style={{
-          marginBottom: "15px",
-          color: "#0d47a1",
-          fontSize: "16px",
-        }}
-      >
-        Nature of Expense
-      </h4>
-
-      {expenses.map((exp, index) => (
-        <div
-          key={index}
-          style={{
-            display: "flex",
-            gap: "15px",
-            alignItems: "center",
-            marginBottom: "10px",
-          }}
-        >
-          <input
-            type="text"
-            placeholder="Enter nature"
-            value={exp.nature}
-            onChange={(e) => handleChange1(index, "nature", e.target.value)}
-            style={{
-              flex: 1,
-              padding: "10px",
-              borderRadius: "8px",
-              border: "1px solid #90caf9",
-              outline: "none",
-              fontSize: "14px",
-            }}
-          />
-          <input
-            type="number"
-            placeholder="Value"
-            value={exp.value}
-            onChange={(e) => handleChange1(index, "value", e.target.value)}
-            style={{
-              width: "150px",
-              padding: "10px",
-              borderRadius: "8px",
-              border: "1px solid #90caf9",
-              outline: "none",
-              fontSize: "14px",
-              textAlign: "right",
-            }}
-          />
-
-           <input
-          type="file"
-          name="approvalDocument"
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              approvalDocument: e.target.files[0],
-            }))
-          }
-          style={styles.input1}
-        />
-          <button
-            type="button"
-            onClick={() => removeExpense(index)}
-            style={{
-              background: "#ef5350",
-              border: "none",
-              color: "#fff",
-              padding: "8px 12px",
-              borderRadius: "6px",
-              cursor: "pointer",
-            }}
-          >
-            X
-          </button>
-        </div>
-      ))}
-
-<button
-  type="button"
-  onClick={addExpense}
   style={{
-    marginTop: "10px",
-    background: "#42a5f5",
-    border: "none",
-    color: "#fff",
-    padding: "10px 15px",
-    borderRadius: "8px",
-    cursor: "pointer",
-    fontSize: "14px",
+    marginTop: "25px",
+    padding: "25px",
+    borderRadius: "15px",
+    background: "linear-gradient(135deg, #e3f2fd, #ffffff)",
+    boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+    border: "1px solid #bbdefb",
+    fontFamily: "Segoe UI, sans-serif",
   }}
 >
-  + Add Expense
-</button>
+  <h3
+    style={{
+      marginBottom: "20px",
+      color: "#1565c0",
+      borderBottom: "2px solid #90caf9",
+      paddingBottom: "8px",
+      fontSize: "20px",
+    }}
+  >
+    Miscellaneous Expenses
+  </h3>
 
-     </motion.div>
- 
+  {expenses.map((exp, index) => (
+    <div
+      key={index}
+      style={{
+        display: "flex",
+        gap: "15px",
+        alignItems: "center",
+        marginBottom: "10px",
+      }}
+    >
+      <input
+        type="text"
+        placeholder="Enter nature"
+        value={exp.nature}
+        onChange={(e) => handleExpenseChange(index, "nature", e.target.value)}
+        style={{
+          flex: 1,
+          padding: "10px",
+          borderRadius: "8px",
+          border: "1px solid #90caf9",
+          outline: "none",
+          fontSize: "14px",
+        }}
+      />
+      <input
+        type="number"
+        placeholder="Value"
+        value={exp.value}
+        onChange={(e) => handleExpenseChange(index, "value", e.target.value)}
+        style={{
+          width: "150px",
+          padding: "10px",
+          borderRadius: "8px",
+          border: "1px solid #90caf9",
+          outline: "none",
+          fontSize: "14px",
+          textAlign: "right",
+        }}
+      />
+      <input
+        type="file"
+        onChange={(e) => {
+          const file = e.target.files[0];
+          handleExpenseChange(index, "approvalDocument", file);
+        }}
+        style={{
+          border: "1px solid #90caf9",
+          borderRadius: "8px",
+          padding: "5px",
+        }}
+      />
+      <button
+        type="button"
+        onClick={() => removeExpense(index)}
+        style={{
+          background: "#ef5350",
+          border: "none",
+          color: "#fff",
+          padding: "8px 12px",
+          borderRadius: "6px",
+          cursor: "pointer",
+        }}
+      >
+        X
+      </button>
+    </div>
+  ))}
+
+  <button
+    type="button"
+    onClick={addExpense}
+    style={{
+      marginTop: "10px",
+      background: "#42a5f5",
+      border: "none",
+      color: "#fff",
+      padding: "10px 15px",
+      borderRadius: "8px",
+      cursor: "pointer",
+      fontSize: "14px",
+    }}
+  >
+    + Add Expense
+  </button>
+</motion.div>
+
           <div style={styles.totalBox}>
             Total Amount: {total}
           </div>
@@ -1695,30 +1831,28 @@ const handleClear = () => {
   );
 };
 
-
-  const styles = {
+const styles = {
   container: {
-  display: "flex",
-  justifyContent: "flex-end",
-  alignItems: "flex-start",
-  padding: "90px",
-  backgroundColor: "#ffffff",
-  boxSizing: "border-box",
-},
- leftCard: {
-  position: "fixed",        // 👈 makes it stay fixed
-  top: "220px",              // distance from top of page
-  left: "150px",             // distance from left
-  background: "#fff",
-  padding: "20px",
-  borderRadius: "70px",
-  boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
-  border: "2px solid #000",
-  width: "250px",
-  height: "auto",           // it adjusts to content
-  zIndex: 1000,             // keep it above other content
-},
-
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "flex-start",
+    padding: "90px",
+    backgroundColor: "#ffffff",
+    boxSizing: "border-box",
+  },
+  leftCard: {
+    position: "fixed",
+    top: "220px",
+    left: "150px",
+    background: "#fff",
+    padding: "20px",
+    borderRadius: "70px",
+    boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+    border: "2px solid #000",
+    width: "250px",
+    height: "auto",
+    zIndex: 1000,
+  },
   leftHeading: {
     marginBottom: "15px",
     fontSize: "20px",
@@ -1731,27 +1865,25 @@ const handleClear = () => {
     flexDirection: "column",
     gap: "12px",
   },
- mainButton: {
-  position: "relative",
-  padding: "12px 20px",
-  fontSize: "16px",
-  fontWeight: "500",
-  border: "none",
-  borderRadius: "12px",
-  background: "#f1f3f6",  
-  color: "#333",
-  cursor: "pointer",
-  transition: "all 0.3s ease",
-},
-
-mainButtonActive: {
-  background: "#2c3e50",   
-  color: "#fff",           
-  fontWeight: "600",
-  boxShadow: "0 4px 10px rgba(0,0,0,0.2)", 
-},
-
-     activeIndicator: {
+  mainButton: {
+    position: "relative",
+    padding: "12px 20px",
+    fontSize: "16px",
+    fontWeight: "500",
+    border: "none",
+    borderRadius: "12px",
+    background: "#f1f3f6",
+    color: "#333",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+  },
+  mainButtonActive: {
+    background: "#2c3e50",
+    color: "#fff",
+    fontWeight: "600",
+    boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
+  },
+  activeIndicator: {
     position: "absolute",
     bottom: "4px",
     left: "50%",
@@ -1761,34 +1893,31 @@ mainButtonActive: {
     borderRadius: "2px",
     background: "#fff",
   },
-mainButtonHover: {
-  background: "#e0e3e8",   // hover effect
-},
-
-
-rightCard: {
-  width: "100%",
-  maxWidth: "1000px",
-  background: "#fff",
-  borderRadius: "75px",
-  boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
-  padding: "30px",
-  border: "2px solid #000",
-  marginLeft: "auto",
-},
-
+  mainButtonHover: {
+    background: "#e0e3e8",
+  },
+  rightCard: {
+    width: "100%",
+    maxWidth: "1000px",
+    background: "#fff",
+    borderRadius: "75px",
+    boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+    padding: "30px",
+    border: "2px solid #000",
+    marginLeft: "auto",
+  },
   card: {
     width: "100%",
-    maxWidth: "1000px",   // size control
-    background: "#fff",   // white card
-    borderRadius: "30px", // soft rounded corners
-    boxShadow: "0 6px 20px rgba(0,0,0,0.1)", // smooth shadow
+    maxWidth: "1000px",
+    background: "#fff",
+    borderRadius: "30px",
+    boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
     padding: "30px",
-    border: "2px solid #000", // optional border
-    margin: "20px auto", // center horizontally
+    border: "2px solid #000",
+    margin: "20px auto",
   },
   body: {
-    background: "transparent", 
+    background: "transparent",
     padding: "0",
     margin: "0",
     fontFamily: "Segoe UI, sans-serif",
@@ -1807,7 +1936,7 @@ rightCard: {
     color: "#1a237e",
     textAlign: "center",
     marginBottom: "20px",
-    marginRight:"180px",
+    marginRight: "180px",
   },
   subheading: {
     background: "linear-gradient(90deg, #2196f3, #21cbf3)",
@@ -1839,41 +1968,41 @@ rightCard: {
     marginBottom: "8px",
     fontSize: "14px",
   },
-    transportSection: {
-      marginTop: "20px",
-      padding: "15px",
-      border: "1px solid #ddd",
-      borderRadius: "8px",
-      backgroundColor: "#fafafa"
-    },
-    radioGroup: {
-      display: "flex",
-      gap: "20px",
-      marginTop: "10px"
-    },
-    radioLabel: {
-      fontSize: "14px",
-      cursor: "pointer",
-      display: "flex",
-      alignItems: "center",
-      gap: "5px"
-    },
-    radioInput: {
-      cursor: "pointer"
-    },
-    resultBox: {
-      marginTop: "15px",
-      padding: "10px",
-      backgroundColor: "#e9f5ff",
-      border: "1px solid #b3daff",
-      borderRadius: "6px",
-      fontWeight: "600",
-      fontSize: "14px"
-    },
-    resultText: {
-      color: "#0073e6"
-    },
-     input: {
+  transportSection: {
+    marginTop: "20px",
+    padding: "15px",
+    border: "1px solid #ddd",
+    borderRadius: "8px",
+    backgroundColor: "#fafafa",
+  },
+  radioGroup: {
+    display: "flex",
+    gap: "20px",
+    marginTop: "10px",
+  },
+  radioLabel: {
+    fontSize: "14px",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    gap: "5px",
+  },
+  radioInput: {
+    cursor: "pointer",
+  },
+  resultBox: {
+    marginTop: "15px",
+    padding: "10px",
+    backgroundColor: "#e9f5ff",
+    border: "1px solid #b3daff",
+    borderRadius: "6px",
+    fontWeight: "600",
+    fontSize: "14px",
+  },
+  resultText: {
+    color: "#0073e6",
+  },
+  input: {
     padding: "12px",
     border: "1px solid #ccc",
     borderRadius: "10px",
@@ -1889,29 +2018,29 @@ rightCard: {
     minWidth: "150px",
     background: "transparent",
   },
-    inputFocus: {
-      borderColor: "#2980b9",
-      boxShadow: "0 0 6px rgba(41, 128, 185, 0.25)",
-    },
-   select: {
+  inputFocus: {
+    borderColor: "#2980b9",
+    boxShadow: "0 0 6px rgba(41, 128, 185, 0.25)",
+  },
+  select: {
     padding: "12px",
     border: "1px solid #ccc",
     borderRadius: "8px",
     fontSize: "14px",
     backgroundColor: "white",
   },
-    totalBox: {
-      marginTop: "25px",
-      padding: "14px",
-      backgroundColor: "#f0f8ff",
-      borderRadius: "8px",
-      fontSize: "18px",
-      textAlign: "center",
-      fontWeight: "bold",
-      color: "#0d47a1",
-      border: "1px solid #bbdefb",
-    },
-   button: {
+  totalBox: {
+    marginTop: "25px",
+    padding: "14px",
+    backgroundColor: "#f0f8ff",
+    borderRadius: "8px",
+    fontSize: "18px",
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "#0d47a1",
+    border: "1px solid #bbdefb",
+  },
+  button: {
     marginTop: "25px",
     padding: "14px",
     background: "linear-gradient(135deg, #2980b9, #3498db)",
@@ -1924,34 +2053,98 @@ rightCard: {
     width: "100%",
     transition: "all 0.3s ease",
   },
-    buttonHover: {
-      background: "linear-gradient(135deg, #1f6391, #2980b9)",
-    },
-    tabButton: (isActive) => ({
-      padding: "8px 15px",
-      marginLeft: "10px",
-      borderRadius: "20px",
-      border: "none",
-      cursor: "pointer",
-      background: isActive ? "#2196f3" : "#ddd",
-      color: isActive ? "white" : "black",
-      fontWeight: "600",
-      transition: "0.3s",
-    }),
-    error: {
-      color: "red",
-      fontSize: "14px",
-      marginTop: "4px",
-      fontWeight: "500",
-    },
-    page: {
-    display: "flex",
-    justifyContent: "center",  
-    alignItems: "center",      
-    minHeight: "100vh",       
-    background: "#f9f9f9",  
+  buttonHover: {
+    background: "linear-gradient(135deg, #1f6391, #2980b9)",
   },
-  };
+
+   field1: {
+    marginBottom: "15px",
+    display: "flex",
+    flexDirection: "column",
+    maxWidth: "400px", // fixed width container
+  },
+  label1: {
+    fontWeight: "600",
+    marginBottom: "8px",
+    fontSize: "14px",
+  },
+  input2: {
+    padding: "12px",
+    border: "1px solid #ccc",
+    borderRadius: "10px",
+    fontSize: "14px",
+    outline: "none",
+    background: "transparent",
+  },
+  tabButton: (isActive) => ({
+    padding: "8px 15px",
+    marginLeft: "10px",
+    borderRadius: "20px",
+    border: "none",
+    cursor: "pointer",
+    background: isActive ? "#2196f3" : "#ddd",
+    color: isActive ? "white" : "black",
+    fontWeight: "600",
+    transition: "0.3s",
+  }),
+  error: {
+    color: "red",
+    fontSize: "14px",
+    marginTop: "4px",
+    fontWeight: "500",
+  },
+  page: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "100vh",
+    background: "#f9f9f9",
+  },
+
+  // ==========================
+  // MEDIA QUERIES FOR MOBILE
+  // ==========================
+  "@media (max-width: 600px)": {
+    container: {
+      flexDirection: "column",
+      padding: "10px",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    leftCard: {
+      position: "static",
+      top: "auto",
+      left: "auto",
+      width: "90%",
+      borderRadius: "30px",
+      marginBottom: "20px",
+    },
+    heading: {
+      fontSize: "18px",
+      marginRight: "0",
+    },
+    rightCard: {
+      width: "95%",
+      padding: "20px",
+      borderRadius: "30px",
+    },
+    card: {
+      width: "95%",
+      padding: "20px",
+      borderRadius: "20px",
+    },
+    mainButton: {
+      fontSize: "14px",
+      padding: "10px 15px",
+    },
+    totalBox: {
+      fontSize: "16px",
+      padding: "10px",
+    },
+  },
+  
+};
+
 
 
 export default TripRequestForm;
