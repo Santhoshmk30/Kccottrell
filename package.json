@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-  "@react-navigation/bottom-tabs": "^7.4.7",
+    "@react-native-picker/picker": "^2.11.2",
+    "@react-navigation/bottom-tabs": "^7.4.7",
     "@react-navigation/native": "^7.1.17",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.8.0",
@@ -28,7 +29,7 @@
     "recharts": "^3.2.1",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
-},
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
