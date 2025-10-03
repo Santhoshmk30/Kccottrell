@@ -32,7 +32,7 @@ function Login() {
       setName('');
     }
   };
-
+  
   const handleLogin = async (e) => {
   e.preventDefault();
   setLoading(true);
@@ -58,7 +58,7 @@ function Login() {
 
       const designation = data.designation?.trim().toLowerCase() || "";
 
-      if (designation === "director") navigate("/approval");
+      if (designation === "directr") navigate("/approval");
       else if (designation === "manager") navigate("/certification");
       else if (designation === "sr.manager") navigate("/admin");
       else navigate("/dashboard");
@@ -71,6 +71,43 @@ function Login() {
     setLoading(false);
   }
 };
+
+
+
+
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   try {
+  //     const form = new FormData();
+  //     form.append("employee_id", employee_id);
+  //     form.append("password", password);
+
+  //     const response = await axios.post(
+  //       'https://darkslategrey-shrew-424102.hostingersite.com/api/login.php',
+  //       form
+  //     );
+
+  //     const data = response.data;
+  //     setLoading(false);
+
+  //     if (data.success) {
+  //       const role = data.role.toLowerCase();
+  //       if (role === 'ceo') navigate('/approval');
+  //       else if (role === 'manager') navigate('/certification');
+  //       else if (role === 'employee') navigate('/dashboard');
+  //       else if (role === 'admin') navigate('/admin');
+  //       else alert('Unknown role');
+  //     } else {
+  //       setMessage(data.message || 'Invalid credentials');
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     setMessage('Login failed. Please try again.');
+  //     setLoading(false);
+  //   }
+  // };
+
 
   const styles = {
     container: {
@@ -91,16 +128,17 @@ function Login() {
       objectFit: "cover",
       zIndex: -1,
     },
-  card: {
+   card: {
   width: '100%',
   maxWidth: '400px',
-  backgroundColor: '#fff',       // solid white background
+  backgroundColor: 'rgba(255,255,255,0)', 
+  backdropFilter: 'blur(1px)',        
   borderRadius: '16px',
   boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
   padding: '35px 30px',
   border: '2px solid rgba(255,255,255,0.3)',
-}
 
+}
 ,
     heading: {
       textAlign: 'center',
@@ -145,6 +183,7 @@ function Login() {
       fontSize: '14px',
       color: '#2c3e50',
     },
+    
   };
 
   return (
@@ -204,8 +243,6 @@ function Login() {
 }
 
 export default Login;
-
-
 
 
 

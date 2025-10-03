@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PieChart, Pie, Cell, Tooltip,   } from "recharts";
 
+
 const Dashboard = () => {
   const [requests, setRequests] = useState([]);
   const [filteredRequests, setFilteredRequests] = useState([]);
@@ -10,9 +11,73 @@ const Dashboard = () => {
   const [employee, setEmployee] = useState(null);
 
   const navigate = useNavigate();
+const employeeId = localStorage.getItem("employee_id");
 
+  const [expanded, setExpanded] = useState(null);
 
+  const handleExpand = (heading) => {
+    setExpanded(expanded === heading ? null : heading);
+  };
 
+  const menu = [
+    {
+      title: "Dashboard",
+      subItems: [
+        { name: "Home", path: "/dashboard" },
+        { name: "Analytics", path: "/analytics" },
+        { name: "Reports", path: "/reports" },
+      ],
+    },
+    {
+       title: "Purchases",
+  subItems: [
+    // 🔹 Only show Vendors & Payment Advice for KCCES19107
+    ...(employeeId === "KCCES19107"
+      ? [
+          { name: "Vendors", path: "/vendors" },
+          { name: "Payment Advice", path: "/paymentadvice" },
+        ]
+      : []),
+
+    // 🔹 Only show Certify for KCCES19014
+    ...(employeeId === "KCCES19014"
+      ? [{ name: "Certify Purchase Order", path: "/certifypurchaseorder" }]
+      : []),
+
+    // 🔹 Only show Verify for KCCES19002
+    ...(employeeId === "KCCES19002"
+      ? [{ name: "Verify Purchase Order", path: "/verifypurchaseorder" }]
+      : []),
+
+    // 🔹 Only show Purchase Order for KCCES19023
+    ...(employeeId === "KCCES19023"
+      ? [{ name: "Purchase Order", path: "/adminpurchaseorder" }]
+      : []),
+
+    // 🔹 Default everyone gets Purchase Order (except above handled cases)
+    ...(employeeId !== "KCCES19023" &&
+    employeeId !== "KCCES19002" &&
+    employeeId !== "KCCES19014" &&
+    employeeId !== "KCCES19107"
+      ? [{ name: "Purchase Order", path: "/adminpurchaseorder" }]
+      : []),
+  ],
+},
+    {
+      title: "Requests",
+      subItems: [
+        { name: "New Request", path: "/request" },
+        { name: "Request History", path: "/requesthistory" },
+      ],
+    },
+    {
+      title: "Profile",
+      subItems: [
+        { name: "View Profile", path: "/profile" },
+        { name: "Logout", path: "/logout" },
+      ],
+    },
+  ];
   
 useEffect(() => {
   if (employee) {
@@ -100,33 +165,42 @@ useEffect(() => {
     setSelected(null);
   };
 
+  
 
   return (
     <div style={styles.container}>
      <nav style={styles.sideNav}>
-  {/* 🔹 Logo image */}
-  <img 
-    src="/logologin.png" 
-    alt="Logo" 
-    style={styles.logoSection} 
-  />
+      {/* Logo */}
+      <img src="/logologin.png" alt="Logo" style={styles.logoSection} />
 
-  {/* 🔹 Navigation Links */}
-  <div style={styles.navLinksSection}>
-    <span style={styles.navItem} onClick={() => navigate("/dashboard")}>
-      Dashboard
-    </span>
-    <span style={styles.navItem} onClick={() => navigate("/request")}>
-      New Request
-    </span>
-    <span style={styles.navItem} onClick={() => navigate("/profile")}>
-      Profile
-    </span>
-    <span style={styles.navItem} onClick={() => navigate("/logout")}>
-      Logout
-    </span>
-  </div>
-</nav>
+      {/* Menu */}
+      <div style={styles.navLinksSection}>
+        {menu.map((item, idx) => (
+          <div key={idx}>
+            <div
+              style={styles.navItemHeading}
+              onClick={() => handleExpand(item.title)}
+            >
+              {item.title}
+            </div>
+            {expanded === item.title && (
+              <div style={styles.subMenu}>
+                {item.subItems.map((sub, subIdx) => (
+                  <div
+                    key={subIdx}
+                    style={styles.subNavItem}
+                    onClick={() => navigate(sub.path)}
+                  >
+                    {sub.name}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </nav>
+  
 
  
  <div style={{ padding: "50px" }}>
@@ -608,14 +682,15 @@ const styles = {
   container: {
     padding: 0,
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-    background: "linear-gradient(135deg, #e04a4aff, #dba9a9ff)", // subtle gradient bg
-    backdropFilter: "blur(50px)",          // glassy blur effect
+    background: "linear-gradient(135deg, #e04a4aff, #dba9a9ff)", // subtle gradient
+    backdropFilter: "blur(50px)",
     WebkitBackdropFilter: "blur(50px)",
-    border: "1px solid rgba(255, 255, 255, 0.3)", // subtle border
-    boxShadow: "0 4px 30px rgba(0,0,0,0.1)",      // soft shadow
+    border: "1px solid rgba(255, 255, 255, 0.3)",
+    boxShadow: "0 4px 30px rgba(0,0,0,0.1)",
     borderRadius: "14px",
-     display: "grid",
-  gridTemplateColumns: "200px 1fr",
+    display: "grid",
+    gridTemplateColumns: "200px 1fr", // default 2-column
+    minHeight: "100vh",
   },
 
  sideNav: {
@@ -641,10 +716,15 @@ const styles = {
     userSelect: "none",
   },
 
-  navLinksSection: {
+  navLinksSection: {},
+  navItemHeading: {
+    padding: "10px",
+    cursor: "pointer",
+    fontWeight: "bold",
+    borderBottom: "1px solid #374151",
     display: "flex",
-    flexDirection: "column",
-    gap: "20px",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 
   navItem: {
@@ -660,7 +740,20 @@ const styles = {
     // hover effect using inline styles:
     // You can add logic in React for hover state or use CSS
   },
-
+ arrow: {
+    display: "inline-block",
+    transition: "transform 0.2s",
+  },
+  subMenu: {
+    paddingLeft: "15px",
+    backgroundColor: "#FAF7EB",
+  },
+  subNavItem: {
+    padding: "8px 10px",
+    cursor: "pointer",
+    borderRadius: "4px",
+    transition: "background 0.2s",
+  },
 
   headerWrapper: {
     display: "flex",
@@ -1012,6 +1105,8 @@ tableStyle: { width: '100%', borderCollapse: 'collapse', marginBottom: '15px' },
 th: { border: '1px solid #ccc', padding: '8px', background: '#f2f2f2', textAlign: 'center' },
 td: { border: '1px solid #ccc', padding: '8px', textAlign: 'center' },
 signatureRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '20px', fontSize: '14px' },
+
+
 };
 
 export default Dashboard;

@@ -183,7 +183,18 @@ const SightAllowance = () => {
 };
 
    
+const [projects, setProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState("");
 
+  useEffect(() => {
+    fetch("https://darkslategrey-shrew-424102.hostingersite.com/api/get_project_codes.php")
+    .then(res => res.json())
+    .then(data => {
+        console.log("API Data:", data);  // <--- check this
+        if(data.status === "success") setProjects(data.data);
+    })
+    .catch(err => console.error("API error:", err));
+}, []);
 
 
 
@@ -598,7 +609,7 @@ const handleClear = () => {
   />
 
 
-  <h2 style={styles.heading}>Site Allowance </h2>
+  <h2 style={styles.heading}>Sight Allowance Request</h2>
 
  
 </div>
@@ -719,19 +730,27 @@ const handleClear = () => {
       </select>
     </div>
 
-    {/* Project Code */}
-    <div style={styles.field}>
-      <label style={styles.label}>Project Code</label>
-      <input
-        type="text"
-        name="projectCode"
-        value={formData.projectCode}
-        onChange={handleChange}
-        placeholder="Enter project code"
-        style={styles.input}
-      />
-    </div>
+     {/* Project Code */}
+   <div style={styles.field1}>
+      <label style={styles.label1}>Select Project: </label>
+      <select
+        style={styles.input2}       // <-- apply style here
+        value={selectedProject}
+        onChange={(e) => setSelectedProject(e.target.value)}
+      >
+        <option value="">-- Select Project --</option>
+        {projects.length > 0 ? (
+          projects.map((proj) => (
+           <option key={proj.ProjectCodeId} value={proj.ProjectCode} title={`${proj.ProjectCode} - ${proj.ProjectName}`}>
+  {proj.ProjectCode} - {proj.ProjectName}
+</option>
 
+          ))
+        ) : (
+          <option value="">No Projects Found</option>
+        )}
+      </select>
+    </div>
         
 
         {/* Purpose of Visit */}
@@ -1325,7 +1344,7 @@ const handleClear = () => {
         fontSize: "20px",
       }}
     >
-      Site Allowance Details
+      Sight Allowance Details
     </h3>
 
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
@@ -1353,7 +1372,7 @@ const handleClear = () => {
 
 
         <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
-          For any expenses more than the site allowance, reimbursement requires
+          For any expenses more than the sight allowance, reimbursement requires
           proper justification and special approval from the management.
         </p>
       </div>
@@ -1965,7 +1984,25 @@ mainButtonActive: {
 mainButtonHover: {
   background: "#e0e3e8",   // hover effect
 },
-
+ field1: {
+    marginBottom: "15px",
+    display: "flex",
+    flexDirection: "column",
+    maxWidth: "400px", // fixed width container
+  },
+  label1: {
+    fontWeight: "600",
+    marginBottom: "8px",
+    fontSize: "14px",
+  },
+  input2: {
+    padding: "12px",
+    border: "1px solid #ccc",
+    borderRadius: "10px",
+    fontSize: "14px",
+    outline: "none",
+    background: "transparent",
+  },
 
 rightCard: {
   width: "100%",

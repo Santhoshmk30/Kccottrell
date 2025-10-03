@@ -10,32 +10,52 @@ import country from "./states/country.json";
 const InternationalTrip = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    fromDate: '',
-    Date: '',
-    toDate: '',
+     fromDate: '',
+     Date: '',
+     toDate: '',
      fromDateacc: '',
-    Dateacc: '',
-    toDateacc: '',
-    department: '',
-    projectCode: '',
-    place: '',
-    workPlan: '', 
-    purpose: '',
-    purpose1: '',
-    accommodation: '',
-    dailyAllowance: '',
-    transportAmount: '',
-    parking: '',
-    toll: '',
-    communication: '',
-    miscellaneous: '',
-    others: '',
-    modeOfPayment: '',
-    ticketBookedBy: "",
-    transports: [
-    { transportMode: "", ticketBookedBy: "", from: "", to: "", amount: "" }
-  ]
-  });
+     Dateacc: '',
+     toDateacc: '',
+     nightsacc:'',
+     department: '',
+     projectCode: '',
+     state:'',
+     place: '',
+     companyProvidesAccommodation: "",
+     workPlan: '', 
+     purpose: '',
+     purpose1: '',
+     accommodation: '',
+     enteredAccommodation:'',
+     gstAmount:'',
+     accommodation_document:'',
+     accom_special_approval_amount:'',
+     accom_special_approval_document:'',
+     accom_special_approval_purpose:'',
+     dailyAllowance: '',
+     da_special_approval:'',
+     special_approval_amount:'',
+     special_approval_purpose:'',
+     special_approval_document:'',
+     transportAmount: '',
+     parking: '',
+     toll: '',
+     communication: '',
+     miscellaneous: '',
+     others: '',
+     modeOfPayment: '',
+     ticketBookedBy: "",
+     designation: '',
+      transports: [
+     {
+       ticket_booked_by: "",
+       from_place: "",
+       to_place: "",
+       amount: "",
+       approval_document: null,
+     },
+   ],
+   });
 
   const [selectedCountry, setSelectedCountry] = useState("");
    const [category, setCategory] = useState("");
@@ -59,6 +79,33 @@ const InternationalTrip = () => {
     setCategory(countryObj ? countryObj.category : "");
   };
 
+
+  
+     const [expenses, setExpenses] = useState([
+    { nature: "", value: "", approvalDocument: null },
+  ]);
+  
+   const handleExpenseChange = (index, field, value) => {
+    setExpenses((prev) => {
+      const updatedExpenses = [...prev];
+      updatedExpenses[index] = { ...updatedExpenses[index], [field]: value };
+      return updatedExpenses;
+    });
+  };
+  
+  
+   const addExpense = () => {
+    setExpenses((prev) => [
+      ...prev,
+      { nature: "", value: "", approvalDocument: null },
+    ]);
+  };
+  
+  const removeExpense = (index) => {
+    setExpenses((prev) => prev.filter((_, i) => i !== index));
+  };
+  
+  
 const location = useLocation();
 
 const getActiveTab = () => {
@@ -80,22 +127,14 @@ const getActiveTab = () => {
 
 
 
-    const [expenses, setExpenses] = useState([{ nature: "", value: "" }]);
+   
  const handleChange1 = (index, field, value) => {
     const updated = [...expenses];
     updated[index][field] = value;
     setExpenses(updated);
   };
 
-  const addExpense = () => {
-    setExpenses([...expenses, { nature: "", value: "" }]);
-  };
-
-  const removeExpense = (index) => {
-    const updated = [...expenses];
-    updated.splice(index, 1);
-    setExpenses(updated);
-  };
+ 
 
  
 
@@ -222,42 +261,119 @@ useEffect(() => {
     .map((val) => parseFloat(val) || 0)
     .reduce((a, b) => a + b, 0);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(
-        "https://darkslategrey-shrew-424102.hostingersite.com/api/save_trip.php",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+ 
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-      const result = await response.json();
-      console.log(result);
+  const payload = new FormData();
 
-      if (result.status === "success") {
-        alert("Trip request submitted successfully!");
-        navigate("/dashboard");
-      } else {
-        alert("Failed to submit: " + result.message);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Network error while submitting form.");
+
+    // Add Local Storage values
+  const name = localStorage.getItem("employee_name") || "";
+  const department = localStorage.getItem("employee_department") || "";
+  const designation = localStorage.getItem("employee_designation") || "";
+  const employee_id = localStorage.getItem("employee_id") || "";
+
+  payload.append("name", name);
+  payload.append("department", department);
+  payload.append("designation", designation);
+  payload.append("employee_id", employee_id);
+  // Trip Details
+  payload.append("from_date", formData.fromDate || "");
+  payload.append("to_date", formData.toDate || "");
+  payload.append("period", formData.workPlan || "");
+  payload.append("days", formData.days || 0);
+  payload.append("project_code", formData.projectCode || "");
+  payload.append("purpose_of_visit", formData.purpose || "");
+
+  // Location
+  payload.append("state", formData.state || "");
+  payload.append("city", formData.place || "");
+  payload.append("company_provides_accommodation", formData.companyProvidesAccommodation || "");
+  payload.append("from_date_acc", formData.fromDateacc || "");
+  payload.append("to_date_acc", formData.toDateacc || "");
+  payload.append("nights_acc", formData.nightsacc || 0);
+  payload.append("max_accommodation_amount", formData.accommodation || 0);
+  payload.append("entered_accommodation_amount", formData.enteredAccommodation || 0);
+  payload.append("gst_amount", formData.gstAmount || 0);
+
+ payload.append("accommodation_document", formData.accommodation_document);
+
+  payload.append("specialApproval", formData.specialApproval || "");
+  payload.append("accom_special_approval_amount", formData.accom_special_approval_amount || "");
+  payload.append("accom_special_approval_purpose", formData.accom_special_approval_purpose || "");
+
+  payload.append("accom_special_approval_document", formData.accom_special_approval_document);
+  payload.append("daily_allowance", formData.dailyAllowance || 0);
+
+ payload.append("da_special_approval", formData.da_special_approval || "");
+  payload.append("special_approval_amount", formData.special_approval_amount || "");
+  payload.append("special_approval_purpose", formData.special_approval_purpose || "");
+    payload.append("special_approval_document", formData.special_approval_document);
+
+
+  payload.append("transports", JSON.stringify(formData.transports || []));
+ 
+ 
+  // --- Transports ---
+  payload.append("transports", JSON.stringify(formData.transports || []));
+
+  // --- Transport documents (one or multiple) ---
+  formData.transports.forEach((t, index) => {
+    if (t.approval_document) {
+      payload.append(`approval_document${index}`, t.approval_document);
     }
-  };
+  });
+
+
+   expenses.forEach((exp, index) => {
+    payload.append(`nature${index}`, exp.nature);
+    payload.append(`value${index}`, exp.value);
+    if (exp.approvalDocument) {
+      payload.append(`approvalDocument${index}`, exp.approvalDocument);
+    }
+  });
+  
+  try {
+    const res = await fetch("https://darkslategrey-shrew-424102.hostingersite.com/api/save_international_trip.php", {
+   method: "POST",
+      body: payload,
+    });
+
+    const data = await res.json();
+    console.log("Response:", data);
+
+    if (data.status === "success") {
+      alert("Data saved successfully!");
+    } else {
+      alert("Error: " + data.message);
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong while submitting the form.");
+  }
+};
+
+
+
 
 const addTransport = () => {
   setFormData((prev) => ({
     ...prev,
     transports: [
       ...prev.transports,
-      { transportMode: "", ticketBookedBy: "", from: "", to: "", amount: "" }
-    ]
+      {
+        transportMode: "",
+        autoType: "",
+        bikeType: "",
+        taxiType: "",
+        ticketBookedBy: "",
+        from: "",
+        to: "",
+        amount: "",
+        approvalDocument: null,
+      },
+    ],
   }));
 };
 
@@ -269,6 +385,8 @@ const removeTransport = (index) => {
   });
 };
 
+
+
 const handleTransportChange = (index, field, value) => {
   setFormData((prev) => {
     const newTransports = [...prev.transports];
@@ -276,6 +394,8 @@ const handleTransportChange = (index, field, value) => {
     return { ...prev, transports: newTransports };
   });
 };
+
+
 
 
 
@@ -325,6 +445,19 @@ useEffect(() => {
     }));
   }
 }, [formData.fromDate, formData.toDate]);
+
+const [projects, setProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState("");
+
+  useEffect(() => {
+    fetch("https://darkslategrey-shrew-424102.hostingersite.com/api/get_project_codes.php")
+    .then(res => res.json())
+    .then(data => {
+        console.log("API Data:", data);  // <--- check this
+        if(data.status === "success") setProjects(data.data);
+    })
+    .catch(err => console.error("API error:", err));
+}, []);
 
  // Initial form state
 const initialFormData = {
@@ -591,40 +724,30 @@ useEffect(() => {
     </div>
 
 
-    {/* Department */}
-    <div style={styles.field}>
-      <label style={styles.label}>Department</label>
+    
+
+    {/* Project Code */}
+   <div style={styles.field2}>
+      <label style={styles.label1}>Select Project: </label>
       <select
-        name="department"
-        value={formData.department}
-        onChange={handleChange}
-        style={{
-          ...styles.select,
-          backgroundColor: "#f1f8ff",
-          border: "1px solid #90caf9",
-        }}
+        style={styles.input2}       // <-- apply style here
+        value={selectedProject}
+        onChange={(e) => setSelectedProject(e.target.value)}
       >
-        <option value="">Select department</option>
-        <option value="HR">HR</option>
-        <option value="Finance">Finance</option>
-        <option value="IT">IT</option>
+        <option value="">-- Select Project --</option>
+        {projects.length > 0 ? (
+          projects.map((proj) => (
+           <option key={proj.ProjectCodeId} value={proj.ProjectCode} title={`${proj.ProjectCode} - ${proj.ProjectName}`}>
+  {proj.ProjectCode} - {proj.ProjectName}
+</option>
+
+          ))
+        ) : (
+          <option value="">No Projects Found</option>
+        )}
       </select>
     </div>
 
-    {/* Project Code */}
-    <div style={styles.field}>
-      <label style={styles.label}>Project Code</label>
-      <input
-        type="text"
-        name="projectCode"
-        value={formData.projectCode}
-        onChange={handleChange}
-        placeholder="Enter project code"
-        style={styles.input}
-      />
-    </div>
-
-        
 
         {/* Purpose of Visit */}
         <div style={styles.field}>
@@ -1536,7 +1659,7 @@ useEffect(() => {
             type="text"
             placeholder="Enter nature"
             value={exp.nature}
-            onChange={(e) => handleChange1(index, "nature", e.target.value)}
+            onChange={(e) => handleExpenseChange(index, "nature", e.target.value)}
             style={{
               flex: 1,
               padding: "10px",
@@ -1754,7 +1877,25 @@ mainButtonActive: {
 mainButtonHover: {
   background: "#e0e3e8",   // hover effect
 },
-
+ field2: {
+    marginBottom: "15px",
+    display: "flex",
+    flexDirection: "column",
+    maxWidth: "400px", // fixed width container
+  },
+  label1: {
+    fontWeight: "600",
+    marginBottom: "8px",
+    fontSize: "14px",
+  },
+  input2: {
+    padding: "12px",
+    border: "1px solid #ccc",
+    borderRadius: "10px",
+    fontSize: "14px",
+    outline: "none",
+    background: "transparent",
+  },
 subMenu: {
   marginLeft: "10px",
   marginBottom: "15px",

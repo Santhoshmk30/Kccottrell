@@ -12,6 +12,11 @@ import Form from './Components/form';
 import InternationalTrip from './Components/Trip Forms/InternationalTrip';
 import SightAllowance from './Components/Trip Forms/SightAllowance';
 import LocalTravel from './Components/Trip Forms/LocalTravel';
+import VendorForm from './Components/Purchases/Vendors';
+import PaymentAdvicePage from './Components/Purchases/Purchaseorder';
+import CertifyPurchaseOrder from './Components/Purchases/CertifyPurchaseorder';
+import VerifyPurchaseOrder from './Components/Purchases/VerifyPurchaseorder';
+import AdminPurchaseOrder from './Components/Purchases/AdminPurchaseorder'
 
 function App() {
   return (
@@ -28,6 +33,11 @@ function App() {
    <Route path="/international-trip" element={<InternationalTrip/>} />
    <Route path="/site-allowance" element={<SightAllowance/>} />
    <Route path="/local-trip" element={<LocalTravel/>}/>
+    <Route path="/vendors" element={<VendorForm/>}/>
+     <Route path="/paymentadvice" element={<PaymentAdvicePage/>}/>
+     <Route path="/certifypurchaseorder" element={<CertifyPurchaseOrder/>}/>
+      <Route path="/verifypurchaseorder" element={<VerifyPurchaseOrder/>}/>
+      <Route path="/adminpurchaseorder" element={<AdminPurchaseOrder/>}/>
       </Routes>
     </Router>
   );
