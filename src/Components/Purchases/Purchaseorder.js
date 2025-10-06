@@ -23,8 +23,8 @@ export default function PurchaseOrderPage() {
     ddPlace: ""
   });
 
-  const [rows, setRows] = useState([{ id: 1, invoiceNo: '', hsnSac: '', quantity: '', rate: '', per: '', basicValue: '' }]);
-  const [gstPercent, setGstPercent] = useState(0);
+  const [rows, setRows] = useState([{ id: 1, invoiceNo: '', hsnSac: '', quantity: '', rate: '', per: '', basicValue: '',gstPercent: 0, gstAmount: 0  }]);
+  const [gstPercent] = useState(0);
   const [reimbursement, setReimbursement] = useState('');
   const [tdsOptionId, setTdsOptionId] = useState(1);
   const [deductionType, setDeductionType] = useState('advance');
@@ -49,16 +49,41 @@ export default function PurchaseOrderPage() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleChange1 = (index, field, value) => {
-    const updatedRows = [...rows];
-    updatedRows[index][field] = field === 'basicValue' ? parseFloat(value) || 0 : value;
-    setRows(updatedRows);
-  };
+ const handleChange1 = (index, field, value) => {
+  setRows(prevRows => {
+    const newRows = [...prevRows];
+    newRows[index][field] = value;
+
+    // Update amount and gstAmount if amount changes
+    if (field === "amount") {
+      const gstPercent = newRows[index].gstPercent || 0;
+      newRows[index].gstAmount = (parseFloat(value) || 0) * gstPercent / 100;
+    }
+
+    return newRows;
+  });
+};
+
+const handleGstChange = (index, value) => {
+  setRows(prevRows => {
+    const newRows = [...prevRows];
+    newRows[index].gstPercent = value;
+    const amount = parseFloat(newRows[index].amount) || 0;
+    newRows[index].gstAmount = (amount * value) / 100;
+    return newRows;
+  });
+};
+
 
   const addRow = () => setRows([...rows, { id: Date.now(), invoiceNo: '', hsnSac: '', quantity: '', rate: '', per: '', basicValue: '' }]);
   const deleteRow = (index) => setRows(rows.filter((_, i) => i !== index));
 
-  const subtotal = rows.reduce((sum, r) => sum + (parseFloat(r.amount) || 0), 0);
+  const subtotal = rows.reduce(
+  (sum, r) =>
+    sum + (parseFloat(r.amount) || 0) + (parseFloat(r.gstAmount) || 0),
+  0
+);
+
   const gstAmount = (subtotal * gstPercent) / 100;
   const selectedTdsOption = tdsOptions.find(opt => parseInt(tdsOptionId) === opt.id);
   const tdsAmount = selectedTdsOption ? ((subtotal + gstAmount + (parseFloat(reimbursement) || 0)) * selectedTdsOption.rate) / 100 : 0;
@@ -73,22 +98,16 @@ const handleSubmit = async () => {
     const gstValue = parseFloat(gstPercent) || 0;
     const sanctionAmountValue = parseFloat(formData.sanction_amount) || 0;
 
-    // Calculate subtotal from row.amount
-    const subtotal = rows.reduce((sum, r) => sum + (parseFloat(r.amount) || 0), 0);
+  // Subtotal (without GST)
 
-    // Calculate GST amount in ₹
-    const gstAmount = (subtotal * gstValue) / 100;
 
-    // Ensure tdsOptionId is numeric and get selected TDS
-    const selectedTdsOption = tdsOptions.find(opt => opt.id === parseInt(tdsOptionId));
 
-    // Calculate TDS amount in ₹
-    const tdsAmount = selectedTdsOption
-      ? ((subtotal + gstAmount + reimbursementValue) * selectedTdsOption.rate) / 100
-      : 0;
 
-    // Calculate total
-    const totalAmount = subtotal + gstAmount + reimbursementValue - tdsAmount - adjustmentValue;
+// Ensure tdsOptionId is numeric and get selected TDS
+const selectedTdsOption = tdsOptions.find(opt => opt.id === parseInt(tdsOptionId));
+
+// TDS amount (calculated on subtotal+gst+reimbursement)
+
 
     // Build payload
     const payload = {
@@ -102,22 +121,25 @@ const handleSubmit = async () => {
       gst_amount: parseFloat(gstAmount.toFixed(2)),  // GST in ₹
       reimbursement: reimbursementValue,
       tds_name: selectedTdsOption ? selectedTdsOption.name : '',
-      tds_rate: parseFloat(tdsAmount.toFixed(2)),     // TDS in ₹
+      tds_rate: parseFloat(tdsAmount),     // TDS in ₹
       deduction_type: deductionType,
       adjustment: adjustmentValue,
-      total_amount: totalAmount,
+      total_amount: total,
       mode_of_transaction: formData.mode_of_transaction || '',
       payment_type: formData.payment_type || '',
       sanction_amount: sanctionAmountValue,
       in_favour_of: formData.in_favour_of || '',
-      items: rows.map(r => ({
-        item: r.item || '',
-        hsnSac: r.hsnSac || '',
-        quantity: parseFloat(r.quantity) || 0,
-        rate: parseFloat(r.rate) || 0,
-        per: r.per || '',
-        basicValue: parseFloat(r.amount) || 0      // use amount field
-      }))
+       items: rows.map(r => ({
+    item: r.item || '',
+    hsnSac: r.hsnSac || '',
+    quantity: parseFloat(r.quantity) || '',
+    rate: parseFloat(r.rate) || '',
+    per: r.per || '',
+    basicValue: parseFloat(r.amount) || '',  
+    gst_percent: parseFloat(r.gstPercent),               
+    gst_amount: parseFloat(r.gstAmount),   
+  }))
+
     };
 
     console.log("Payload to send:", payload);
@@ -232,7 +254,7 @@ const handleSubmit = async () => {
 
      {/* Item Table */}
 <div style={{ overflowX: "auto", marginBottom: 20 }}>
-  <table
+   <table
     style={{
       width: "100%",
       borderCollapse: "collapse",
@@ -260,6 +282,7 @@ const handleSubmit = async () => {
         <th style={styles.th}>Rate</th>
         <th style={styles.th}>Per</th>
         <th style={styles.th}>Amount</th>
+        <th style={styles.th}>GST</th>
         <th style={styles.th}>Action</th>
       </tr>
     </thead>
@@ -278,6 +301,8 @@ const handleSubmit = async () => {
           }
         >
           <td style={styles.td}>{i + 1}</td>
+
+          {/* Item */}
           <td style={styles.td}>
             <input
               style={styles.inputWide}
@@ -285,6 +310,8 @@ const handleSubmit = async () => {
               onChange={(e) => handleChange1(i, "item", e.target.value)}
             />
           </td>
+
+          {/* HSN/SAC */}
           <td style={styles.td}>
             <input
               style={styles.inputSmall}
@@ -292,6 +319,8 @@ const handleSubmit = async () => {
               onChange={(e) => handleChange1(i, "hsnSac", e.target.value)}
             />
           </td>
+
+          {/* Quantity */}
           <td style={styles.td}>
             <input
               type="number"
@@ -300,6 +329,8 @@ const handleSubmit = async () => {
               onChange={(e) => handleChange1(i, "quantity", e.target.value)}
             />
           </td>
+
+          {/* Rate */}
           <td style={styles.td}>
             <input
               type="number"
@@ -308,6 +339,8 @@ const handleSubmit = async () => {
               onChange={(e) => handleChange1(i, "rate", e.target.value)}
             />
           </td>
+
+          {/* Per */}
           <td style={styles.td}>
             <input
               style={styles.inputSmall}
@@ -315,28 +348,61 @@ const handleSubmit = async () => {
               onChange={(e) => handleChange1(i, "per", e.target.value)}
             />
           </td>
- <td style={styles.td}>
-  <input
-    type="number"
-    style={{
-      ...styles.inputSmall,
-      WebkitAppearance: "none", // Chrome, Safari, Edge
-      MozAppearance: "textfield", // Firefox
-      appearance: "none"          // Standard
-    }}
-    value={row.amount === 0 ? "" : row.amount}
-    onChange={(e) => handleChange1(i, "amount", e.target.value)}
-    onKeyDown={(e) => {
-      // Prevent e, E, +, -, . if you want only integers
-      if (["e", "E", "+", "-", "."].includes(e.key)) {
-        e.preventDefault();
-      }
-    }}
-  />
-</td>
 
+          {/* Amount */}
+          <td style={styles.td}>
+            <input
+              type="number"
+              style={{
+                ...styles.inputSmall,
+                WebkitAppearance: "none",
+                MozAppearance: "textfield",
+                appearance: "none",
+              }}
+              value={row.amount === 0 ? "" : row.amount}
+              onChange={(e) => handleChange1(i, "amount", e.target.value)}
+              onKeyDown={(e) => {
+                if (["e", "E", "+", "-", "."].includes(e.key)) {
+                  e.preventDefault();
+                }
+              }}
+            />
+          </td>
 
+          {/* GST */}
+          <td style={styles.td}>
+            <select
+              value={row.gstPercent || 0}
+              onChange={(e) => handleGstChange(i, parseFloat(e.target.value))}
+              style={{
+                flex: "1 1 150px",
+                padding: 6,
+                border: "1px solid #ccc",
+                borderRadius: 4,
+                outline: "none",
+                width:"70px"
+              }}
+            >
+              <option value={0}>Select GST</option>
+              <option value={5}>5%</option>
+              <option value={12}>12%</option>
+              <option value={18}>18%</option>
+              <option value={28}>28%</option>
+            </select>
+            <span
+              style={{
+                minWidth: 80,
+                textAlign: "right",
+                flexShrink: 0,
+                display: "inline-block",
+                marginLeft: 8,
+              }}
+            >
+              ₹{(row.gstAmount || 0).toFixed(2)}
+            </span>
+          </td>
 
+          {/* Delete */}
           <td style={styles.td}>
             <button
               onClick={() => deleteRow(i)}
@@ -355,6 +421,8 @@ const handleSubmit = async () => {
       ))}
     </tbody>
   </table>
+
+
 
   <button
     onClick={addRow}
@@ -396,28 +464,7 @@ const handleSubmit = async () => {
     <span>₹{subtotal.toFixed(2)}</span>
   </div>
 
-  {/* GST */}
-  <div style={{ display: 'flex', alignItems: 'center', marginBottom: 12, gap: 8, flexWrap: 'wrap' }}>
-    <label style={{ minWidth: 100 }}>GST</label>
-    <select
-      value={gstPercent}
-      onChange={(e) => setGstPercent(parseFloat(e.target.value))}
-      style={{
-        flex: '1 1 150px',
-        padding: 6,
-        border: '1px solid #ccc',
-        borderRadius: 4,
-        outline: 'none',
-      }}
-    >
-      <option value={0}>Select GST</option>
-      <option value={5}>5%</option>
-      <option value={12}>12%</option>
-      <option value={18}>18%</option>
-      <option value={28}>28%</option>
-    </select>
-    <span style={{ minWidth: 80, textAlign: 'right', flexShrink: 0 }}>₹{gstAmount.toFixed(2)}</span>
-  </div>
+ 
 
 {/* Reimbursement Section */}
 <div
