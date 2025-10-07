@@ -15,7 +15,7 @@ const styles = {
   },
   invoiceA4: {
     background: "#fff",
-    width: "210mm", minHeight: "297mm",   // A4 size
+    width: "210mm", minHeight: "297mm",
     padding: "20mm", boxSizing: "border-box",
     borderRadius: 6, position: "relative",
     fontFamily: "'Segoe UI', sans-serif",
@@ -98,14 +98,14 @@ const PurchaseOrderList = () => {
   try {
     const response = await axios.post("https://darkslategrey-shrew-424102.hostingersite.com/api/update_purchase.php", {
       purchase_id: id,
-      action: actionType, // "certify" or "reject"
+      action: actionType, 
     });
 
    
     if (response.data.success) {
       alert(`${actionType.toUpperCase()} successful!`);
-      setModalData(null); // close modal
-      window.location.reload(); // refresh page to show updated status
+      setModalData(null); 
+      window.location.reload(); 
     } else {
       alert(`Failed: ${response.data.error}`);
     }
@@ -123,46 +123,54 @@ const PurchaseOrderList = () => {
   return (
     <div style={styles.container}>
       <h2>Purchase Orders</h2>
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <th style={styles.th}>Bill Date</th>
-            <th style={styles.th}>Supplier Name</th>
-            <th style={styles.th}>Invoice Number</th>
-            <th style={styles.th}>Admin No</th>
-            <th style={styles.th}>Bill No</th>
-            <th style={styles.th}>Status</th>
-            <th style={styles.th}></th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order, index) => (
-            <tr key={index}>
-              <td style={styles.td}>{order.bill_date}</td>
-              <td style={styles.td}>{order.supplier_name}</td>
-              <td style={styles.td}>{order.invoice_number}</td>
-              <td style={styles.td}>{order.admin_no}</td>
-              <td style={styles.td}>{order.bill_no}</td>
-              <td style={styles.td}>
-               <span
-  style={{
-    ...styles.status,
-    backgroundColor: statusColor[order.status?.toLowerCase()] || "#718096", // fallback color
-  }}
->
-  {order.status}
-</span>
+     <table style={styles.table}>
+  <thead>
+    <tr>
+      <th style={styles.th}>Bill Date</th>
+      <th style={styles.th}>Supplier Name</th>
+      <th style={styles.th}>Invoice Number</th>
+      <th style={styles.th}>ERP No</th>
+      <th style={styles.th}>Status</th>
+      <th style={styles.th}>Pending With</th> 
+      <th style={styles.th}></th>
+    </tr>
+  </thead>
+  <tbody>
+    {orders.map((order, index) => (
+      <tr key={index}>
+        <td style={styles.td}>{order.bill_date}</td>
+        <td style={styles.td}>{order.supplier_name}</td>
+        <td style={styles.td}>{order.bill_no}</td>
+        <td style={styles.td}>{order.admin_no}</td>
+        <td style={styles.td}>
+          <span
+            style={{
+              ...styles.status,
+              backgroundColor: statusColor[order.status?.toLowerCase()] || "#718096",
+            }}
+          >
+            {order.status}
+          </span>
+        </td>
+        <td style={styles.td}>
+          {order.status === "pending"
+            ? "N.Yogarani"
+            : order.status === "certify"
+            ? "R.Singaravelu"
+            : order.status === "verify"
+            ? "Payment Process"
+            : "-"}
+        </td>
+        <td style={styles.td}>
+          <button style={styles.viewButton} onClick={() => setModalData(order)}>
+            View
+          </button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
 
-              </td>
-              <td style={styles.td}>
-                <button style={styles.viewButton} onClick={() => setModalData(order)}>
-                  View
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
 
  {modalData && (
   <div style={styles.modal} onClick={() => setModalData(null)}>
@@ -214,9 +222,8 @@ const PurchaseOrderList = () => {
       <div style={styles.infoBlock}>
         <div>
           <p><strong>Supplier:</strong> {modalData.supplier_name}</p>
-          <p><strong>Invoice No:</strong> {modalData.invoice_number}</p>
-          <p><strong>Bill No:</strong> {modalData.bill_no}</p>
           <p><strong>Admin No:</strong> {modalData.admin_no}</p>
+          <p><strong>Invoice No:</strong> {modalData.bill_no}</p>
         </div>
         <div>
           <p><strong>Bill Date:</strong> {modalData.bill_date}</p>
@@ -236,6 +243,7 @@ const PurchaseOrderList = () => {
               <th style={styles.th}>Rate</th>
               <th style={styles.th}>Per</th>
               <th style={styles.th}>{modalData.items[0]?.amount ? "Amount" : "Basic Value"}</th>
+              <th style={styles.th}>GST %</th>
             </tr>
           </thead>
           <tbody>
@@ -247,6 +255,7 @@ const PurchaseOrderList = () => {
                 <td style={{ ...styles.td, textAlign: "right" }}>{item.rate || "-"}</td>
                 <td style={{ ...styles.td, textAlign: "center" }}>{item.per || "-"}</td>
                 <td style={{ ...styles.td, textAlign: "right" }}>{item.amount ?? item.basicValue ?? "-"}</td>
+                <td style={{ ...styles.td, textAlign: "center" }}>{item.gst_amount || "-"}</td>
               </tr>
             ))}
           </tbody>
@@ -257,7 +266,6 @@ const PurchaseOrderList = () => {
       <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
         <table style={styles.totalTable}>
           <tbody>
-            <tr><td style={styles.totalLabel}>GST %</td><td style={styles.totalValue}>{modalData.gst_amount}</td></tr>
             <tr><td style={styles.totalLabel}>Reimbursement</td><td style={styles.totalValue}>₹{modalData.reimbursement}</td></tr>
             <tr><td style={styles.totalLabel}>TDS Rate</td><td style={styles.totalValue}>{modalData.tds_rate}</td></tr>
             <tr><td style={styles.totalLabel}>Adjustment</td><td style={styles.totalValue}>-₹{modalData.adjustment}</td></tr>
@@ -279,11 +287,15 @@ const PurchaseOrderList = () => {
       <div style={{ marginTop: 50, display: "flex", justifyContent: "space-between" }}>
         <div style={{ textAlign: "center" }}>
           <p>________________________</p>
+          <p style={{ marginTop: -10 }}>Intented By</p>
+        </div>
+        <div style={{ textAlign: "center" }}>
+          <p>________________________</p>
           <p style={{ marginTop: -10 }}>Certified By</p>
         </div>
         <div style={{ textAlign: "center" }}>
           <p>________________________</p>
-          <p style={{ marginTop: -10 }}>Verified By</p>
+          <p style={{ marginTop: -10 }}>Approved By</p>
         </div>
       </div>
 

@@ -13,6 +13,7 @@ function Login() {
 
   const handleEmployeeChange = async (e) => {
     const value = e.target.value;
+
     setEmployeeId(value);
     if (value.length > 0) {
       try {
@@ -33,13 +34,13 @@ function Login() {
     }
   };
   
-  const handleLogin = async (e) => {
+ const handleLogin = async (e) => {
   e.preventDefault();
   setLoading(true);
 
   try {
     const form = new FormData();
-    form.append("employee_id", employee_id); // match PHP field
+    form.append("employee_id", employee_id.toUpperCase()); // always send in CAPS
     form.append("password", password);
 
     const response = await axios.post(
@@ -52,7 +53,7 @@ function Login() {
 
     if (data.success) {
       // ✅ Store employee ID and other info in localStorage
-      localStorage.setItem("employee_id", employee_id);
+      localStorage.setItem("employee_id", employee_id.toUpperCase()); // save in CAPS
       localStorage.setItem("designation", data.designation);
       localStorage.setItem("name", data.name);
 
@@ -71,6 +72,7 @@ function Login() {
     setLoading(false);
   }
 };
+
 
 
 
@@ -131,7 +133,7 @@ function Login() {
    card: {
   width: '100%',
   maxWidth: '400px',
-  backgroundColor: '#ffff', 
+  backgroundColor: 'rgba(255,255,255,0)', 
   backdropFilter: 'blur(1px)',        
   borderRadius: '16px',
   boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
@@ -210,12 +212,17 @@ function Login() {
           <h2 style={styles.heading}>Login</h2>
           <form onSubmit={handleLogin}>
             <input
-              type="text"
-              placeholder="Employee ID"
-              value={employee_id}
-              onChange={handleEmployeeChange}
-              required
-              style={styles.input}/>
+  type="text"
+  placeholder="Employee ID"
+  value={employee_id}
+  onChange={handleEmployeeChange}
+  required
+  style={{
+    ...styles.input,
+    textTransform: "uppercase" // visually caps lock
+  }}
+/>
+
             {name && <p style={{ color: '#2980b9', marginTop: '5px' }}>Hii, {name}!</p>}
 
             <input
@@ -243,7 +250,6 @@ function Login() {
 }
 
 export default Login;
-
 
 
 

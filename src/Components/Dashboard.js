@@ -36,6 +36,7 @@ const employeeId = localStorage.getItem("employee_id");
       ? [
           { name: "Vendors", path: "/vendors" },
           { name: "Payment Advice", path: "/paymentadvice" },
+          { name: "Purchase Order", path: "/certifypurchaseorder" }
         ]
       : []),
 

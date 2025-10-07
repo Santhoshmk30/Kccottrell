@@ -1,14 +1,12 @@
 import React, {useEffect,useState } from 'react';
 import axios from 'axios';
 
-const tdsOptions = [
-  { id: 1, name: 'Payment of contractors for Others (Reduced) 1.5%', rate: 1.5 },
-  { id: 2, name: 'Other TDS Option', rate: 2 },
-];
+import { useNavigate } from "react-router-dom";
+
 
 export default function PurchaseOrderPage() {
   const [formData, setFormData] = useState({
-    admin_no: "",
+    erp_no: "",
     bill_date: "",
     project_code: "",
     itemDescription: "",
@@ -23,16 +21,46 @@ export default function PurchaseOrderPage() {
     ddPlace: ""
   });
 
+  
+// Inside your component
+const navigate = useNavigate();
+
   const [rows, setRows] = useState([{ id: 1, invoiceNo: '', hsnSac: '', quantity: '', rate: '', per: '', basicValue: '',gstPercent: 0, gstAmount: 0  }]);
   const [gstPercent] = useState(0);
   const [reimbursement, setReimbursement] = useState('');
-  const [tdsOptionId, setTdsOptionId] = useState(1);
+ const [tdsOptionId, setTdsOptionId] = useState(""); // store selected TDS id
   const [deductionType, setDeductionType] = useState('advance');
   const [adjustment, setAdjustment] = useState(0);
     const [suppliers, setSuppliers] = useState([]); // <-- suppliers list
 
+const [suppliersData, setSuppliersData] = useState([]); // full API data
 
-      // Fetch suppliers from API on mount
+
+const [tdsRate, setTdsRate] = useState(0);          // numeric rate
+
+
+const tdsOptions = [
+  { id: 1, name: 'Commission or Brokerage [2%]', rate: 2 },
+  { id: 2, name: 'Commission or Brokerage (Reduced) [3.75%]', rate: 3.75 },
+  { id: 3, name: 'Dividend [10%]', rate: 10 },
+  { id: 4, name: 'Dividend (Reduced) [7.5%]', rate: 7.5 },
+  { id: 5, name: 'Other Interest than securities [10%]', rate: 10 },
+  { id: 6, name: 'Other Interest than securities (Reduced) [7.5%]', rate: 7.5 },
+  { id: 7, name: 'Payment of contractors for Others [2%]', rate: 2 },
+  { id: 8, name: 'Payment of contractors for Others (Reduced) [1.5%]', rate: 1.5 },
+  { id: 9, name: 'Payment of contractors HUF/Indiv [1%]', rate: 1 },
+  { id: 10, name: 'Payment of contractors HUF/Indiv (Reduced) [0.75%]', rate: 0.75 },
+  { id: 11, name: 'Professional Fees [10%]', rate: 10 },
+  { id: 12, name: 'Professional Fees (Reduced) [7.5%]', rate: 7.5 },
+  { id: 13, name: 'Rent on land or furniture etc [10%]', rate: 10 },
+  { id: 14, name: 'Rent on land or furniture etc (Reduced) [7.5%]', rate: 7.5 },
+  { id: 15, name: 'Technical Fees (2%) [2%]', rate: 2 },
+];
+
+
+ 
+
+  // Fetch suppliers once
   useEffect(() => {
     fetch("https://darkslategrey-shrew-424102.hostingersite.com/api/vendors_data.php")
       .then(res => res.json())
@@ -40,14 +68,69 @@ export default function PurchaseOrderPage() {
         if (data.success && data.data) {
           const uniqueCompanies = Array.from(new Set(data.data.map(v => v.company_name)));
           setSuppliers(uniqueCompanies);
+          setSuppliersData(data.data);
         }
       })
       .catch(err => console.error('Error fetching suppliers:', err));
   }, []);
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+
+const handleSupplierChange = (e) => {
+  const value = e.target.value;
+
+  setFormData(prev => {
+    const updatedData = { ...prev, supplier_name: value };
+
+    // Auto-fill "In Favour Of" only if it's empty
+    if (!prev.in_favour_of) {
+      updatedData.in_favour_of = value;
+    }
+
+    return updatedData;
+  });
+
+  // Exit early if no value or suppliers data is empty
+  if (!value || suppliersData.length === 0) return;
+
+  // Find selected supplier in suppliersData
+  const supplier = suppliersData.find(v => v.company_name === value);
+  const supplierTdsName = supplier?.tds || "";
+
+  // Find TDS option by name to get its ID and rate
+  const tdsOption = tdsOptions.find(opt => opt.name.trim() === supplierTdsName.trim());
+
+  setTdsOptionId(tdsOption?.id || "");  // store the TDS ID
+  setTdsRate(tdsOption?.rate || 0);     // store the TDS rate
+};
+
+
+ 
+
+
+
+
+ const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  setFormData(prev => {
+    const newData = { ...prev, [name]: value };
+
+    if (name === "payment_type") {
+      if (value === "Full") {
+        newData.sanction_amount = total; 
+      } else {
+        newData.sanction_amount = prev.sanction_amount || ""; 
+      }
+    }
+
+    return newData;
+  });
+};
+
+
+  
+
+
+
 
  const handleChange1 = (index, field, value) => {
   setRows(prevRows => {
@@ -84,12 +167,17 @@ const handleGstChange = (index, value) => {
   0
 );
 
+
+
   const gstAmount = (subtotal * gstPercent) / 100;
   const selectedTdsOption = tdsOptions.find(opt => parseInt(tdsOptionId) === opt.id);
   const tdsAmount = selectedTdsOption ? ((subtotal + gstAmount + (parseFloat(reimbursement) || 0)) * selectedTdsOption.rate) / 100 : 0;
   const total = subtotal + gstAmount + (parseFloat(reimbursement) || 0) - tdsAmount - (parseFloat(adjustment) || 0);
 
-  
+ 
+
+
+
 const handleSubmit = async () => {
   try {
     // Ensure numeric values
@@ -111,7 +199,7 @@ const selectedTdsOption = tdsOptions.find(opt => opt.id === parseInt(tdsOptionId
 
     // Build payload
     const payload = {
-      admin_no: formData.admin_no || '',
+      admin_no: formData.erp_no || '',
       bill_no: formData.bill_no || '',
       bill_date: formData.bill_date || '',
       project_code: formData.project_code || '',
@@ -153,8 +241,12 @@ const selectedTdsOption = tdsOptions.find(opt => opt.id === parseInt(tdsOptionId
 
     console.log("Backend response:", response.data);
 
+
     if (response.data.success) {
       alert(`Purchase Order submitted successfully! ID: ${response.data.order_id}`);
+
+       navigate("/dashboard"); 
+
     } else {
       alert(`Failed to submit: ${response.data.error}`);
     }
@@ -169,88 +261,112 @@ const selectedTdsOption = tdsOptions.find(opt => opt.id === parseInt(tdsOptionId
 
 
 
+
   return (
     <div style={{ padding: 20, fontFamily: 'Arial', maxWidth: 1000, margin: 'auto' }}>
       <h2>Purchase Order</h2>
 
-      {/* Header */}
-     <div
-  style={{
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)", // always 3 in a row
-    gap: 30, // equal gap between inputs
-    marginBottom: 20,
-  }}
->{["admin_no", "bill_no", "bill_date"].map((name) => (
-  <div
-    key={name}
-    style={{ display: "flex", flexDirection: "column" }}
-  >
-    <label style={styles.label}>
-      {name === "admin_no"
-        ? "ADMIN No"
-        : name === "bill_no"
-        ? "Bill Number"
-        : "Bill Date"}
-    </label>
+        <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr", // two columns: left & right
+        marginBottom: 20,
+        alignItems: "center",
+      }}
+    >
+      {/* ERP No on left */}
+      <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", width:'180px'}}>
+       
+      </div>
+
+      {/* Bill Date on right */}
+      <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "flex-end" }}>
+        <label style={{ fontWeight: "bold", marginBottom: 5 }}>Bill Date</label>
+        <input
+          type="date"
+          name="bill_date"
+           style={styles.input}
+          value={formData.bill_date}
+          onChange={handleChange}
+        />
+      </div>
+    </div>
+
+
+
+     {/* Project & Supplier Info */}
+<div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 20 }}>
+  {/* Project / Contract Code */}
+  <div style={{ flex: '1 1 45%', display: 'flex', flexDirection: 'column' }}>
+    <label style={styles.label}>Project / Contract Code</label>
     <input
-      type={name === "bill_date" ? "date" : "text"}
-      name={name}
-      style={{ ...styles.input, width: "100%" }}
-      value={formData[name]}
+      type="text"
+      name="project_code"
+      style={styles.input}
+      value={formData.project_code}
       onChange={handleChange}
     />
   </div>
-))}
 
+ {/* Invoice No */}
+<div style={{ flex: '1 1 45%', display: 'flex', flexDirection: 'column' }}>
+  <label style={styles.label}>Invoice No</label>
+  <input
+    type="text"
+    name="bill_no"  
+    style={styles.input}
+    value={formData.bill_no}
+    onChange={handleChange}
+  />
 </div>
 
 
-      {/* Project & Supplier Info */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 20 }}>
-        {[
-          { label: "Project / Contract Code", name: "project_code" },
-          { label: "Invoice No", name: "invoicenumber" },
-          { label: "Supplier’s Name", name: "supplier_name", type: "select" },
-          { label: "Our P.O. No./Date", name: "poYesNo", type: "select" }
-        ].map(({ label, name, type }) => (
-          <div key={name} style={{ flex: '1 1 45%', display: 'flex', flexDirection: 'column' }}>
-            <label style={styles.label}>{label}</label>
-            {type === 'select' ? (
-              <select
-                name={name}
-                style={styles.input}
-                value={formData[name]}
-                onChange={handleChange}
-              >
-                <option value="">{name === "supplier_name" ? "Select Supplier" : "Select"}</option>
-                {name === "supplier_name"
-                  ? suppliers.map((company, idx) => (
-                      <option key={idx} value={company}>{company}</option>
-                    ))
-                  : ["Yes", "No"].map((opt, idx) => (
-                      <option key={idx} value={opt}>{opt}</option>
-                    ))
-                }
-              </select>
-            ) : (
-              <input
-                type="text"
-                name={name}
-                style={styles.input}
-                value={formData[name]}
-                onChange={handleChange}
-              />
-            )}
-          </div>
-        ))}
-        {formData.poYesNo === 'Yes' && (
-          <div style={{ flex: '1 1 45%', display: 'flex', flexDirection: 'column' }}>
-            <label style={styles.label}>Enter P.O. No./Date</label>
-            <input type="text" name="po_number" style={styles.input} value={formData.po_number} onChange={handleChange} />
-          </div>
-        )}
-      </div>
+  {/* Supplier’s Name */}
+  <div style={{ flex: '1 1 45%', display: 'flex', flexDirection: 'column' }}>
+    <label style={styles.label}>Supplier’s Name</label>
+    <select
+      name="supplier_name"
+      style={styles.input}
+      value={formData.supplier_name}
+      onChange={handleSupplierChange}
+    >
+      <option value="">Select Supplier</option>
+      {suppliers.map((company, idx) => (
+        <option key={idx} value={company}>{company}</option>
+      ))}
+    </select>
+  </div>
+
+  {/* Our P.O. No./Date (Yes/No) */}
+  <div style={{ flex: '1 1 45%', display: 'flex', flexDirection: 'column' }}>
+    <label style={styles.label}>Our P.O. No./Date</label>
+    <select
+      name="poYesNo"
+      style={styles.input}
+      value={formData.poYesNo}
+      onChange={handleChange}
+    >
+      <option value="">Select</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
+  </div>
+
+  {/* Enter P.O. No./Date - Only when Yes */}
+  {formData.poYesNo === 'Yes' && (
+    <div style={{ flex: '1 1 45%', display: 'flex', flexDirection: 'column' }}>
+      <label style={styles.label}>Enter P.O. No./Date</label>
+      <input
+        type="text"
+        name="po_number"
+        style={styles.input}
+        value={formData.po_number}
+        onChange={handleChange}
+      />
+    </div>
+  )}
+</div>
+
 
      {/* Item Table */}
 <div style={{ overflowX: "auto", marginBottom: 20 }}>
@@ -495,36 +611,26 @@ const selectedTdsOption = tdsOptions.find(opt => opt.id === parseInt(tdsOptionId
     ₹{reimbursement ? reimbursement.toFixed(2) : "0.00"}
   </span>
 </div>
-
 {/* TDS */}
 <div
   style={{
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)", // always 3 columns
-    gap: 12,
+    display: "flex",
     alignItems: "center",
     marginBottom: 12,
   }}
 >
-  <label style={{ minWidth: 100 }}>TDS</label>
-  <select
-    value={tdsOptionId}
-    onChange={(e) => setTdsOptionId(e.target.value)}
-    style={{
-      padding: 6,
+  {/* Left group: Label + Rate */}
+  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+    <label style={{ minWidth: 100 }}>TDS (%)</label>
+    <input type="number" value={tdsRate} readOnly style={{ width: 40,marginLeft:'12px', padding: 6,
       border: "1px solid #ccc",
       borderRadius: 4,
       outline: "none",
-      width: "100%",
-    }}
-  >
-    {tdsOptions.map((opt) => (
-      <option key={opt.id} value={opt.id}>
-        {opt.name}
-      </option>
-    ))}
-  </select>
-  <span style={{ textAlign: "right", fontWeight: "bold" }}>
+     }} />
+  </div>
+
+  {/* Right: Amount */}
+  <span style={{ marginLeft: "auto", fontWeight: "bold" }}>
     - ₹{tdsAmount.toFixed(2)}
   </span>
 </div>
@@ -594,25 +700,47 @@ const selectedTdsOption = tdsOptions.find(opt => opt.id === parseInt(tdsOptionId
 </div>
 
 
-      {/* Payment Info */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 16,marginTop:10, }}>
-        {[
-          { label: "Mode of Transaction", name: "mode_of_transaction", type: "select", options: ["", "cheque", "neft", "rtgs", "cash"] },
-          { label: "Payment Type", name: "payment_type", type: "select", options: ["", "full", "partial", "advance"] },
-          { label: "Sanction Amount", name: "sanction_amount", type: "number" },
-        ].map(({ label, name, type, options }) => (
-          <div key={name} style={{ flex: '1 1 250px', display: 'flex', flexDirection: 'column' }}>
-            <label style={styles.label}>{label}</label>
-            {type === 'select' ? (
-              <select name={name} style={styles.input} value={formData[name]} onChange={handleChange}>
-                {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-              </select>
-            ) : (
-              <input type={type} name={name} style={styles.input} value={formData[name]} onChange={handleChange} />
-            )}
-          </div>
-        ))}
-      </div>
+     {/* Payment Info */}
+<div
+  style={{
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: 16,
+    marginBottom: 16,
+    marginTop: 10,
+  }}
+>
+  {[
+    { label: "Mode of Transaction", name: "mode_of_transaction", type: "select", options: ["Select","Cash", "Online", "Check"] },
+    { label: "Payment Type", name: "payment_type", type: "select", options: ["Select", "Full", "Partial", "Advance"] },
+    { label: "Sanction Amount", name: "sanction_amount", type: "number" },
+  ].map(({ label, name, type, options }) => (
+    <div key={name} style={{ flex: '1 1 250px', display: 'flex', flexDirection: 'column' }}>
+      <label style={styles.label}>{label}</label>
+      {type === 'select' ? (
+        <select
+          name={name}
+          style={styles.input}
+          value={formData[name]}
+          onChange={handleChange}
+        >
+          {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+        </select>
+      ) : (
+        <input
+          type={type}
+          name={name}
+          style={styles.input}
+          value={formData[name]}
+          onChange={handleChange}
+          readOnly={formData.payment_type === "Full"} // <-- auto-readonly for Full
+        />
+      )}
+    </div>
+  ))}
+</div>
+
+
 
       {/* In Favour Of */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 16 }}>

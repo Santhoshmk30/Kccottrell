@@ -498,7 +498,7 @@ export default function VendorForm() {
                 <option style={styles.option}>Professional Fees (Reduced) [7.5%]</option>
                 <option style={styles.option}>Rent on land or furniture etc [10%]</option>
                 <option style={styles.option}>Rent on land or furniture etc (Reduced) [7.5%]</option>
-                <option style={styles.option}>Technical Fees (2%) [2%]</option>
+                <option style={styles.option}>Technical Fees (2%)</option>
               </select>
               <input
                 type="file"
