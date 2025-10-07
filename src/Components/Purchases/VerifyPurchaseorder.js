@@ -273,22 +273,48 @@ const PurchaseOrderList = () => {
         <p><strong>Sanction Amount:</strong> ₹{modalData.sanction_amount}</p>
         <p><strong>In Favour Of:</strong> {modalData.in_favour_of}</p>
       </div>
+{modalData && (
+  <div style={{ marginTop: 50, display: "flex", justifyContent: "space-between" }}>
 
-    {/* ---------- SIGNATURES ---------- */}
-      <div style={{ marginTop: 50, display: "flex", justifyContent: "space-between" }}>
-        <div style={{ textAlign: "center" }}>
-          <p>________________________</p>
-          <p style={{ marginTop: -10 }}>Intented By</p>
-        </div>
-        <div style={{ textAlign: "center" }}>
-          <p>________________________</p>
-          <p style={{ marginTop: -10 }}>Certified By</p>
-        </div>
-        <div style={{ textAlign: "center" }}>
-          <p>________________________</p>
-          <p style={{ marginTop: -10 }}>Approved By</p>
-        </div>
-      </div>
+    {/* Intented By */}
+    <div style={{ textAlign: "center" }}>
+      {(modalData.status === "pending" && (
+        <img src="/Signatures/My Sign.jpg" alt="My Signature" style={{ width: 100, height: 50, marginBottom: -10 }} />
+      )) ||
+      (modalData.status === "certify" && (
+        <img src="/Signatures/Mam Sign.jpg" alt="My Signature" style={{ width: 100, height: 50, marginBottom: -10 }} />
+      )) ||
+      (modalData.status === "Approve" && (
+        <img src="/Signatures/Sir Sign.jpg" alt="Sir Signature" style={{ width: 100, height: 50, marginBottom: -10 }} />
+      ))}
+      <p>________________________</p>
+      <p style={{ marginTop: -10 }}>Intented By</p>
+    </div>
+
+    {/* Certified By */}
+    <div style={{ textAlign: "center" }}>
+      {(modalData.status === "certify" && (
+        <img src="/Signatures/Mam Sign.jpg" alt="Mam Signature" style={{ width: 100, height: 50, marginBottom: -10 }} />
+      )) ||
+      (modalData.status === "Approve" && (
+        <img src="/Signatures/Sir Sign.jpg" alt="Sir Signature" style={{ width: 100, height: 50, marginBottom: -10 }} />
+      ))}
+      <p>________________________</p>
+      <p style={{ marginTop: -10 }}>Certified By</p>
+    </div>
+
+    {/* Approved By */}
+    <div style={{ textAlign: "center" }}>
+      {modalData.status === "Approve" && (
+        <img src="/Signatures/Sir Sign.jpg" alt="Sir Signature" style={{ width: 100, height: 50, marginBottom: -10 }} />
+      )}
+      <p>________________________</p>
+      <p style={{ marginTop: -10 }}>Approved By</p>
+    </div>
+
+  </div>
+)}
+
 
   
 
