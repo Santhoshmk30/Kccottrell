@@ -222,7 +222,7 @@ const PurchaseOrderList = () => {
       <div style={styles.infoBlock}>
         <div>
           <p><strong>Supplier:</strong> {modalData.supplier_name}</p>
-          <p><strong>Admin No:</strong> {modalData.admin_no}</p>
+          <p><strong>ERP No:</strong> {modalData.admin_no}</p>
           <p><strong>Invoice No:</strong> {modalData.bill_no}</p>
         </div>
         <div>

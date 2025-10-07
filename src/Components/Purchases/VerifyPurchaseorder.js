@@ -209,14 +209,12 @@ const PurchaseOrderList = () => {
           {modalData.type === "purchase_order" ? "PURCHASE ORDER" : "PURCHASE INVOICE"}
         </h1>
       </div>
-
-      {/* ---------- INFO BLOCK ---------- */}
+ {/* ---------- INFO BLOCK ---------- */}
       <div style={styles.infoBlock}>
         <div>
           <p><strong>Supplier:</strong> {modalData.supplier_name}</p>
-          <p><strong>Invoice No:</strong> {modalData.invoice_number}</p>
-          <p><strong>Bill No:</strong> {modalData.bill_no}</p>
-          <p><strong>Admin No:</strong> {modalData.admin_no}</p>
+          <p><strong>ERP No:</strong> {modalData.admin_no}</p>
+          <p><strong>Invoice No:</strong> {modalData.bill_no}</p>
         </div>
         <div>
           <p><strong>Bill Date:</strong> {modalData.bill_date}</p>
@@ -236,6 +234,7 @@ const PurchaseOrderList = () => {
               <th style={styles.th}>Rate</th>
               <th style={styles.th}>Per</th>
               <th style={styles.th}>{modalData.items[0]?.amount ? "Amount" : "Basic Value"}</th>
+              <th style={styles.th}>GST %</th>
             </tr>
           </thead>
           <tbody>
@@ -247,6 +246,7 @@ const PurchaseOrderList = () => {
                 <td style={{ ...styles.td, textAlign: "right" }}>{item.rate || "-"}</td>
                 <td style={{ ...styles.td, textAlign: "center" }}>{item.per || "-"}</td>
                 <td style={{ ...styles.td, textAlign: "right" }}>{item.amount ?? item.basicValue ?? "-"}</td>
+                <td style={{ ...styles.td, textAlign: "center" }}>{item.gst_amount || "-"}</td>
               </tr>
             ))}
           </tbody>
@@ -257,7 +257,6 @@ const PurchaseOrderList = () => {
       <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
         <table style={styles.totalTable}>
           <tbody>
-            <tr><td style={styles.totalLabel}>GST %</td><td style={styles.totalValue}>{modalData.gst_amount}</td></tr>
             <tr><td style={styles.totalLabel}>Reimbursement</td><td style={styles.totalValue}>₹{modalData.reimbursement}</td></tr>
             <tr><td style={styles.totalLabel}>TDS Rate</td><td style={styles.totalValue}>{modalData.tds_rate}</td></tr>
             <tr><td style={styles.totalLabel}>Adjustment</td><td style={styles.totalValue}>-₹{modalData.adjustment}</td></tr>
@@ -275,15 +274,19 @@ const PurchaseOrderList = () => {
         <p><strong>In Favour Of:</strong> {modalData.in_favour_of}</p>
       </div>
 
-      {/* ---------- SIGNATURES ---------- */}
+    {/* ---------- SIGNATURES ---------- */}
       <div style={{ marginTop: 50, display: "flex", justifyContent: "space-between" }}>
+        <div style={{ textAlign: "center" }}>
+          <p>________________________</p>
+          <p style={{ marginTop: -10 }}>Intented By</p>
+        </div>
         <div style={{ textAlign: "center" }}>
           <p>________________________</p>
           <p style={{ marginTop: -10 }}>Certified By</p>
         </div>
         <div style={{ textAlign: "center" }}>
           <p>________________________</p>
-          <p style={{ marginTop: -10 }}>Verified By</p>
+          <p style={{ marginTop: -10 }}>Approved By</p>
         </div>
       </div>
 
