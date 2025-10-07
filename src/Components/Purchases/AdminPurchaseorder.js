@@ -65,12 +65,11 @@ const styles = {
 };
 
 const statusColor = {
-  booked: "#38a169",
   pending: "#f6ad55",
-  refund: "#f56565",
-  canceled: "#718096",
+  Approve: "#38a169",
+  Certify: "blue",
+  Reject:"#f56565",
 };
-
 const PurchaseOrderList = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);

@@ -65,10 +65,10 @@ const styles = {
 };
 
 const statusColor = {
-  booked: "#38a169",
   pending: "#f6ad55",
-  refund: "#f56565",
-  canceled: "#718096",
+  Approve: "#38a169",
+  Certify: "blue",
+  Reject:"#f56565",
 };
 
 const PurchaseOrderList = () => {
@@ -144,12 +144,12 @@ const PurchaseOrderList = () => {
               <td style={styles.td}>{order.admin_no}</td>
               <td style={styles.td}>{order.bill_no}</td>
               <td style={styles.td}>
-               <span
-  style={{
-    ...styles.status,
-    backgroundColor: statusColor[order.status?.toLowerCase()] || "#718096", // fallback color
-  }}
->
+              <span
+    style={{
+      ...styles.status,
+      backgroundColor: statusColor[order.status?.toLowerCase()] || "#718096",
+    }}
+  >
   {order.status}
 </span>
 
@@ -295,10 +295,10 @@ const PurchaseOrderList = () => {
       {/* ---------- ACTION BUTTONS ---------- */}
       <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 30 }}>
         {localStorage.getItem("employee_id") === "KCCES19014" && (
-          <button style={styles.certifyBtn} onClick={() => handleAction(modalData.id, "certify")}>Certify</button>
+          <button style={styles.certifyBtn} onClick={() => handleAction(modalData.id, "Certify")}>Certify</button>
         )}
         {localStorage.getItem("employee_id") === "KCCES19002" && (
-          <button style={styles.verifyBtn} onClick={() => handleAction(modalData.id, "verify")}>Verify</button>
+          <button style={styles.verifyBtn} onClick={() => handleAction(modalData.id, "Approve")}>Approve</button>
         )}
         {(localStorage.getItem("employee_id") === "KCCES19014" ||
           localStorage.getItem("employee_id") === "KCCES19002") && (
