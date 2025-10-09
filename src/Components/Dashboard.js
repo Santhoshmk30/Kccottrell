@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
+import { FaUserCircle, FaSignOutAlt,FaPencilAlt} from "react-icons/fa";
 import { PieChart, Pie, Cell, Tooltip,   } from "recharts";
+import axios from "axios";
 
 
 const Dashboard = () => {
@@ -11,6 +12,37 @@ const Dashboard = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hover, setHover] = useState(false);
 
+
+  const [profileImage, setProfileImage] = useState("/PROFILE.jpg");
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      setProfileImage(URL.createObjectURL(file)); // Preview
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!selectedFile) return;
+
+    const formData = new FormData();
+    formData.append("profile_image", selectedFile);
+    formData.append("employee_id", employeeId);
+
+    try {
+      await axios.post("/api/update_employee_image.php", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      alert("Profile image updated successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to update image.");
+    }
+  };
   const navigate = useNavigate();
   const employeeId = localStorage.getItem("employee_id");
 
@@ -118,6 +150,8 @@ const Dashboard = () => {
   { name: "Sick Leave", value: 768 },
 ];
 const COLORS = ["#2ecc71", "#f1c40f", "#3498db", "#e74c3c", "#9b59b6"];
+
+
 
   // ✅ Styles
   const styles = {
@@ -279,6 +313,21 @@ const COLORS = ["#2ecc71", "#f1c40f", "#3498db", "#e74c3c", "#9b59b6"];
         : "0 6px 16px rgba(224, 74, 74, 0.3)",
       transition: "transform 0.3s ease, box-shadow 0.3s ease",
     },
+  pencilWrapper: {
+    position: "absolute",
+    bottom: 15,
+    left: 85,
+    backgroundColor: "#DDD0C8",
+    borderRadius: "50%",
+    padding: 6,
+    cursor: "pointer",
+  },
+  pencilLabel: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  
+  },
     detailsSection: {
       flex: 1,
       textAlign: isMobile ? "center" : "left",
@@ -413,6 +462,13 @@ pieContainer: {
       </PieChart>
     );
 
+   
+
+
+
+
+  
+
   return (
     <div style={styles.container}>
      {/* Top Navbar */}
@@ -525,9 +581,29 @@ pieContainer: {
 
         <div style={styles.idCardBody}>
           {/* Photo */}
-          <div style={styles.photoSection}>
-            <img src="/PROFILE.jpg" alt="Employee" style={styles.photo} />
-          </div>
+        
+    <div style={styles.photoSection}>
+      <img src={profileImage} alt="Employee" style={styles.photo} />
+      
+      {/* Pencil Icon Overlay */}
+      <div style={styles.pencilWrapper}>
+        <label htmlFor="profileUpload" style={styles.pencilLabel}>
+          <FaPencilAlt color="#333" />
+        </label>
+        <input
+          id="profileUpload"
+          type="file"
+          accept="image/*"
+          style={{ display: "none" }}
+          onChange={handleFileChange}
+          onBlur={handleUpload}
+        />
+      </div>
+    </div>
+ 
+
+
+
 
           {/* Details */}
           <div style={styles.detailsSection}>
