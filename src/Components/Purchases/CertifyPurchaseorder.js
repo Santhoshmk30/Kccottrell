@@ -173,6 +173,8 @@ const PurchaseOrderList = () => {
 </table>
 
 
+
+
  {modalData && (
   <div style={styles.modal} onClick={() => setModalData(null)}>
     <div style={styles.invoiceA4} onClick={(e) => e.stopPropagation()}>

@@ -16,7 +16,8 @@ import VendorForm from './Components/Purchases/Vendors';
 import PaymentAdvicePage from './Components/Purchases/Purchaseorder';
 import CertifyPurchaseOrder from './Components/Purchases/CertifyPurchaseorder';
 import VerifyPurchaseOrder from './Components/Purchases/VerifyPurchaseorder';
-import AdminPurchaseOrder from './Components/Purchases/AdminPurchaseorder'
+import AdminPurchaseOrder from './Components/Purchases/AdminPurchaseorder';
+import VendorData from './Components/Purchases/Vendors History';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
      <Route path="/certifypurchaseorder" element={<CertifyPurchaseOrder/>}/>
       <Route path="/verifypurchaseorder" element={<VerifyPurchaseOrder/>}/>
       <Route path="/adminpurchaseorder" element={<AdminPurchaseOrder/>}/>
+      <Route path="/vendordata" element={<VendorData/>}/>
       </Routes>
     </Router>
   );

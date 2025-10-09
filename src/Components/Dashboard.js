@@ -11,38 +11,42 @@ const Dashboard = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hover, setHover] = useState(false);
+  const [imageUrl, setImageUrl] = useState(""); // for display and preview
 
-
-  const [profileImage, setProfileImage] = useState("/PROFILE.jpg");
-  const [selectedFile, setSelectedFile] = useState(null);
-
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      setProfileImage(URL.createObjectURL(file)); // Preview
-    }
-  };
+    if (!file) return;
 
-  const handleUpload = async () => {
-    if (!selectedFile) return;
+    // Show temporary preview before upload
+    setImageUrl(URL.createObjectURL(file));
 
     const formData = new FormData();
-    formData.append("profile_image", selectedFile);
+    formData.append("photo", file); // matches PHP
     formData.append("employee_id", employeeId);
 
     try {
-      await axios.post("/api/update_employee_image.php", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      alert("Profile image updated successfully!");
+      const res = await axios.post(
+        "https://darkslategrey-shrew-424102.hostingersite.com/api/upload_profile.php",
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      console.log(res.data);
+
+      if (res.data.success) {
+        alert("Profile image updated successfully!");
+        setImageUrl(res.data.file_url); // update to final uploaded image URL
+      } else {
+        alert("Upload failed: " + res.data.message);
+      }
     } catch (err) {
       console.error(err);
-      alert("Failed to update image.");
+      alert("Failed to upload image");
     }
   };
+
+
+
   const navigate = useNavigate();
   const employeeId = localStorage.getItem("employee_id");
 
@@ -74,6 +78,7 @@ const Dashboard = () => {
       subItems: [
         ...(employeeId === "KCCES19107"
           ? [
+            { name: "Vendors", path: "/vendordata" },
               { name: "Vendors", path: "/vendors" },
               { name: "Payment Advice", path: "/paymentadvice" },
               { name: "Purchase Order", path: "/certifypurchaseorder" },
@@ -89,7 +94,9 @@ const Dashboard = () => {
           : []),
 
         ...(employeeId === "KCCES19023"
-          ? [{ name: "Purchase Order", path: "/adminpurchaseorder" }]
+          ? [
+            { name: "Vendors", path: "/vendordata" },
+            { name: "Purchase Order", path: "/adminpurchaseorder" }]
           : []),
 
         ...(employeeId !== "KCCES19023" &&
@@ -303,8 +310,8 @@ const COLORS = ["#2ecc71", "#f1c40f", "#3498db", "#e74c3c", "#9b59b6"];
       width: isMobile ? "100%" : "130px",
     },
     photo: {
-      width: isMobile ? "110px" : "130px",
-      height: isMobile ? "110px" : "130px",
+      width: isMobile ? "130px" : "130px",
+      height: isMobile ? "130px" : "130px",
       borderRadius: "50%",
       objectFit: "cover",
       border: "3px solid #e04a4aff",
@@ -315,8 +322,8 @@ const COLORS = ["#2ecc71", "#f1c40f", "#3498db", "#e74c3c", "#9b59b6"];
     },
   pencilWrapper: {
     position: "absolute",
-    bottom: 15,
-    left: 85,
+    bottom:isMobile ? 165 : 15,
+    left: isMobile ? 165 : 85,
     backgroundColor: "#DDD0C8",
     borderRadius: "50%",
     padding: 6,
@@ -326,7 +333,6 @@ const COLORS = ["#2ecc71", "#f1c40f", "#3498db", "#e74c3c", "#9b59b6"];
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-  
   },
     detailsSection: {
       flex: 1,
@@ -583,7 +589,11 @@ pieContainer: {
           {/* Photo */}
         
     <div style={styles.photoSection}>
-      <img src={profileImage} alt="Employee" style={styles.photo} />
+      
+      <img
+        src={imageUrl || "/default-profile.png"}
+        alt="Profile"
+ style={styles.photo} />
       
       {/* Pencil Icon Overlay */}
       <div style={styles.pencilWrapper}>
@@ -596,8 +606,8 @@ pieContainer: {
           accept="image/*"
           style={{ display: "none" }}
           onChange={handleFileChange}
-          onBlur={handleUpload}
         />
+
       </div>
     </div>
  
