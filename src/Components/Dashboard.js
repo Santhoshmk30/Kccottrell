@@ -11,39 +11,37 @@ const Dashboard = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hover, setHover] = useState(false);
-  const [imageUrl, setImageUrl] = useState(""); // for display and preview
+  
+const handleFileChange = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
-  const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  const formData = new FormData();
+  formData.append("photo", file); // matches PHP
+  formData.append("employee_id", employeeId);
 
-    // Show temporary preview before upload
-    setImageUrl(URL.createObjectURL(file));
+  try {
+    const res = await axios.post(
+      "https://darkslategrey-shrew-424102.hostingersite.com/api/upload_profile.php",
+      formData,
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
 
-    const formData = new FormData();
-    formData.append("photo", file); // matches PHP
-    formData.append("employee_id", employeeId);
+    console.log(res.data);
 
-    try {
-      const res = await axios.post(
-        "https://darkslategrey-shrew-424102.hostingersite.com/api/upload_profile.php",
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
-
-      console.log(res.data);
-
-      if (res.data.success) {
-        alert("Profile image updated successfully!");
-        setImageUrl(res.data.file_url); // update to final uploaded image URL
-      } else {
-        alert("Upload failed: " + res.data.message);
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Failed to upload image");
+    if (res.data.success) {
+      alert("Profile image updated successfully!");
+      // Reload the page
+      window.location.reload();
+    } else {
+      alert("Upload failed: " + res.data.message);
     }
-  };
+  } catch (err) {
+    console.error(err);
+    alert("Failed to upload image");
+  }
+};
+
 
 
 
@@ -133,19 +131,30 @@ const Dashboard = () => {
   }, [employee]);
 
  
-  // Fetch employee data
-  useEffect(() => {
-    const employeeId = localStorage.getItem("employee_id");
-    if (!employeeId) return;
+ // Fetch employee data
+useEffect(() => {
+  const employeeId = localStorage.getItem("employee_id");
+  if (!employeeId) return;
 
-    fetch(`https://darkslategrey-shrew-424102.hostingersite.com/api/get_employee_data.php?employee_id=${employeeId.trim()}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) setEmployee(data.data);
-        else console.error(data.message);
-      })
-      .catch((err) => console.error(err));
-  }, []);
+  fetch(`https://darkslategrey-shrew-424102.hostingersite.com/api/get_employee_data.php?employee_id=${employeeId.trim()}`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        // Prepend the uploads URL to the ProfilePicture
+        const employeeData = {
+          ...data.data,
+          ProfilePicture: data.data.ProfilePicture
+            ? `https://darkslategrey-shrew-424102.hostingersite.com/api/uploads/${data.data.ProfilePicture}`
+            : null, // or a default image URL
+        };
+        setEmployee(employeeData);
+      } else {
+        console.error(data.message);
+      }
+    })
+    .catch((err) => console.error(err));
+}, []);
+
 
   if (!employee) return null;
 
@@ -168,7 +177,7 @@ const COLORS = ["#2ecc71", "#f1c40f", "#3498db", "#e74c3c", "#9b59b6"];
       minHeight: "100vh",
       background: "#DDD0C8",
       flexDirection: isMobile ? "column" : "row", 
-      paddingTop: isMobile ? "40px" : "0px",   // add top padding on mobile for top navbar
+      paddingTop: isMobile ? "40px" : "0px",
   paddingBottom: isMobile ? "10px" : "0px",
     },
 
@@ -590,10 +599,12 @@ pieContainer: {
         
     <div style={styles.photoSection}>
       
-      <img
-        src={imageUrl || "/default-profile.png"}
-        alt="Profile"
- style={styles.photo} />
+     <img
+  src={employee?.ProfilePicture || "/PROFILE.jpg"}
+  alt="Profile"
+  style={styles.photo}
+/>
+
       
       {/* Pencil Icon Overlay */}
       <div style={styles.pencilWrapper}>
