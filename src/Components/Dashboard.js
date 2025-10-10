@@ -77,7 +77,6 @@ const handleFileChange = async (e) => {
         ...(employeeId === "KCCES19107"
           ? [
             { name: "Vendors", path: "/vendordata" },
-              { name: "Vendors", path: "/vendors" },
               { name: "Payment Advice", path: "/paymentadvice" },
               { name: "Purchase Order", path: "/certifypurchaseorder" },
             ]
