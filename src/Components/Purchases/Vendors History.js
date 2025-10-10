@@ -185,6 +185,7 @@ const handleVerifyVendor = async () => {
         : v
     );
     setVendors(updatedVendors);
+    window.location.reload();
    
 
     alert(`${selectedVendor.company_name} has been verified!`);
