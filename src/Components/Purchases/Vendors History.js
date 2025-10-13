@@ -919,50 +919,14 @@ const handleVerifyVendor = async () => {
  {activeVendorTab === "Documents" && (
   <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
 
-    {/* ---------- DELETE HANDLER FUNCTION ---------- */}
-    {/* Place this inside your component (above return) if not already */}
-    {/* 
-    const handleDeleteDoc = async (docType, e) => {
-      e.stopPropagation();
-      if (!window.confirm("Are you sure you want to delete this document?")) return;
-
-      try {
-        const formData = new FormData();
-        formData.append("vendor_id", selectedVendor.vendor_id);
-        formData.append("document_type", docType);
-
-        const res = await fetch(
-          "https://darkslategrey-shrew-424102.hostingersite.com/api/delete_vendor_document.php",
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        const data = await res.json();
-
-        if (data.status === "success") {
-          alert("Document deleted successfully!");
-          setSelectedVendor((prev) => ({
-            ...prev,
-            [`${docType}_file`]: null,
-          }));
-        } else {
-          alert("Failed to delete document!");
-        }
-      } catch (error) {
-        console.error("Error deleting document:", error);
-        alert("Something went wrong!");
-      }
-    };
-    */}
+   
 
     {selectedVendor.pan_file && (
       <div
         style={styles.docBtn}
         onClick={() =>
           window.open(
-            `https://darkslategrey-shrew-424102.hostingersite.com/api/${selectedVendor.pan_file}`,
+            `https://darkslategrey-shrew-424102.hostingersite.com/api/uploads/${selectedVendor.pan_file}`,
             "_blank"
           )
         }
@@ -1028,7 +992,7 @@ const handleVerifyVendor = async () => {
         style={styles.docBtn}
         onClick={() =>
           window.open(
-            `https://darkslategrey-shrew-424102.hostingersite.com/api/${selectedVendor.gst_file}`,
+            `https://darkslategrey-shrew-424102.hostingersite.com/api/uploads/${selectedVendor.gst_file}`,
             "_blank"
           )
         }
@@ -1094,7 +1058,7 @@ const handleVerifyVendor = async () => {
         style={styles.docBtn}
         onClick={() =>
           window.open(
-            `https://darkslategrey-shrew-424102.hostingersite.com/api/${selectedVendor.registration_file}`,
+            `https://darkslategrey-shrew-424102.hostingersite.com/api/uploads/${selectedVendor.registration_file}`,
             "_blank"
           )
         }
@@ -1160,7 +1124,7 @@ const handleVerifyVendor = async () => {
         style={styles.docBtn}
         onClick={() =>
           window.open(
-            `https://darkslategrey-shrew-424102.hostingersite.com/api/${selectedVendor.cancelled_check_file}`,
+            `https://darkslategrey-shrew-424102.hostingersite.com/api/uploads/${selectedVendor.cancelled_check_file}`,
             "_blank"
           )
         }
