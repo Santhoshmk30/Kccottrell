@@ -60,7 +60,40 @@ const handleSave = async (field) => {
 };
 
 
+    const handleDeleteDoc = async (docType, e) => {
+      e.stopPropagation();
+      if (!window.confirm("Are you sure you want to delete this document?")) return;
 
+      try {
+        const formData = new FormData();
+        formData.append("vendor_id", selectedVendor.vendor_id);
+        formData.append("document_type", docType);
+
+        const res = await fetch(
+          "https://darkslategrey-shrew-424102.hostingersite.com/api/delete_vendor_doc.php",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const data = await res.json();
+
+        if (data.status === "success") {
+          alert("Document deleted successfully!");
+          setSelectedVendor((prev) => ({
+            ...prev,
+            [`${docType}_file`]: null,
+          }));
+        } else {
+          alert("Failed to delete document!");
+        }
+      } catch (error) {
+        console.error("Error deleting document:", error);
+        alert("Something went wrong!");
+      }
+    };
+   
 const handleUploadNewDoc = async () => {
   if (!newDocType || !newDocFile) {
     alert("Please select document type and file.");
@@ -81,6 +114,7 @@ const handleUploadNewDoc = async () => {
 
     if (res.data.status === "success") {
       alert("Document uploaded successfully!");
+      window.location.reload();
       // Optionally refresh vendor data here
     } else {
       alert("Upload failed!");
@@ -882,10 +916,47 @@ const handleVerifyVendor = async () => {
   )}
 
 
- 
-{activeVendorTab === "Documents" && (
+ {activeVendorTab === "Documents" && (
   <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-    
+
+    {/* ---------- DELETE HANDLER FUNCTION ---------- */}
+    {/* Place this inside your component (above return) if not already */}
+    {/* 
+    const handleDeleteDoc = async (docType, e) => {
+      e.stopPropagation();
+      if (!window.confirm("Are you sure you want to delete this document?")) return;
+
+      try {
+        const formData = new FormData();
+        formData.append("vendor_id", selectedVendor.vendor_id);
+        formData.append("document_type", docType);
+
+        const res = await fetch(
+          "https://darkslategrey-shrew-424102.hostingersite.com/api/delete_vendor_document.php",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const data = await res.json();
+
+        if (data.status === "success") {
+          alert("Document deleted successfully!");
+          setSelectedVendor((prev) => ({
+            ...prev,
+            [`${docType}_file`]: null,
+          }));
+        } else {
+          alert("Failed to delete document!");
+        }
+      } catch (error) {
+        console.error("Error deleting document:", error);
+        alert("Something went wrong!");
+      }
+    };
+    */}
+
     {selectedVendor.pan_file && (
       <div
         style={styles.docBtn}
@@ -905,30 +976,48 @@ const handleVerifyVendor = async () => {
             </div>
           </div>
         </div>
-        <div>
+
+        <div style={{ display: "flex", gap: 8 }}>
           {verifiedDocs.pan ? (
-            <span
-              style={styles.badgeStyle}
-            >
+            <span style={styles.badgeStyle}>
               <MdVerified size={14} />
               Verified
             </span>
           ) : (
-            <button
-              onClick={(e) => handleVerify("pan", e)}
-              style={{
-                backgroundColor: "#007bff",
-                color: "#fff",
-                border: "none",
-                padding: "5px 10px",
-                fontSize: 13,
-                borderRadius: 4,
-                cursor: "pointer",
-                marginTop:"10px",
-              }}
-            >
-              Verify
-            </button>
+            <>
+              <button
+                onClick={(e) => handleVerify("pan", e)}
+                style={{
+                  backgroundColor: "#007bff",
+                  color: "#fff",
+                  border: "none",
+                  padding: "5px 10px",
+                  fontSize: 13,
+                  borderRadius: 4,
+                  cursor: "pointer",
+                  marginTop: "10px",
+                }}
+              >
+                Verify
+              </button>
+
+              {/* 🔴 DELETE BUTTON (Only if not verified) */}
+              <button
+                onClick={(e) => handleDeleteDoc("pan", e)}
+                style={{
+                  backgroundColor: "#dc3545",
+                  color: "#fff",
+                  border: "none",
+                  padding: "5px 10px",
+                  fontSize: 13,
+                  borderRadius: 4,
+                  cursor: "pointer",
+                  marginTop: "10px",
+                }}
+              >
+                Delete
+              </button>
+            </>
           )}
         </div>
       </div>
@@ -953,30 +1042,48 @@ const handleVerifyVendor = async () => {
             </div>
           </div>
         </div>
-        <div>
+
+        <div style={{ display: "flex", gap: 8 }}>
           {verifiedDocs.gst ? (
-            <span
-              style={styles.badgeStyle}
-            >
+            <span style={styles.badgeStyle}>
               <MdVerified size={14} />
               Verified
             </span>
           ) : (
-            <button
-              onClick={(e) => handleVerify("gst", e)}
-              style={{
-                backgroundColor: "#007bff",
-                color: "#fff",
-                border: "none",
-                padding: "5px 10px ",
-                fontSize: 13,
-                borderRadius: 4,
-                cursor: "pointer",
-                marginTop:"10px",
-              }}
-            >
-              Verify
-            </button>
+            <>
+              <button
+                onClick={(e) => handleVerify("gst", e)}
+                style={{
+                  backgroundColor: "#007bff",
+                  color: "#fff",
+                  border: "none",
+                  padding: "5px 10px ",
+                  fontSize: 13,
+                  borderRadius: 4,
+                  cursor: "pointer",
+                  marginTop: "10px",
+                }}
+              >
+                Verify
+              </button>
+
+              {/* 🔴 DELETE BUTTON */}
+              <button
+                onClick={(e) => handleDeleteDoc("gst", e)}
+                style={{
+                  backgroundColor: "#dc3545",
+                  color: "#fff",
+                  border: "none",
+                  padding: "5px 10px",
+                  fontSize: 13,
+                  borderRadius: 4,
+                  cursor: "pointer",
+                  marginTop: "10px",
+                }}
+              >
+                Delete
+              </button>
+            </>
           )}
         </div>
       </div>
@@ -1001,30 +1108,48 @@ const handleVerifyVendor = async () => {
             </div>
           </div>
         </div>
-        <div>
+
+        <div style={{ display: "flex", gap: 8 }}>
           {verifiedDocs.registration ? (
-            <span
-              style={styles.badgeStyle}
-            >
+            <span style={styles.badgeStyle}>
               <MdVerified size={14} />
               Verified
             </span>
           ) : (
-            <button
-              onClick={(e) => handleVerify("registration", e)}
-              style={{
-                backgroundColor: "#007bff",
-                color: "#fff",
-                border: "none",
-                padding: "5px 10px",
-                fontSize: 13,
-                borderRadius: 4,
-                cursor: "pointer",
-                marginTop:"10px",
-              }}
-            >
-              Verify
-            </button>
+            <>
+              <button
+                onClick={(e) => handleVerify("registration", e)}
+                style={{
+                  backgroundColor: "#007bff",
+                  color: "#fff",
+                  border: "none",
+                  padding: "5px 10px",
+                  fontSize: 13,
+                  borderRadius: 4,
+                  cursor: "pointer",
+                  marginTop: "10px",
+                }}
+              >
+                Verify
+              </button>
+
+              {/* 🔴 DELETE BUTTON */}
+              <button
+                onClick={(e) => handleDeleteDoc("registration", e)}
+                style={{
+                  backgroundColor: "#dc3545",
+                  color: "#fff",
+                  border: "none",
+                  padding: "5px 10px",
+                  fontSize: 13,
+                  borderRadius: 4,
+                  cursor: "pointer",
+                  marginTop: "10px",
+                }}
+              >
+                Delete
+              </button>
+            </>
           )}
         </div>
       </div>
@@ -1049,30 +1174,48 @@ const handleVerifyVendor = async () => {
             </div>
           </div>
         </div>
-        <div>
+
+        <div style={{ display: "flex", gap: 8 }}>
           {verifiedDocs.cancelled ? (
-            <span
-              style={styles.badgeStyle}
-            >
+            <span style={styles.badgeStyle}>
               <MdVerified size={14} />
               Verified
             </span>
           ) : (
-            <button
-              onClick={(e) => handleVerify("cancelled", e)}
-              style={{
-                backgroundColor: "#007bff",
-                color: "#fff",
-                border: "none",
-                padding: "5px 10px",
-                fontSize: 13,
-                borderRadius: 4,
-                cursor: "pointer",
-                marginTop:"10px",
-              }}
-            >
-              Verify
-            </button>
+            <>
+              <button
+                onClick={(e) => handleVerify("cancelled", e)}
+                style={{
+                  backgroundColor: "#007bff",
+                  color: "#fff",
+                  border: "none",
+                  padding: "5px 10px",
+                  fontSize: 13,
+                  borderRadius: 4,
+                  cursor: "pointer",
+                  marginTop: "10px",
+                }}
+              >
+                Verify
+              </button>
+
+              {/* 🔴 DELETE BUTTON */}
+              <button
+                onClick={(e) => handleDeleteDoc("cancelled", e)}
+                style={{
+                  backgroundColor: "#dc3545",
+                  color: "#fff",
+                  border: "none",
+                  padding: "5px 10px",
+                  fontSize: 13,
+                  borderRadius: 4,
+                  cursor: "pointer",
+                  marginTop: "10px",
+                }}
+              >
+                Delete
+              </button>
+            </>
           )}
         </div>
       </div>
@@ -1085,41 +1228,65 @@ const handleVerifyVendor = async () => {
         <p style={{ color: "#777", fontSize: 14 }}>No documents uploaded</p>
       )}
 
-{/* ----------------- New Document Upload Section ----------------- */}
-<div style={{ ...styles.docBtn, flexDirection:"column", alignItems:"flex-start", padding:"10px" }}>
-  <label style={{ fontWeight: 500, marginBottom:5 }}>Upload Document:</label>
-  <select
-    value={newDocType}
-    onChange={(e) => setNewDocType(e.target.value)}
-    style={{ padding:"5px 10px", borderRadius:4, border:"1px solid #ccc", marginBottom:10, width:"100%", maxWidth:250 }}
-  >
-    <option value="">Select Document Type</option>
-    {!selectedVendor.pan_file && <option value="pan">PAN Card</option>}
-    {!selectedVendor.gst_file && <option value="gst">GST Document</option>}
-    {!selectedVendor.registration_file && <option value="registration">Registration Document</option>}
-    {!selectedVendor.cancelled_check_file && <option value="cancelled">Cancelled Check</option>}
-  </select>
+    {/* ----------------- New Document Upload Section ----------------- */}
+    <div
+      style={{
+        ...styles.docBtn,
+        flexDirection: "column",
+        alignItems: "flex-start",
+        padding: "10px",
+      }}
+    >
+      <label style={{ fontWeight: 500, marginBottom: 5 }}>
+        Upload Document:
+      </label>
+      <select
+        value={newDocType}
+        onChange={(e) => setNewDocType(e.target.value)}
+        style={{
+          padding: "5px 10px",
+          borderRadius: 4,
+          border: "1px solid #ccc",
+          marginBottom: 10,
+          width: "100%",
+          maxWidth: 250,
+        }}
+      >
+        <option value="">Select Document Type</option>
+        {!selectedVendor.pan_file && <option value="pan">PAN Card</option>}
+        {!selectedVendor.gst_file && (
+          <option value="gst">GST Document</option>
+        )}
+        {!selectedVendor.registration_file && (
+          <option value="registration">Registration Document</option>
+        )}
+        {!selectedVendor.cancelled_check_file && (
+          <option value="cancelled">Cancelled Check</option>
+        )}
+      </select>
 
-  <input
-    type="file"
-    onChange={(e) => setNewDocFile(e.target.files[0])}
-    style={{ marginBottom: 10 }}
-  />
+      <input
+        type="file"
+        onChange={(e) => setNewDocFile(e.target.files[0])}
+        style={{ marginBottom: 10 }}
+      />
 
-  <button
-    onClick={handleUploadNewDoc}
-    style={{ backgroundColor:"#007bff", color:"#fff", border:"none", padding:"5px 15px", fontSize:13, borderRadius:4, cursor:"pointer" }}
-  >
-    Submit
-  </button>
-</div>
-
-
-
-      
+      <button
+        onClick={handleUploadNewDoc}
+        style={{
+          backgroundColor: "#007bff",
+          color: "#fff",
+          border: "none",
+          padding: "5px 15px",
+          fontSize: 13,
+          borderRadius: 4,
+          cursor: "pointer",
+        }}
+      >
+        Submit
+      </button>
+    </div>
   </div>
-
-  
 )}
 
 
