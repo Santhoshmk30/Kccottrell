@@ -36,6 +36,39 @@ const navigate = useNavigate();
 const [suppliersData, setSuppliersData] = useState([]); // full API data
 
 
+ const [projects, setProjects] = useState([]);
+
+
+  useEffect(() => {
+    fetch("https://darkslategrey-shrew-424102.hostingersite.com/api/get_project_codes.php")
+    .then(res => res.json())
+    .then(data => {
+        console.log("API Data:", data);  // <--- check this
+        if(data.status === "success") setProjects(data.data);
+    })
+    .catch(err => console.error("API error:", err));
+}, []);
+
+  const [search, setSearch] = useState("");
+  const [showOptions, setShowOptions] = useState(false);
+
+  const filteredProjects = projects.filter((proj) =>
+    `${proj.ProjectCode} - ${proj.ProjectName}`
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
+
+  const handleSelect = (proj) => {
+    setFormData({
+      ...formData,
+      project_code: proj.ProjectCode,
+      project_name: proj.ProjectName,
+    });
+    setSearch(`${proj.ProjectCode} - ${proj.ProjectName}`);
+    setShowOptions(false);
+  };
+
+
 const [tdsRate, setTdsRate] = useState(0);          // numeric rate
 
 
@@ -296,17 +329,57 @@ const selectedTdsOption = tdsOptions.find(opt => opt.id === parseInt(tdsOptionId
 
      {/* Project & Supplier Info */}
 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 20 }}>
-  {/* Project / Contract Code */}
-  <div style={{ flex: '1 1 45%', display: 'flex', flexDirection: 'column' }}>
-    <label style={styles.label}>Project / Contract Code</label>
-    <input
-      type="text"
-      name="project_code"
-      style={styles.input}
-      value={formData.project_code}
-      onChange={handleChange}
-    />
-  </div>
+ {/* Project / Contract Code */}
+
+    <div style={{ position: "relative", flex: "1 1 45%", display: "flex", flexDirection: "column" }}>
+      <label style={{ marginBottom: 5 }}>Project / Contract Code</label>
+      <input
+        type="text"
+        style={{ padding: 8, border: "1px solid #ccc", borderRadius: 4 }}
+        placeholder="Search Project..."
+        value={search}
+        onChange={(e) => {
+          setSearch(e.target.value);
+          setShowOptions(true);
+        }}
+        onFocus={() => setShowOptions(true)}
+      />
+      {showOptions && (
+        <ul
+          style={{
+            position: "absolute",
+            top: "100%",
+            left: 0,
+            right: 0,
+            maxHeight: 150,
+            overflowY: "auto",
+            border: "1px solid #ccc",
+            borderRadius: 4,
+            backgroundColor: "#fff",
+            zIndex: 1000,
+            margin: 0,
+            padding: 0,
+            listStyle: "none",
+          }}
+        >
+          {filteredProjects.length > 0 ? (
+            filteredProjects.map((proj) => (
+              <li
+                key={proj.ProjectCodeId}
+                style={{ padding: 8, cursor: "pointer" }}
+                onClick={() => handleSelect(proj)}
+              >
+                {proj.ProjectCode} - {proj.ProjectName}
+              </li>
+            ))
+          ) : (
+            <li style={{ padding: 8 }}>No Projects Found</li>
+          )}
+        </ul>
+      )}
+    </div>
+
+
 
  {/* Invoice No */}
 <div style={{ flex: '1 1 45%', display: 'flex', flexDirection: 'column' }}>
