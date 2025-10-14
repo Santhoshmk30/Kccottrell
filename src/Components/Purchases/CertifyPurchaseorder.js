@@ -122,10 +122,11 @@ const PurchaseOrderList = () => {
 
   return (
     <div style={styles.container}>
-      <h2>Purchase Orders</h2>
+      <h2>Invoice Booking History</h2>
      <table style={styles.table}>
   <thead>
     <tr>
+      
       <th style={styles.th}>Bill Date</th>
       <th style={styles.th}>Supplier Name</th>
       <th style={styles.th}>Invoice Number</th>
@@ -189,7 +190,7 @@ const PurchaseOrderList = () => {
     marginBottom: 20,
     borderBottom: "2px solid #e5e7eb",
     paddingBottom: 10,
-    marginTop:30,
+    marginTop:90,
   }}
 >
   {/* Logo - Left */}
@@ -202,13 +203,6 @@ const PurchaseOrderList = () => {
     <h3 style={{ margin: 0, fontSize: 18 }}>
       KC Cottrell Engineering Services Private Limited
     </h3>
-    <p style={{ margin: "3px 0", fontSize: 13 }}>
-      A16&A17 R R tower IV, 7th Floor, Thiru Vi Ka Industrial Estate,
-    </p>
-     <p style={{ margin: "3px 0", fontSize: 13 }}>
-      Guindy, Chennai-600032, GSTIN/UIN; 33AAHCK5828Q1ZX
-    </p>
-    <p style={{ margin: "3px 0", fontSize: 13 }}>Phone: +91 XXXXX XXXXX</p>
   </div>
 </div>
 
@@ -219,21 +213,29 @@ const PurchaseOrderList = () => {
         <h1 style={{ fontSize: 20, margin: 0, letterSpacing: 1 }}>
           {modalData.type === "purchase_order" ? "PURCHASE ORDER" : "PURCHASE INVOICE"}
         </h1>
+        
       </div>
+     {/* ---------- HEADER / BILL DATE ---------- */}
+<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: "10px 0" }}>
+  <div>
+    {/* You can leave this empty or put a logo/company name here */}
+  </div>
+  <p><strong>Date:</strong> {new Date(modalData.created_at).toLocaleDateString("en-GB")}</p>
+</div>
+{/* ---------- INFO ROW ---------- */}
+<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: "10px 0" }}>
+  <div style={{ display: 'flex', gap: '20px' }}>
+    <p><strong>ERP No:</strong> <strong> {modalData.admin_no} </strong></p>
+    
+  </div>
+  <p><strong>Invoice No:</strong> {modalData.bill_no}</p>
+  <p><strong>Invoice Date:</strong> {new Date(modalData.bill_date).toLocaleDateString("en-GB")}</p>
+  
+</div>
 
-      {/* ---------- INFO BLOCK ---------- */}
-      <div style={styles.infoBlock}>
-        <div>
-          <p><strong>Supplier:</strong> {modalData.supplier_name}</p>
-          <p><strong>ERP No:</strong> {modalData.admin_no}</p>
-          <p><strong>Invoice No:</strong> {modalData.bill_no}</p>
-        </div>
-        <div>
-          <p><strong>Bill Date:</strong> {modalData.bill_date}</p>
-          <p><strong>Mode:</strong> {modalData.mode_of_transaction}</p>
-          <p><strong>Payment Type:</strong> {modalData.payment_type}</p>
-        </div>
-      </div>
+
+
+       <p><strong>Supplier:</strong> {modalData.supplier_name}</p>
 
       {/* ---------- ITEMS TABLE ---------- */}
       {Array.isArray(modalData.items) && modalData.items.length > 0 && (
@@ -265,26 +267,111 @@ const PurchaseOrderList = () => {
         </table>
       )}
 
-      {/* ---------- TOTALS ---------- */}
-      <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
-        <table style={styles.totalTable}>
-          <tbody>
-            <tr><td style={styles.totalLabel}>Reimbursement</td><td style={styles.totalValue}>₹{modalData.reimbursement}</td></tr>
-            <tr><td style={styles.totalLabel}>TDS Rate</td><td style={styles.totalValue}>{modalData.tds_rate}</td></tr>
-            <tr><td style={styles.totalLabel}>Adjustment</td><td style={styles.totalValue}>-₹{modalData.adjustment}</td></tr>
-            <tr style={{ background: "#f3f4f6", fontWeight: "bold" }}>
-              <td style={styles.totalLabel}>Total Amount</td>
-              <td style={styles.totalValue}>₹{modalData.total_amount}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+{/* ---------- TOTALS (Professional Format) ---------- */}
+<div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
+  <table style={styles.totalTable}>
+    <tbody>
+      {/* Subtotal */}
+      <tr>
+        <td style={styles.totalLabel}>Subtotal</td>
+        <td style={styles.totalValue}>₹{modalData.subtotal || "0.00"}</td>
+      </tr>
 
-      {/* ---------- EXTRA INFO ---------- */}
-      <div style={{ marginTop: 20 }}>
-        <p><strong>Sanction Amount:</strong> ₹{modalData.sanction_amount}</p>
-        <p><strong>In Favour Of:</strong> {modalData.in_favour_of}</p>
-      </div>
+      {/* Add Section */}
+      <tr>
+        <td colSpan="2" style={{ fontWeight: "bold", paddingTop: 8 }}>Add:</td>
+      </tr>
+      <tr>
+        <td style={styles.totalLabel}>Reimbursement</td>
+        <td style={styles.totalValue}>₹{modalData.reimbursement || "0.00"}</td>
+      </tr>
+
+      {/* Total after Additions */}
+      <tr style={{ background: "#f9fafb", fontWeight: "600" }}>
+        <td style={styles.totalLabel}>Total (After Additions)</td>
+        <td style={styles.totalValue}>
+          ₹
+          {(
+            (parseFloat(modalData.subtotal || 0) +
+              parseFloat(modalData.reimbursement || 0))
+          ).toFixed(2)}
+        </td>
+      </tr>
+
+      {/* Less Section */}
+      <tr>
+        <td colSpan="2" style={{ fontWeight: "bold", paddingTop: 8 }}>Less:</td>
+      </tr>
+      <tr>
+        <td style={styles.totalLabel}>TDS</td>
+        <td style={styles.totalValue}>₹{modalData.tds_rate || "0.00"}</td>
+      </tr>
+      <tr>
+        <td style={styles.totalLabel}>Advance</td>
+        <td style={styles.totalValue}>₹{modalData.adjustment || "0.00"}</td>
+      </tr>
+
+      {/* Grand Total */}
+      <tr style={{ background: "#f3f4f6", fontWeight: "bold" }}>
+        <td style={styles.totalLabel}>Grand Total</td>
+        <td style={styles.totalValue}>
+          ₹
+          {(
+            (parseFloat(modalData.subtotal || 0) +
+              parseFloat(modalData.reimbursement || 0) +
+              parseFloat(modalData.gst_amount || 0)) -
+            (parseFloat(modalData.tds_rate || 0) +
+              parseFloat(modalData.adjustment || 0))
+          ).toFixed(2)}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+{/* ---------- PAYMENT DETAILS (Clean Professional Layout) ---------- */}
+<div
+  style={{
+    marginTop: 25,
+    padding: "15px 20px",
+    border: "1px solid #e5e7eb",
+    borderRadius: 8,
+    background: "#ffffff",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.08)"
+  }}
+>
+  <div
+    style={{
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "space-between",
+      rowGap: 10,
+    }}
+  >
+    {/* Left Side */}
+    <div style={{ flex: "1 1 45%" }}>
+      <p style={{ margin: "4px 0", color: "#111827", fontSize: 14 }}>
+        <strong style={{ width: 120,  }}>Mode:</strong> {modalData.mode_of_transaction || "-"}
+      </p>
+     <p style={{ margin: "4px 0", color: "#111827", fontSize: 14 }}>
+        <strong style={{ width: 150, }}>Sanction Amount:</strong>  ₹{modalData.sanction_amount || "0.00"}
+      </p>
+    </div>
+
+    {/* Right Side */}
+    <div style={{ flex: "1 1 45%" }}>
+      
+       <p style={{ margin: "4px 0", color: "#111827", fontSize: 14 }}>
+        <strong style={{ width: 120,  }}>Payment Type:</strong> {modalData.payment_type || "-"}
+      </p>
+      <p style={{ margin: "4px 0", color: "#111827", fontSize: 14 }}>
+        <strong style={{ width: 150,  }}>In Favour Of:</strong> {modalData.in_favour_of || "-"}
+      </p>
+    </div>
+  </div>
+</div>
 
  {modalData && (
   <div style={{ marginTop: 50, display: "flex", justifyContent: "space-between" }}>

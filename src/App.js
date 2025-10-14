@@ -19,6 +19,7 @@ import VerifyPurchaseOrder from './Components/Purchases/VerifyPurchaseorder';
 import AdminPurchaseOrder from './Components/Purchases/AdminPurchaseorder';
 import VendorData from './Components/Purchases/Vendors History';
 import VendorOverview from './Components/Purchases/VendorsDetails';
+import ReimbursementOfExpense from './Components/Purchases/ReimbursementOfExpenes'
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
       <Route path="/adminpurchaseorder" element={<AdminPurchaseOrder/>}/>
       <Route path="/vendordata" element={<VendorData/>}/>
       <Route path="/vendor/:vendorId" element={<VendorOverview />} />
+      <Route path="/reimbursement" element={<ReimbursementOfExpense/>} />
       </Routes>
     </Router>
   );

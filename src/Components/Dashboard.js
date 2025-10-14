@@ -77,8 +77,9 @@ const handleFileChange = async (e) => {
         ...(employeeId === "KCCES19107"
           ? [
             { name: "Vendors", path: "/vendordata" },
-              { name: "Payment Advice", path: "/paymentadvice" },
-              { name: "Purchase Order", path: "/certifypurchaseorder" },
+              { name: "Invoice Booking", path: "/paymentadvice" },
+              { name: "Invoice Booking History", path: "/certifypurchaseorder" },
+              { name: "Reimbursement of Expense", path: "/reimbursement" },
             ]
           : []),
 
@@ -119,6 +120,8 @@ const handleFileChange = async (e) => {
       ],
     },
   ];
+
+
 
   // Save employee details in localStorage
   useEffect(() => {

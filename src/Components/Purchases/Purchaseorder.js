@@ -117,7 +117,20 @@ const handleSupplierChange = (e) => {
     if (!prev.in_favour_of) {
       updatedData.in_favour_of = value;
     }
-
+ // Auto-fill billing details if supplier exists
+    const supplierInfo = suppliersData.find(s => s.company_name === value);
+    if (supplierInfo) {
+      updatedData.billing_street = supplierInfo.billing_street || "";
+      updatedData.billing_city = supplierInfo.billing_city || "";
+      updatedData.billing_state = supplierInfo.billing_state || "";
+      updatedData.billing_pincode = supplierInfo.billing_pincode || "";
+    } else {
+      // Clear billing fields if no supplier selected
+      updatedData.billing_street = "";
+      updatedData.billing_city = "";
+      updatedData.billing_state = "";
+      updatedData.billing_pincode = "";
+    }
     return updatedData;
   });
 
@@ -137,8 +150,6 @@ const handleSupplierChange = (e) => {
 
 
  
-
-
 
 
  const handleChange = (e) => {
@@ -231,37 +242,44 @@ const selectedTdsOption = tdsOptions.find(opt => opt.id === parseInt(tdsOptionId
 
 
     // Build payload
-    const payload = {
-      admin_no: formData.erp_no || '',
-      bill_no: formData.bill_no || '',
-      bill_date: formData.bill_date || '',
-      project_code: formData.project_code || '',
-      po_number: formData.po_number || '',
-      supplier_name: formData.supplier_name || '',
-      gst_percent: gstValue,                  // percentage
-      gst_amount: parseFloat(gstAmount.toFixed(2)),  // GST in ₹
-      reimbursement: reimbursementValue,
-      tds_name: selectedTdsOption ? selectedTdsOption.name : '',
-      tds_rate: parseFloat(tdsAmount),     // TDS in ₹
-      deduction_type: deductionType,
-      adjustment: adjustmentValue,
-      total_amount: total,
-      mode_of_transaction: formData.mode_of_transaction || '',
-      payment_type: formData.payment_type || '',
-      sanction_amount: sanctionAmountValue,
-      in_favour_of: formData.in_favour_of || '',
-       items: rows.map(r => ({
+   const payload = {
+  admin_no: formData.erp_no || '',
+  bill_no: formData.bill_no || '',
+  bill_date: formData.bill_date || '',
+  project_code: formData.project_code || '',
+  po_number: formData.po_number || '',
+  supplier_name: formData.supplier_name || '',
+  gst_percent: gstValue,                  // percentage
+  gst_amount: parseFloat(gstAmount.toFixed(2)),  // GST in ₹
+  reimbursement: reimbursementValue,
+  tds_name: selectedTdsOption ? selectedTdsOption.name : '',
+  tds_rate: parseFloat(tdsAmount),     // TDS in ₹
+  deduction_type: deductionType,
+  adjustment: adjustmentValue,
+  total_amount: total,
+  mode_of_transaction: formData.mode_of_transaction || '',
+  payment_type: formData.payment_type || '',
+  sanction_amount: sanctionAmountValue,
+  in_favour_of: formData.in_favour_of || '',
+  
+  // **Billing details from selected supplier**
+  billing_street: formData.billing_street || '',
+  billing_city: formData.billing_city || '',
+  billing_state: formData.billing_state || '',
+  billing_pincode: formData.billing_pincode || '',
+
+  items: rows.map(r => ({
     item: r.item || '',
     hsnSac: r.hsnSac || '',
-    quantity: parseFloat(r.quantity) || '',
-    rate: parseFloat(r.rate) || '',
+    quantity: parseFloat(r.quantity) || 0,
+    rate: parseFloat(r.rate) || 0,
     per: r.per || '',
-    basicValue: parseFloat(r.amount) || '',  
-    gst_percent: parseFloat(r.gstPercent),               
-    gst_amount: parseFloat(r.gstAmount),   
+    basicValue: parseFloat(r.amount) || 0,  
+    gst_percent: parseFloat(r.gstPercent) || 0,               
+    gst_amount: parseFloat(r.gstAmount) || 0,   
   }))
+};
 
-    };
 
     console.log("Payload to send:", payload);
 
@@ -297,7 +315,7 @@ const selectedTdsOption = tdsOptions.find(opt => opt.id === parseInt(tdsOptionId
 
   return (
     <div style={{ padding: 20, fontFamily: 'Arial', maxWidth: 1000, margin: 'auto' }}>
-      <h2>Purchase Order</h2>
+      <h2>New Bill</h2>
 
         <div
       style={{
@@ -314,7 +332,7 @@ const selectedTdsOption = tdsOptions.find(opt => opt.id === parseInt(tdsOptionId
 
       {/* Bill Date on right */}
       <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "flex-end" }}>
-        <label style={{ fontWeight: "bold", marginBottom: 5 }}>Bill Date</label>
+        <label style={{ fontWeight: "bold", marginBottom: 5 }}>Invoice Date</label>
         <input
           type="date"
           name="bill_date"
@@ -332,7 +350,7 @@ const selectedTdsOption = tdsOptions.find(opt => opt.id === parseInt(tdsOptionId
  {/* Project / Contract Code */}
 
     <div style={{ position: "relative", flex: "1 1 45%", display: "flex", flexDirection: "column" }}>
-      <label style={{ marginBottom: 5 }}>Project / Contract Code</label>
+      <label style={styles.label}>Project / Contract Code</label>
       <input
         type="text"
         style={{ padding: 8, border: "1px solid #ccc", borderRadius: 4 }}
