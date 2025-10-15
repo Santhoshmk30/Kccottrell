@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@iconscout/react-unicons": "^2.2.5",
     "@react-native-picker/picker": "^2.11.2",
     "@react-navigation/bottom-tabs": "^7.4.7",
     "@react-navigation/native": "^7.1.17",
@@ -16,6 +17,7 @@
     "framer-motion": "^12.23.12",
     "jspdf": "^3.0.2",
     "jspdf-autotable": "^5.0.2",
+    "lottie-react": "^2.4.1",
     "qs": "^6.14.0",
     "react": "^19.1.1",
     "react-device-detect": "^2.2.3",
