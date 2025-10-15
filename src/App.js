@@ -20,6 +20,7 @@ import AdminPurchaseOrder from './Components/Purchases/AdminPurchaseorder';
 import VendorData from './Components/Purchases/Vendors History';
 import VendorOverview from './Components/Purchases/VendorsDetails';
 import ReimbursementOfExpense from './Components/Purchases/ReimbursementOfExpenes'
+import CertifyReimbursement from './Components/Purchases/CertifyReimbursement'
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
       <Route path="/vendordata" element={<VendorData/>}/>
       <Route path="/vendor/:vendorId" element={<VendorOverview />} />
       <Route path="/reimbursement" element={<ReimbursementOfExpense/>} />
+      <Route path="/certifyreimbursement" element={<CertifyReimbursement/>} />
       </Routes>
     </Router>
   );

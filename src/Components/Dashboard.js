@@ -84,7 +84,8 @@ const handleFileChange = async (e) => {
           : []),
 
         ...(employeeId === "KCCES19014"
-          ? [{ name: "Certify Purchase Order", path: "/certifypurchaseorder" }]
+          ? [{ name: "Invoice Bills", path: "/certifypurchaseorder" },
+          { name: "Reimbursement of Expenses", path: "/certifyreimbursement" }]
           : []),
 
         ...(employeeId === "KCCES19002"
