@@ -300,9 +300,9 @@ const [suppliersData, setSuppliersData] = useState([]); // full API data
     marginTop: "10px", // below gradient
   },
   logo: 
-    { width: 180, height: 80, objectFit: "contain" },
+    { width: 280, height: 150, objectFit: "contain" },
   companyName: {
-    fontSize: "18px",
+    fontSize: "25px",
     fontWeight: "bold",
     color: "#333",
   },
@@ -455,7 +455,11 @@ function numberToWords(num) {
       {/* Supplier & Purchase Details */}
       <div style={styles.row}>
         {/* Supplier */}
-        <div style={styles.card}>
+        <div  style={{
+    ...styles.card,
+    border: "1px solid #00c6ff",
+    borderRadius: "10px",
+  }}>
           <div style={styles.header("#007bff", "#00c6ff")}>SUPPLIER</div>
           <div style={styles.body}>
             <div style={styles.fieldRow}>
@@ -487,7 +491,11 @@ function numberToWords(num) {
         </div>
 
         {/* Purchase Details */}
-        <div style={styles.card}>
+        <div style={{
+    ...styles.card,
+    border: "1px solid #d657d4",
+    borderRadius: "10px",
+  }}>
           <div style={styles.header("#9b2bcf", "#d657d4")}>PURCHASE DETAILS</div>
           <div style={styles.body}>
             <div style={styles.fieldRow}>
@@ -539,9 +547,14 @@ function numberToWords(num) {
         </div>
       </div>
 
+
       {/* Supplier Details */}
         <div style={styles.row}>
-      <div style={styles.card}>
+      <div  style={{
+    ...styles.card,
+    border: "1px solid #00d4a0",
+    borderRadius: "10px",
+  }}>
         <div style={styles.header("#00997a", "#00d4a0")}>SUPPLIER DETAILS</div>
         <div style={styles.body}>
           <div style={styles.row}>
@@ -602,7 +615,11 @@ function numberToWords(num) {
       </div>
 
       {/* Purchaser Details */}
-      <div style={{ ...styles.card}}>
+      <div style={{
+    ...styles.card,
+    border: "1px solid #ffb347",
+    borderRadius: "10px",
+  }}>
         <div style={styles.header("#ff7e00", "#ffb347")}>PURCHASER DETAILS</div>
         <div style={styles.body}>
          
@@ -654,7 +671,11 @@ function numberToWords(num) {
       </div>
 </div>
       {/* References */}
-      <div style={{ ...styles.card, marginTop: "20px" }}>
+      <div style={{
+    ...styles.card,
+    border: "1px solid #ff4081",
+    borderRadius: "10px",
+  }}>
         <div style={styles.header("#e91e63", "#ff4081")}>REFERENCES :</div>
         <div style={styles.body}>
           <textarea
