@@ -328,7 +328,7 @@ const PurchaseOrderList = () => {
         )}
         {(localStorage.getItem("employee_id") === "KCCES19014" ||
           localStorage.getItem("employee_id") === "KCCES19002") && (
-          <button style={styles.rejectBtn} onClick={() => handleAction(modalData.id, "reject")}>Reject</button>
+          <button style={styles.rejectBtn} onClick={() => handleAction(modalData.id, "Reject")}>Reject</button>
         )}
       </div>
     </div>

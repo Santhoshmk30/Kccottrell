@@ -13,14 +13,17 @@ import InternationalTrip from './Components/Trip Forms/InternationalTrip';
 import SightAllowance from './Components/Trip Forms/SightAllowance';
 import LocalTravel from './Components/Trip Forms/LocalTravel';
 import VendorForm from './Components/Purchases/Vendors';
-import PaymentAdvicePage from './Components/Purchases/Purchaseorder';
+import PaymentAdvicePage from './Components/Purchases/InvoiceBooking';
 import CertifyPurchaseOrder from './Components/Purchases/CertifyPurchaseorder';
 import VerifyPurchaseOrder from './Components/Purchases/VerifyPurchaseorder';
 import AdminPurchaseOrder from './Components/Purchases/AdminPurchaseorder';
 import VendorData from './Components/Purchases/Vendors History';
 import VendorOverview from './Components/Purchases/VendorsDetails';
-import ReimbursementOfExpense from './Components/Purchases/ReimbursementOfExpenes'
-import CertifyReimbursement from './Components/Purchases/CertifyReimbursement'
+import ReimbursementOfExpense from './Components/Purchases/ReimbursementOfExpenes';
+import CertifyReimbursement from './Components/Purchases/CertifyReimbursement';
+import VerifyReimbursement from './Components/Purchases/VerifyReimbursement';
+import PurchaseOrderPage from './Components/Purchases/PurchaseOrderPage';
+
 
 function App() {
   return (
@@ -46,6 +49,8 @@ function App() {
       <Route path="/vendor/:vendorId" element={<VendorOverview />} />
       <Route path="/reimbursement" element={<ReimbursementOfExpense/>} />
       <Route path="/certifyreimbursement" element={<CertifyReimbursement/>} />
+      <Route path="/verifyreimbursement" element={<VerifyReimbursement/>} />
+      <Route path="/purchaseorder" element={<PurchaseOrderPage/>} />
       </Routes>
     </Router>
   );
