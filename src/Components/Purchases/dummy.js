@@ -1,163 +1,168 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { FaPencilAlt, FaCheck } from "react-icons/fa";
 
-const VendorsTable = () => {
-  const [vendors, setVendors] = useState([]);
-  const [filteredVendors, setFilteredVendors] = useState([]);
-  const [search, setSearch] = useState("");
-  const [sortConfig, setSortConfig] = useState({ key: "vendor_id", direction: "asc" });
+const SpecialConditions = ({ formData, setFormData, styles }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editableText, setEditableText] = useState("");
 
-  const navigate = useNavigate();
-
+  // 🧠 default paragraph text (with placeholders for date/time)
   useEffect(() => {
-    axios
-      .get("https://darkslategrey-shrew-424102.hostingersite.com/api/get_vendors.php")
-      .then((res) => {
-        if (res.data.status === "success") {
-          const vendorsWithStatus = res.data.data.map((vendor) => ({
-            ...vendor,
-            status: vendor.status || "Pending",
-          }));
-          setVendors(vendorsWithStatus);
-          setFilteredVendors(vendorsWithStatus);
-        }
-      })
-      .catch((err) => console.error("Error fetching vendors:", err));
-  }, []);
+    const defaultText =
+      formData.specialConditionsText ||
+      `1. Price Basis:
+1.1. Above prices are for Site, Chennai and inclusive of standard packing, Door Delivery services at Chennai Office.
+1.2. Price shall be firm and fixed during the entire contract period & till the execution of the complete order without any price escalation.
 
-  // Search filter
-  const handleSearch = (text) => {
-    setSearch(text);
-    const filtered = vendors.filter(
-      (item) =>
-        item.first_name?.toLowerCase().includes(text.toLowerCase()) ||
-        item.last_name?.toLowerCase().includes(text.toLowerCase()) ||
-        item.company_name?.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredVendors(filtered);
-  };
+2. Delivery Schedule:
+2.1. Delivery shall be completed on ${formData.deliveryDate || "[Delivery Date]"} @ ${formData.deliveryTime || "[Time]"}.
 
-  // Sorting
-  const handleSort = (key) => {
-    let direction = "asc";
-    if (sortConfig.key === key && sortConfig.direction === "asc") direction = "desc";
-    setSortConfig({ key, direction });
+3. Payment Terms:
+3.1. 50% Advance payment and 50% after the delivery.
 
-    const sorted = [...filteredVendors].sort((a, b) => {
-      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
-      return 0;
-    });
+4. Taxes & Duties:
+4.1. All taxes are inclusive in the order price.
+4.2. TDS shall be deducted from Suppliers/Contractor bills as applicable.
 
-    setFilteredVendors(sorted);
-  };
+5. Consignee Details:
+5.1. The consignee details will be issued separately after the final inspection.
 
-  // Verify function
-  const handleVerify = async (vendor) => {
-    try {
-      await axios.post(
-        "https://darkslategrey-shrew-424102.hostingersite.com/api/update_vendor_status.php",
-        {
-          vendor_id: vendor.vendor_id,
-          status: "Verified",
-        }
-      );
+6. Invoice/Billing Address:
+6.1. KC Cottrell Engineering Services Private Limited, Super A16 & A17, RR Tower 4, 7th Floor, Thiru-Vi-Ka Industrial Estate, Guindy, Chennai – 600 032.
 
-      const updatedVendors = vendors.map((v) =>
-        v.vendor_id === vendor.vendor_id ? { ...v, status: "Verified" } : v
-      );
-      setVendors(updatedVendors);
-      setFilteredVendors(updatedVendors);
+7. Freight & Insurance:
+7.1. Freight & Insurance shall be in scope of Supplier.
 
-      alert(`${vendor.company_name} has been verified!`);
-    } catch (err) {
-      console.error("Error updating status:", err);
-      alert("Failed to verify vendor.");
+8. Guarantee:
+8.1. Supplier shall provide Warranty as per your offer.
+8.2. Supplier shall submit the Letter of Commitments along with the supply.
+
+9. Dispatch Instruction:
+9.1. Supplier should provide all documents and support to obtain the Road Permit, if required.
+
+10. Dispatch Documents:
+10.1. Supplier shall submit 1 (one) original and 4 (four) copies of the following documents along with supplies:
+   i) Challan
+   ii) Packing List
+   iii) Guarantee/Warranty certificate
+
+11. Packing, Identification & Marking:
+11.1. All the items should be properly marked before dispatch.
+11.2. Cost incurred due to damages if any during transportation due to improper packing shall be borne by Supplier.
+
+12. Responsibility:
+12.1. Even if the items are inspected by Purchaser representative at Supplier premises prior to dispatch, the basic responsibility lies with Supplier for quality of items and the pre-dispatch inspection and clearance does not absolve Supplier responsibility.
+
+13. Technical & Quality:
+13.1. All technical & quality specification shall be as per standard parameter of item and model no.
+
+14. Rectification:
+14.1. Supplier shall depute representative at Purchaser office to rectify item with defect / problem / mismatch found after dispatch of the item and all relevant cost shall be borne by Supplier.
+
+15. Cancellation:
+15.1. Timely delivery is the essence of this purchase order. We are at liberty to cancel the order without any price implication on Purchaser, in case Supplier fail to deliver the required items as per the above-mentioned delivery schedule.
+
+16. Jurisdiction:
+16.1. Jurisdiction & Arbitration: Disputes, if any, will be subject to Jurisdiction of Gurgaon. The dispute will first be referred to arbitration in accordance with Indian Arbitration and Conciliation Act 1996. This order and its annexure constitute the entire understanding between the Contractor & Employer and terms of these present. It shall super cede all prior correspondence to the extent of inconsistency of repugnance to the provisions of this order and its annexure. Any modification on this order or its annexure and conditions of contract shall be effected only by a written instrument signed by the Authorized Representative.
+
+17. Sub-contracting:
+17.1. Not Applicable.
+
+18. Acceptance:
+18.1. Duplicate copy of the Purchase Order may please be signed and returned to KCCES on the same day of receipt as token of acceptance of the same. If no communication is received within a days of receipt of Purchase Order, it will be treated that order has been accepted in entirely.`;
+
+    setEditableText(defaultText);
+  }, [formData.specialConditionsText, formData.deliveryDate, formData.deliveryTime]);
+
+  // ✅ Save changes
+  const handleEditToggle = () => {
+    if (isEditing) {
+      setFormData({ ...formData, specialConditionsText: editableText });
     }
+    setIsEditing(!isEditing);
+  };
+
+  // ✅ handle date/time input
+  const handleDateChange = (e) => {
+    setFormData({ ...formData, deliveryDate: e.target.value });
+  };
+  const handleTimeChange = (e) => {
+    setFormData({ ...formData, deliveryTime: e.target.value });
   };
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.title}>Vendor Management</h2>
+    <div style={{ ...styles.section, ...styles.technicalQuality, position: "relative" }}>
+      {/* ✏️ Edit / Save Button */}
+      <button
+        onClick={handleEditToggle}
+        style={{
+          position: "absolute",
+          top: 0,
+          right: 0,
+          border: "none",
+          background: "transparent",
+          cursor: "pointer",
+          fontSize: "16px",
+          color: "#555",
+        }}
+        title={isEditing ? "Save changes" : "Edit section"}
+      >
+        {isEditing ? <FaCheck /> : <FaPencilAlt />}
+      </button>
 
-      <input
-        type="text"
-        placeholder="Search by name or company..."
-        value={search}
-        onChange={(e) => handleSearch(e.target.value)}
-        style={styles.search}
-      />
+      <p style={styles.title3}>C. Special Conditions</p>
 
-      <div style={styles.tableWrapper}>
-        <table style={styles.table}>
-          <thead>
-            <tr>
-              {[
-                "vendor_id",
-                "company_name",
-                "gst_number",
-                "pan_number",
-                "bank_name",
-                "account_number",
-                "ifsc_code",
-              ].map((col) => (
-                <th key={col} style={styles.th} onClick={() => handleSort(col)}>
-                  {col.replace("_", " ").toUpperCase()}{" "}
-                  {sortConfig.key === col ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
-                </th>
-              ))}
-              <th style={styles.th}>Verify</th>
-              <th style={styles.th}>View</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {filteredVendors.map((vendor) => (
-              <tr key={vendor.vendor_id} style={styles.tr}>
-                <td>{vendor.vendor_id}</td>
-                <td>{vendor.company_name}</td>
-                <td>{vendor.gst_number}</td>
-                <td>{vendor.pan_number}</td>
-                <td>{vendor.bank_name}</td>
-                <td>{vendor.account_number}</td>
-                <td>{vendor.ifsc_code}</td>
-                <td>
-                  {vendor.status !== "Verified" ? (
-                    <button style={styles.verifyBtn} onClick={() => handleVerify(vendor)}>
-                      Verify
-                    </button>
-                  ) : (
-                    <span style={{ color: "green", fontWeight: "600" }}>Verified</span>
-                  )}
-                </td>
-                <td>
-                  <button
-                    style={styles.viewBtn}
-                    onClick={() => navigate(`/vendor/${vendor.vendor_id}`)}
-                  >
-                    View
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      {/* 🕒 Date & Time Inputs */}
+      <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
+        <div>
+          <label style={{ fontWeight: "bold" }}>Delivery Date:</label>
+          <input
+            type="date"
+            value={formData.deliveryDate || ""}
+            onChange={handleDateChange}
+            style={{
+              marginLeft: "8px",
+              padding: "5px",
+              border: "1px solid #ccc",
+              borderRadius: "5px",
+            }}
+          />
+        </div>
+        <div>
+          <label style={{ fontWeight: "bold" }}>Time:</label>
+          <input
+            type="time"
+            value={formData.deliveryTime || ""}
+            onChange={handleTimeChange}
+            style={{
+              marginLeft: "8px",
+              padding: "5px",
+              border: "1px solid #ccc",
+              borderRadius: "5px",
+            }}
+          />
+        </div>
       </div>
+
+      {/* 📝 Editable Text */}
+      {isEditing ? (
+        <textarea
+          style={{
+            width: "100%",
+            minHeight: "400px",
+            fontSize: "inherit",
+            padding: "10px",
+            border: "1px solid #ccc",
+            borderRadius: "5px",
+            whiteSpace: "pre-wrap",
+          }}
+          value={editableText}
+          onChange={(e) => setEditableText(e.target.value)}
+        />
+      ) : (
+        <pre style={{ ...styles.paragraph, whiteSpace: "pre-wrap" }}>{editableText}</pre>
+      )}
     </div>
   );
 };
 
-const styles = {
-  container: { padding: "30px", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", backgroundColor: "#f4f6f8", minHeight: "100vh" },
-  title: { color: "#333", marginBottom: "20px", fontSize: "28px", fontWeight: "700" },
-  search: { width: "100%", maxWidth: "400px", padding: "10px 15px", borderRadius: "8px", border: "1px solid #ccc", marginBottom: "25px", fontSize: "16px" },
-  tableWrapper: { overflowX: "auto", boxShadow: "0 4px 12px rgba(0,0,0,0.05)", borderRadius: "10px" },
-  table: { width: "100%", borderCollapse: "collapse", backgroundColor: "#fff", minWidth: "800px" },
-  th: { padding: "14px", backgroundColor: "#da9589ff", color: "#020202ff", cursor: "pointer", textAlign: "left", fontSize: "15px", position: "sticky", top: 0 },
-  tr: { borderBottom: "1px solid #695757ff", transition: "background-color 0.2s" },
-  verifyBtn: { padding: "6px 14px", backgroundColor: "#ffc107", color: "#fff", border: "none", borderRadius: "6px", cursor: "pointer", fontWeight: "500" },
-  viewBtn: { padding: "6px 14px", backgroundColor: "#28a745", color: "#fff", border: "none", borderRadius: "6px", cursor: "pointer", fontWeight: "500" },
-};
-
-export default VendorsTable;
+export default SpecialConditions;

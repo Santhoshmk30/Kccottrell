@@ -35,38 +35,65 @@ const navigate = useNavigate();
 
 const [suppliersData, setSuppliersData] = useState([]); // full API data
 
+const [projects, setProjects] = useState([]);
+const [proposals, setProposals] = useState([]);
+const [search, setSearch] = useState("");
+const [filteredItems, setFilteredItems] = useState([]);
 
- const [projects, setProjects] = useState([]);
-
-
-  useEffect(() => {
-    fetch("https://darkslategrey-shrew-424102.hostingersite.com/api/get_project_codes.php")
+useEffect(() => {
+  fetch("https://darkslategrey-shrew-424102.hostingersite.com/api/get_project_codes.php")
     .then(res => res.json())
     .then(data => {
-        console.log("API Data:", data);  // <--- check this
-        if(data.status === "success") setProjects(data.data);
+      if (data.status === "success") setProjects(data.data);
     })
-    .catch(err => console.error("API error:", err));
+    .catch(err => console.error("Projects API error:", err));
 }, []);
 
-  const [search, setSearch] = useState("");
-  const [showOptions, setShowOptions] = useState(false);
+useEffect(() => {
+  fetch("https://darkslategrey-shrew-424102.hostingersite.com/api/get_proposal_code.php")
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "success") setProposals(data.data);
+    })
+    .catch(err => console.error("Proposals API error:", err));
+}, []);
 
-  const filteredProjects = projects.filter((proj) =>
-    `${proj.ProjectCode} - ${proj.ProjectName}`
-      .toLowerCase()
-      .includes(search.toLowerCase())
+useEffect(() => {
+  const combined = [
+    ...projects.map(p => ({
+      type: "project",
+      code: p.ProjectCode,
+      name: p.ProjectName,
+      id: p.ProjectCodeId,
+    })),
+    ...proposals.map(p => ({
+      type: "proposal",
+      code: p.ProposalCode,
+      name: p.ProposalName,
+      id: p.ProposalCodeId,
+    })),
+  ];
+
+  const filtered = combined.filter(item =>
+    (item.code?.toLowerCase().includes(search.toLowerCase()) ||
+     item.name?.toLowerCase().includes(search.toLowerCase()))
   );
 
-  const handleSelect = (proj) => {
-    setFormData({
-      ...formData,
-      project_code: proj.ProjectCode,
-      project_name: proj.ProjectName,
-    });
-    setSearch(`${proj.ProjectCode} - ${proj.ProjectName}`);
-    setShowOptions(false);
-  };
+  setFilteredItems(filtered);
+}, [search, projects, proposals]);
+
+
+  
+  const [showOptions, setShowOptions] = useState(false);
+
+ 
+
+ const handleSelect = (item) => {
+  setSearch(`${item.code} - ${item.name}`);
+  setShowOptions(false);
+  console.log("Selected:", item);
+};
+
 
 
 const [tdsRate, setTdsRate] = useState(0);          // numeric rate
@@ -348,54 +375,60 @@ const selectedTdsOption = tdsOptions.find(opt => opt.id === parseInt(tdsOptionId
      {/* Project & Supplier Info */}
 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 20 }}>
  {/* Project / Contract Code */}
+{/* Project & Proposal Info */}
+<div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 20 }}>
+  {/* Project / Contract Code */}
+  <div style={{ position: "relative", flex: "1 1 45%", display: "flex", flexDirection: "column",width:"500px" }}>
+    <label style={styles.label}>Project / Proposal Code</label>
+    <input
+      type="text"
+      style={{ padding: 8, border: "1px solid #ccc", borderRadius: 4 }}
+      placeholder="Search Project / Proposal..."
+      value={search}
+      onChange={(e) => {
+        setSearch(e.target.value);
+        setShowOptions(true);
+      }}
+      onFocus={() => setShowOptions(true)}
+    />
 
-    <div style={{ position: "relative", flex: "1 1 45%", display: "flex", flexDirection: "column" }}>
-      <label style={styles.label}>Project / Contract Code</label>
-      <input
-        type="text"
-        style={{ padding: 8, border: "1px solid #ccc", borderRadius: 4 }}
-        placeholder="Search Project..."
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          setShowOptions(true);
+    {showOptions && (
+      <ul
+        style={{
+          position: "absolute",
+          top: "100%",
+          left: 0,
+          right: 0,
+          maxHeight: 150,
+          overflowY: "auto",
+          border: "1px solid #ccc",
+          borderRadius: 4,
+          backgroundColor: "#fff",
+          zIndex: 1000,
+          margin: 0,
+          padding: 0,
+          listStyle: "none",
         }}
-        onFocus={() => setShowOptions(true)}
-      />
-      {showOptions && (
-        <ul
-          style={{
-            position: "absolute",
-            top: "100%",
-            left: 0,
-            right: 0,
-            maxHeight: 150,
-            overflowY: "auto",
-            border: "1px solid #ccc",
-            borderRadius: 4,
-            backgroundColor: "#fff",
-            zIndex: 1000,
-            margin: 0,
-            padding: 0,
-            listStyle: "none",
-          }}
-        >
-          {filteredProjects.length > 0 ? (
-            filteredProjects.map((proj) => (
-              <li
-                key={proj.ProjectCodeId}
-                style={{ padding: 8, cursor: "pointer" }}
-                onClick={() => handleSelect(proj)}
-              >
-                {proj.ProjectCode} - {proj.ProjectName}
-              </li>
-            ))
-          ) : (
-            <li style={{ padding: 8 }}>No Projects Found</li>
-          )}
-        </ul>
-      )}
-    </div>
+      >
+        {filteredItems.length > 0 ? (
+          filteredItems.map((item, index) => (
+            <li
+              key={index}
+              style={{ padding: 8, cursor: "pointer" }}
+              onClick={() => handleSelect(item)}
+            >
+              {item.type === "project" ? "" : ""}{" "}
+              {item.code} - {item.name}
+            </li>
+          ))
+        ) : (
+          <li style={{ padding: 8 }}>No Results Found</li>
+        )}
+      </ul>
+    )}
+  </div>
+</div>
+
 
 
 
