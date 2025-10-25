@@ -274,7 +274,16 @@ const PurchaseOrderList = () => {
       {/* Subtotal */}
       <tr>
         <td style={styles.totalLabel}>Subtotal</td>
-        <td style={styles.totalValue}>₹{modalData.subtotal || "0.00"}</td>
+        <td style={styles.totalValue}>₹
+          {modalData.items
+            ? modalData.items.reduce(
+                (sum, item) =>
+                  sum +
+                  (Number(item.basicValue || 0) + Number(item.gst_amount || 0)),
+                0
+              ).toFixed(2)
+            : "0.00"}
+</td>
       </tr>
 
       {/* Add Section */}
@@ -292,9 +301,15 @@ const PurchaseOrderList = () => {
         <td style={styles.totalValue}>
           ₹
           {(
-            (parseFloat(modalData.subtotal || 0) +
-              parseFloat(modalData.reimbursement || 0))
-          ).toFixed(2)}
+  (modalData.items
+    ? modalData.items.reduce(
+        (sum, item) =>
+          sum + (Number(item.basicValue || 0) + Number(item.gst_amount || 0)),
+        0
+      )
+    : 0) +
+  Number(modalData.reimbursement || 0)
+).toFixed(2)}
         </td>
       </tr>
 
@@ -316,13 +331,28 @@ const PurchaseOrderList = () => {
         <td style={styles.totalLabel}>Grand Total</td>
         <td style={styles.totalValue}>
           ₹
-          {(
-            (parseFloat(modalData.subtotal || 0) +
-              parseFloat(modalData.reimbursement || 0) +
-              parseFloat(modalData.gst_amount || 0)) -
-            (parseFloat(modalData.tds_rate || 0) +
-              parseFloat(modalData.adjustment || 0))
-          ).toFixed(2)}
+         
+{(
+  // Compute subtotal from items
+  (modalData.items
+    ? modalData.items.reduce(
+        (sum, item) => sum + Number(item.basicValue || 0),
+        0
+      )
+    : 0) +
+  // Compute GST from items
+  (modalData.items
+    ? modalData.items.reduce(
+        (sum, item) => sum + Number(item.gst_amount || 0),
+        0
+      )
+    : 0) +
+  // Add reimbursement
+  Number(modalData.reimbursement || 0) -
+  // Subtract TDS and adjustment
+  (Number(modalData.tds_rate || 0) + Number(modalData.adjustment || 0))
+).toFixed(2)}
+
         </td>
       </tr>
     </tbody>
