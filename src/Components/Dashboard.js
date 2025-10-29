@@ -78,16 +78,20 @@ const handleFileChange = async (e) => {
           ? [
             { name: "Vendors", path: "/vendordata" },
             { name: "Purchase Order", path: "/purchaseorder" },
+            { name: "Purchase Order History", path: "/purchaseorderhistory" },
              { name: "Advance/Percome Invoice/Redemption", path: "/advance" },
               { name: "Invoice Booking", path: "/paymentadvice" },
               { name: "Invoice Booking History", path: "/certifypurchaseorder" },
+              { name: "Reimbursement of Expenses", path: "/certifyreimbursement" },
               { name: "Reimbursement of Expense", path: "/reimbursement" },
             ]
           : []),
 
         ...(employeeId === "KCCES19014"
           ? [{ name: "Invoice Bills", path: "/certifypurchaseorder" },
-          { name: "Reimbursement of Expenses", path: "/certifyreimbursement" }]
+          { name: "Reimbursement of Expenses", path: "/certifyreimbursement" },
+          { name: "Purchase Orders", path: "/purchaseorderhistory" },]
+          
           : []),
 
         ...(employeeId === "KCCES19002"

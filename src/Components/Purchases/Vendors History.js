@@ -93,6 +93,8 @@ const handleSave = async (field) => {
         alert("Something went wrong!");
       }
     };
+
+    
    
 const handleUploadNewDoc = async () => {
   if (!newDocType || !newDocFile) {
@@ -254,7 +256,7 @@ const handleVerifyVendor = async () => {
         </div>
        <button
         style={styles.addBtn}
-        onClick={() => navigate("/vendorS")}
+        onClick={() => navigate("/vendors")}
       >
         + Add Vendor
       </button>

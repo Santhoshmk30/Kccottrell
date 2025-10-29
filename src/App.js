@@ -23,7 +23,7 @@ import ReimbursementOfExpense from './Components/Purchases/ReimbursementOfExpene
 import CertifyReimbursement from './Components/Purchases/CertifyReimbursement';
 import VerifyReimbursement from './Components/Purchases/VerifyReimbursement';
 import PurchaseOrderPage from './Components/Purchases/PurchaseOrderPage';
-
+import PurchaseOrderHistory from './Components/Purchases/PurchaseOrderHistory'
 
 function App() {
   return (
@@ -51,6 +51,7 @@ function App() {
       <Route path="/certifyreimbursement" element={<CertifyReimbursement/>} />
       <Route path="/verifyreimbursement" element={<VerifyReimbursement/>} />
       <Route path="/purchaseorder" element={<PurchaseOrderPage/>} />
+      <Route path="/purchaseorderhistory" element={<PurchaseOrderHistory/>} />
       </Routes>
     </Router>
   );

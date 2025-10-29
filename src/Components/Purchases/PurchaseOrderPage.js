@@ -28,10 +28,13 @@ const PurchaseOrder = () => {
     billing_state: "",
     billing_pincode: "",
     address: "",
-    
+    branch_name: "",
+    address1:"",
 
   });
   const [isEditing, setIsEditing] = useState(false);
+
+  
   
   const [editableText, setEditableText] = useState("");
 
@@ -114,6 +117,14 @@ const handleGstChange = (index, value) => {
 const [suppliersData, setSuppliersData] = useState([]); // full API data
 
  
+
+const [branches, setBranches] = useState([]);
+const [selectedBranch, setSelectedBranch] = useState("");
+
+
+
+
+
    // Fetch suppliers once
     useEffect(() => {
       fetch("https://darkslategrey-shrew-424102.hostingersite.com/api/vendors_data.php")
@@ -137,59 +148,65 @@ const [suppliersData, setSuppliersData] = useState([]); // full API data
   const handleDateChange = (e) => setDeliveryDate(e.target.value);
   const handleTimeChange = (e) => setDeliveryTime(e.target.value);
 
+const handleSupplierChange = async (e) => {
+  const value = e.target.value;
 
- const handleSupplierChange = (e) => {
-    const value = e.target.value;
+  setFormData((prev) => {
+    const updatedData = { ...prev, supplier_name: value };
 
-    setFormData((prev) => {
-      const updatedData = { ...prev, supplier_name: value };
+    if (!prev.in_favour_of) updatedData.in_favour_of = value;
 
-      // Auto-fill "In Favour Of" only if empty
-      if (!prev.in_favour_of) updatedData.in_favour_of = value;
+    const supplierInfo = suppliersData.find(
+      (s) => s.company_name === value
+    );
 
-      const supplierInfo = suppliersData.find(
-        (s) => s.company_name === value
-      );
+    if (supplierInfo) {
+      // Fill supplier details
+      updatedData.billing_street = supplierInfo.billing_street || "";
+      updatedData.billing_city = supplierInfo.billing_city || "";
+      updatedData.billing_state = supplierInfo.billing_state || "";
+      updatedData.billing_pincode = supplierInfo.billing_pincode || "";
+      updatedData.address = `${supplierInfo.billing_street || ""}\n${supplierInfo.billing_city || ""}, ${supplierInfo.billing_state || ""} - ${supplierInfo.billing_pincode || ""}`;
+      updatedData.contactPerson1 = supplierInfo.first_name || "";
+      updatedData.mobile1 = supplierInfo.phone || "";
+      updatedData.email1 = supplierInfo.email || "";
+      updatedData.gst1 = supplierInfo.gst_number || "";
+      updatedData.pan1 = supplierInfo.pan_number || "";
 
-      if (supplierInfo) {
-        // Billing / Address
-        updatedData.billing_street = supplierInfo.billing_street || "";
-        updatedData.billing_city = supplierInfo.billing_city || "";
-        updatedData.billing_state = supplierInfo.billing_state || "";
-        updatedData.billing_pincode = supplierInfo.billing_pincode || "";
-        updatedData.address = `${supplierInfo.billing_street || ""}\n${supplierInfo.billing_city || ""}, ${supplierInfo.billing_state || ""} - ${supplierInfo.billing_pincode || ""}`;
+     fetch(`https://darkslategrey-shrew-424102.hostingersite.com/api/get_vendor_branches.php?vendor_id=${supplierInfo.vendor_id}`)
+  .then((res) => res.json())
+  .then((data) => {
+    console.log("🔥 Vendor branches API response:", data);
 
-        // Contact details
-        updatedData.contactPerson1 = supplierInfo.first_name || "";
-        updatedData.mobile1 = supplierInfo.phone || "";
-        updatedData.email1 = supplierInfo.email || "";
-
-        // GST / PAN
-        updatedData.gst1 = supplierInfo.gst_number|| "";
-        updatedData.pan1 = supplierInfo.pan_number || "";
-      } else {
-        // Clear all fields if no supplier selected
-        updatedData.billing_street = "";
-        updatedData.billing_city = "";
-        updatedData.billing_state = "";
-        updatedData.billing_pincode = "";
-        updatedData.address = "";
-        updatedData.contactPerson1 = "";
-        updatedData.mobile1 = "";
-        updatedData.email1 = "";
-        updatedData.gst1 = "";
-        updatedData.pan1 = "";
-      }
-
-      return updatedData;
-    });
+    if (data.status === "success" && Array.isArray(data.branches)) {
+      setBranches(data.branches);
+    } else {
+      setBranches([]);
+    }
+  })
+  .catch((err) => {
+    console.error("Error fetching branches:", err);
+    setBranches([]);
+  });
 
 
+    } else {
+      // Clear all if no supplier selected
+      updatedData.billing_street = "";
+      updatedData.billing_city = "";
+      updatedData.billing_state = "";
+      updatedData.billing_pincode = "";
+      updatedData.address = "";
+      updatedData.contactPerson1 = "";
+      updatedData.mobile1 = "";
+      updatedData.email1 = "";
+      updatedData.gst1 = "";
+      updatedData.pan1 = "";
+      setBranches([]);
+    }
 
-  // Exit early if no value or suppliers data is empty
-  if (!value || suppliersData.length === 0) return;
-
-
+    return updatedData;
+  });
 };
 
 
@@ -501,14 +518,86 @@ useEffect(() => {
     setIsEditing18(!isdes17Editing);
   };
 
-    
+   const handleSubmit = async () => {
+  try {
+  const payload = {
+  supplier_name: formData.supplier_name || "",
+  branch_name: formData.branch_name || "",
+  branch_address: formData.address1 || "",
+  address: formData.address || "",
+  purchase_date: formData.date || "",
+  goods_services: formData.goods || "",
+  qty: formData.qty || 0,
+  supplier_contactPerson1: formData.contactPerson1 || "",
+  supplier_mobile1: formData.mobile1 || "",
+  supplier_email1: formData.email1 || "",
+  supplier_gst1: formData.gst1 || "",
+  supplier_pan: formData.pan1 || "",
+  purchaser_contactPerson2: formData.contactPerson2 || "",
+  purchaser_mobile2: formData.phone2 || "",
+  purchaser_email2: formData.email2 || "",
+  purchaser_gst2: formData.gst2 || "",
+  purchaser_pan2: formData.pan2 || "",
+  reference: formData.reference || "",
+  editableText: editableText || "",
+  priceText: priceText || "",
+  techText: techText || "",
+  descriptionText: descriptionText || "", 
+   descriptionText1: descriptionText1 || "", 
+    descriptionText2: descriptionText2 || "",
+    descriptionText3: descriptionText3 || "",
+    descriptionText4: descriptionText4 || "",
+    descriptionText5: descriptionText5 || "",
+    descriptionText6: descriptionText6 || "",
+    descriptionText7: descriptionText7 || "",
+    descriptionText8: descriptionText8 || "",
+    descriptionText9: descriptionText9 || "",
+    descriptionText10: descriptionText10 || "",
+    descriptionText11: descriptionText11 || "",
+    descriptionText12: descriptionText12 || "",
+    descriptionText13: descriptionText13 || "",
+    descriptionText14: descriptionText14 || "",
+    descriptionText15: descriptionText15 || "",
+    descriptionText16: descriptionText16 || "",
+    descriptionText17: descriptionText17 || "",
+  items: rows.map(row => ({
+    item: row.item || "",
+    hsnSac: row.hsnSac || "",
+    quantity: Number(row.quantity) || 0,
+    rate: Number(row.rate) || 0,
+    per: row.per || "",
+    amount: Number(row.amount) || 0,
+    gstPercent: Number(row.gstPercent) || 0,
+    gstAmount: Number(row.gstAmount) || 0
+  }))
+};
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form Submitted:", formData);
-    alert("Purchase Order Submitted Successfully!");
-  };
+
+    const res = await fetch(
+      "https://darkslategrey-shrew-424102.hostingersite.com/api/save_purchase_order.php",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      }
+    );
+
+    const result = await res.json();
+    if (result.status === "success") {
+      alert("Saved successfully! ID: " + result.id);
+    } else {
+      alert("Error: " + result.message);
+    }
+
+  } catch (err) {
+    console.error("Error:", err);
+    alert("Something went wrong!");
+  }
+};
+
+
+
 
 
   const styles = {
@@ -806,7 +895,7 @@ function numberToWords(num) {
           <div style={styles.header("#007bff", "#00c6ff")}>SUPPLIER</div>
           <div style={styles.body}>
             <div style={styles.fieldRow}>
-               <label style={styles.label}>Supplier’s Name</label>
+    <label style={styles.label}>Supplier’s Name</label>
     <select
       name="supplier_name"
       style={styles.input}
@@ -815,10 +904,86 @@ function numberToWords(num) {
     >
       <option value="">Select Supplier</option>
       {suppliers.map((company, idx) => (
-        <option key={idx} value={company}>{company}</option>
+        <option key={idx} value={company}>
+          {company}
+        </option>
       ))}
     </select>
-            </div>
+  </div>
+
+<div style={styles.fieldRow}>
+  <label style={styles.label}>Branch Name</label>
+  <select
+    name="branch_name"
+    style={styles.input}
+    value={selectedBranch}
+    onChange={(e) => {
+      const branchId = e.target.value;
+      setSelectedBranch(branchId);
+
+      if (!branchId) {
+        setFormData((prev) => ({
+          ...prev,
+          branch_id: "",
+          branch_name: "",
+          branch_type: "",
+          gst1: "",
+          mobile1: "",
+          email1: "",
+          address1: "",
+        }));
+        return;
+      }
+
+      const branchInfo = Array.isArray(branches)
+        ? branches.find((b) => b.id.toString() === branchId)
+        : null;
+
+      console.log("Selected Branch Info:", branchInfo);
+
+      if (branchInfo) {
+        setFormData((prev) => ({
+          ...prev,
+          branch_id: branchInfo.id,
+          branch_name: branchInfo.branch_name || "",
+          branch_type: branchInfo.branch_type || "",
+          gst1: branchInfo.branch_gst || "",
+          mobile1: branchInfo.branch_phone || "",
+          email1: branchInfo.branch_email || "",
+          address1: branchInfo.branch_address || "",
+        }));
+      }
+    }}
+  >
+    <option value="">Select Branch</option>
+    {Array.isArray(branches) &&
+      branches.map((branch) => (
+        <option key={branch.id} value={branch.id}>
+          {branch.branch_name} ({branch.branch_type})
+        </option>
+      ))}
+  </select>
+</div>
+
+
+{/* ✅ Display branch address field */}
+<div style={styles.fieldRow}>
+  <label style={styles.label}>Branch Address</label>
+  <input
+    type="text"
+    name="address"
+    style={styles.input}
+    value={formData.address1 || ""}
+    onChange={(e) =>
+      setFormData((prev) => ({ ...prev, address1: e.target.value }))
+    }
+    placeholder="Branch Address"
+  />
+</div>
+
+
+
+
             <div style={styles.fieldRow}>
               <label style={styles.label}>Address:</label>
               
@@ -979,7 +1144,7 @@ function numberToWords(num) {
                 <label style={styles.label}>Phone</label>
                 <input
                   style={styles.input}
-                  value={formData.phone1}
+                  value={formData.mobile2}
                   onChange={(e) => handleChange("phone2", e.target.value)}
                 />
               </div>
@@ -1211,22 +1376,23 @@ function numberToWords(num) {
   </table>
 
 
+<button
+  type="button" 
+  onClick={addRow}
+  style={{
+    marginTop: 12,
+    padding: "10px 18px",
+    backgroundColor: "#007BFF",
+    color: "#fff",
+    border: "none",
+    borderRadius: 6,
+    cursor: "pointer",
+    fontWeight: "bold",
+  }}
+>
+  Add Row
+</button>
 
-  <button
-    onClick={addRow}
-    style={{
-      marginTop: 12,
-      padding: "10px 18px",
-      backgroundColor: "#007BFF",
-      color: "#fff",
-      border: "none",
-      borderRadius: 6,
-      cursor: "pointer",
-      fontWeight: "bold",
-    }}
-  >
-    Add Row
-  </button>
 
 <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
   <h3>Total Payable: ₹ {subtotal.toFixed(2)}</h3>
@@ -1238,6 +1404,7 @@ function numberToWords(num) {
     <div style={{ ...styles.container1, position: "relative" }}>
       {/* Edit / Save Button */}
       <button
+      type="button" 
         onClick={handleEditToggle}
         style={{
           position: "absolute",
@@ -1280,6 +1447,7 @@ function numberToWords(num) {
       {/* 🧾 A. Prices & Scope of Supply */}
       <div style={{ ...styles.section, ...styles.pricesScope, position: "relative" }}>
         <button
+        type="button" 
           onClick={handlePriceEditToggle}
           style={{
             position: "absolute",
@@ -1393,7 +1561,10 @@ function numberToWords(num) {
             whiteSpace: "pre-wrap",
           }}
           value={descriptionText}
-          onChange={(e) => setDescriptionText(e.target.value)}
+  onChange={(e) => {
+    setDescriptionText(e.target.value);
+    setFormData((prev) => ({ ...prev, descriptionText: e.target.value }));
+  }}
         />
       ) : (
         <div style={{ ...styles.descriptionText, whiteSpace: "pre-wrap" }}>
@@ -2142,5 +2313,5 @@ function numberToWords(num) {
     </form>
   );
 };
-
+            
 export default PurchaseOrder;

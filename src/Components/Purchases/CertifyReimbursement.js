@@ -246,21 +246,24 @@ useEffect(() => {
   <button style={styles.viewButton} onClick={() => setModalData(req)}>
     View
   </button>
+ {activeTab.toLowerCase() !== "certified" && (
+    <button
+      style={styles.CertifyButton}
+      onClick={() => handleAction(req.id, "Certified")}
+    >
+      <UilCheck size="18" /> Certify
+    </button>
+  )}
 
-  <button
-    style={styles.CertifyButton}
-    onClick={() => handleAction(req.id, "Certified")}
-  >
-    <UilCheck size="18" /> Certify
-  </button>
 
-
-        <button
-          style={styles.rejectButton}
-          onClick={() => setShowRejectModal(true)}
-        >
-          <UilTimes size="18" />Reject
-        </button>
+        {activeTab.toLowerCase() !== "rejected" && (
+    <button
+      style={styles.rejectButton}
+      onClick={() => setShowRejectModal(true)}
+    >
+      <UilTimes size="18" /> Reject
+    </button>
+  )}
       </div>
 
       {/* Modal */}

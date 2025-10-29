@@ -79,7 +79,7 @@ const PurchaseOrderList = () => {
 
   useEffect(() => {
     axios
-      .get("https://darkslategrey-shrew-424102.hostingersite.com/api/get_purchase_order.php")
+      .get("https://darkslategrey-shrew-424102.hostingersite.com/api/get_invoice_booking.php")
       .then((res) => {
         if (Array.isArray(res.data)) setOrders(res.data);
         else if (res.data.data && Array.isArray(res.data.data)) setOrders(res.data.data);
@@ -334,6 +334,7 @@ const PurchaseOrderList = () => {
          
 {(
   // Compute subtotal from items
+
   (modalData.items
     ? modalData.items.reduce(
         (sum, item) => sum + Number(item.basicValue || 0),
