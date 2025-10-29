@@ -3,10 +3,10 @@ import axios from "axios";
 
 const styles = {
   container: { padding: 20, backgroundColor: "#f7f9fc", fontFamily: "'Segoe UI', sans-serif" },
-  viewButton: { padding: "6px 12px", background: "#edf2f7", border: "none", borderRadius: 6, cursor: "pointer", fontWeight: 500, color: "#2d3748" },
+  viewButton: { padding: "6px 12px", background: "#edf2f7", border: "none", borderRadius: 6, cursor: "pointer", fontWeight: 500, color: "#333" },
   status: { padding: "6px 12px", borderRadius: 12, fontSize: 12, fontWeight: "bold", color: "#fff", display: "inline-block", textAlign: "center", textTransform: "capitalize" },
   table: { width: "100%", borderCollapse: "collapse", marginTop: 10 },
-  th: { border: "1px solid #ddd", padding: 8, fontWeight: "600", textAlign: "center", backgroundColor: "#f8f9fa", fontSize: 13 },
+  th: { border: "1px solid #ddd", padding: 8, fontWeight: "400", textAlign: "center", backgroundColor: "#f8f9fa", fontSize: 13 },
   td: { border: "1px solid #ddd", padding: 8, fontSize: 13 },
   filterContainer: { display: "flex", justifyContent: "space-between", marginBottom: 10, alignItems: "center" },
   input: { padding: "6px 10px", borderRadius: 6, border: "1px solid #ccc", width: "40%" },
@@ -130,7 +130,7 @@ const handlePrint = () => {
           }
 
           .company-name {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: bold;
             color: #222;
             text-align: right;
@@ -258,7 +258,17 @@ const handlePrint = () => {
 
   return (
     <div style={styles.container}>
-      <h2 style={{ marginBottom: 20 }}>Purchase Order History</h2>
+      <h4
+  style={{
+    marginBottom: 20,
+    fontSize: "18px", // 👈 Adjust as needed (e.g., 16px, 20px)
+    fontWeight: "400",
+    color: "#1a202c",
+  }}
+>
+  Purchase Order History
+</h4>
+
 
       <div style={styles.filterContainer}>
         <input
@@ -389,7 +399,7 @@ const handlePrint = () => {
     style={{
       textAlign: "center",
       marginBottom: 10,
-      fontSize: 22,
+      fontSize: 18,
       fontWeight: "bold",
       color: "#1a202c",
       paddingBottom: 6,
@@ -444,23 +454,24 @@ const handlePrint = () => {
               color: "#1a202c",
             }}
           >
-            Supplier Details
+            SUPPLIER
           </div>
           <table style={{ width: "100%", borderCollapse: "collapse", padding: 12 }}>
             <tbody>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold", width: "40%" }}>Supplier Name:</td>
-                <td style={{ padding: "8px" }}>{detailedData.supplier_name || "-"}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold" }}>Address:</td>
-                <td style={{ padding: "8px" }}>{detailedData.address || "-"}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold" }}>Branch:</td>
-                <td style={{ padding: "8px" }}>{detailedData.branch_name || "-"}</td>
-              </tr>
-            </tbody>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", fontSize: "13px" }}>Supplier Name:</td>
+    <td style={{ padding: "8px", fontSize: "13px" }}>{detailedData.supplier_name || "-"}</td>
+  </tr>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", fontSize: "13px" }}>Address:</td>
+    <td style={{ padding: "8px", fontSize: "13px" }}>{detailedData.address || "-"}</td>
+  </tr>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", fontSize: "13px" }}>Branch:</td>
+    <td style={{ padding: "8px", fontSize: "13px" }}>{detailedData.branch_name || "-"}</td>
+  </tr>
+</tbody>
+
           </table>
         </div>
 
@@ -479,24 +490,33 @@ const handlePrint = () => {
             Purchase Order Details
           </div>
           <table style={{ width: "100%", borderCollapse: "collapse", padding: 12 }}>
-            <tbody>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold", width: "40%" }}>Order No:</td>
-                <td style={{ padding: "8px" }}>{detailedData.order_no || "-"}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold" }}>Date:</td>
-                <td style={{ padding: "8px" }}>{detailedData.purchase_date || "-"}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold" }}>Goods & Services:</td>
-                <td style={{ padding: "8px" }}>{detailedData.goods_services || "-"}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold" }}>Quantity:</td>
-                <td style={{ padding: "8px" }}>{detailedData.qty || "-"}</td>
-              </tr>
-            </tbody>
+           <tbody style={{ fontSize: "15px", color: "#333", lineHeight: "1.4" }}>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", width: "40%", color: "#1a202c" }}>
+      Order No:
+    </td>
+    <td style={{ padding: "8px" }}>{detailedData.order_no || "-"}</td>
+  </tr>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", color: "#1a202c" }}>
+      Date:
+    </td>
+    <td style={{ padding: "8px" }}>{detailedData.purchase_date || "-"}</td>
+  </tr>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", color: "#1a202c" }}>
+      Goods & Services:
+    </td>
+    <td style={{ padding: "8px" }}>{detailedData.goods_services || "-"}</td>
+  </tr>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", color: "#1a202c" }}>
+      Quantity:
+    </td>
+    <td style={{ padding: "8px" }}>{detailedData.qty || "-"}</td>
+  </tr>
+</tbody>
+
           </table>
         </div>
       </div>
@@ -533,31 +553,42 @@ const handlePrint = () => {
               color: "#1a202c",
             }}
           >
-            Supplier
+            Supplier Details
           </div>
           <table style={{ width: "100%", borderCollapse: "collapse", padding: 12 }}>
-            <tbody>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold", width: "40%" }}>Contact Person:</td>
-                <td style={{ padding: "8px" }}>{detailedData.supplier_contact || "-"}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold" }}>Mobile No:</td>
-                <td style={{ padding: "8px" }}>{detailedData.supplier_mobile || "-"}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold" }}>Email:</td>
-                <td style={{ padding: "8px" }}>{detailedData.supplier_email || "-"}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold" }}>GST No:</td>
-                <td style={{ padding: "8px" }}>{detailedData.supplier_gst || "-"}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold" }}>PAN No:</td>
-                <td style={{ padding: "8px" }}>{detailedData.supplier_pan || "-"}</td>
-              </tr>
-            </tbody>
+           <tbody style={{ fontSize: "15px", color: "#333", lineHeight: "1.4" }}>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", width: "40%", color: "#1a202c" }}>
+      Contact Person:
+    </td>
+    <td style={{ padding: "8px" }}>{detailedData.supplier_contact || "-"}</td>
+  </tr>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", color: "#1a202c" }}>
+      Mobile No:
+    </td>
+    <td style={{ padding: "8px" }}>{detailedData.supplier_mobile || "-"}</td>
+  </tr>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", color: "#1a202c" }}>
+      Email:
+    </td>
+    <td style={{ padding: "8px" }}>{detailedData.supplier_email || "-"}</td>
+  </tr>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", color: "#1a202c" }}>
+      GST No:
+    </td>
+    <td style={{ padding: "8px" }}>{detailedData.supplier_gst || "-"}</td>
+  </tr>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", color: "#1a202c" }}>
+      PAN No:
+    </td>
+    <td style={{ padding: "8px" }}>{detailedData.supplier_pan || "-"}</td>
+  </tr>
+</tbody>
+
           </table>
         </div>
 
@@ -576,28 +607,39 @@ const handlePrint = () => {
             Purchaser Details
           </div>
           <table style={{ width: "100%", borderCollapse: "collapse", padding: 12 }}>
-            <tbody>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold", width: "40%" }}>Contact Person:</td>
-                <td style={{ padding: "8px" }}>{detailedData.purchaser_contact || "-"}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold" }}>Mobile No:</td>
-                <td style={{ padding: "8px" }}>{detailedData.purchaser_mobile || "-"}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold" }}>Email:</td>
-                <td style={{ padding: "8px" }}>{detailedData.purchaser_email || "-"}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold" }}>GST No:</td>
-                <td style={{ padding: "8px" }}>{detailedData.purchaser_gst || "-"}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: "8px", fontWeight: "bold" }}>PAN No:</td>
-                <td style={{ padding: "8px" }}>{detailedData.purchaser_pan || "-"}</td>
-              </tr>
-            </tbody>
+           <tbody style={{ fontSize: "15px", color: "#333", lineHeight: "1.4" }}>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", width: "40%", color: "#333" }}>
+      Contact Person:
+    </td>
+    <td style={{ padding: "8px" }}>{detailedData.purchaser_contact || "-"}</td>
+  </tr>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", color: "#333" }}>
+      Mobile No:
+    </td>
+    <td style={{ padding: "8px" }}>{detailedData.purchaser_mobile || "-"}</td>
+  </tr>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", color: "#333" }}>
+      Email:
+    </td>
+    <td style={{ padding: "8px" }}>{detailedData.purchaser_email || "-"}</td>
+  </tr>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", color: "#333" }}>
+      GST No:
+    </td>
+    <td style={{ padding: "8px" }}>{detailedData.purchaser_gst || "-"}</td>
+  </tr>
+  <tr>
+    <td style={{ padding: "8px", fontWeight: "bold", color: "#333" }}>
+      PAN No:
+    </td>
+    <td style={{ padding: "8px" }}>{detailedData.purchaser_pan || "-"}</td>
+  </tr>
+</tbody>
+
           </table>
         </div>
       </div>
@@ -616,7 +658,7 @@ const handlePrint = () => {
         >
           Reference
         </div>
-        <div style={{ padding: "12px", fontSize: 14, lineHeight: 1.6, color: "#2d3748" }}>
+        <div style={{ padding: "12px", fontSize: 14, lineHeight: 1.6, color: "#333" }}>
           {detailedData.reference || "No reference provided"}
         </div>
       </div>
@@ -642,7 +684,7 @@ const handlePrint = () => {
         style={{
           padding: "10px 14px",
           minHeight: "60px",
-          color: "#2d3748",
+          color: "#333",
           lineHeight: 1.6,
         }}
       >
@@ -676,7 +718,7 @@ const handlePrint = () => {
         style={{
           padding: "10px 14px",
           minHeight: "60px",
-          color: "#2d3748",
+          color: "#333",
           lineHeight: 1.6,
         }}
       >
@@ -705,7 +747,7 @@ const handlePrint = () => {
     style={{
       padding: "10px 14px",
       minHeight: "10px",
-      color: "#2d3748",
+      color: "#333",
       lineHeight: 1.6,
       marginBottom: 0, // 👈 ensures no extra gap below
     }}
@@ -734,7 +776,7 @@ const handlePrint = () => {
     style={{
       padding: "10px 14px",
       minHeight: "10px",
-      color: "#2d3748",
+      color: "#333",
       lineHeight: 1.6,
       marginBottom: 0, // 👈 no bottom margin
     }}
@@ -774,7 +816,7 @@ const handlePrint = () => {
   style={{
     padding: "8px 14px",
     minHeight: "10px",
-    color: "#2d3748",
+    color: "#333",
     lineHeight: 1.1, // 👈 reduced from 1.6 to 1.3
     whiteSpace: "pre-line", // keeps 1.1, 1.2 in new lines
   }}
@@ -795,7 +837,7 @@ const handlePrint = () => {
   style={{
     padding: "8px 14px",
     minHeight: "10px",
-    color: "#2d3748",
+    color: "#333",
     lineHeight: 1.2, // 👈 reduced from 1.6 to 1.3
     whiteSpace: "pre-line", // keeps 1.1, 1.2 in new lines
   }}
@@ -816,7 +858,7 @@ const handlePrint = () => {
   style={{
     padding: "8px 14px",
     minHeight: "10px",
-    color: "#2d3748",
+    color: "#333",
     lineHeight: 1.2, // 👈 reduced from 1.6 to 1.3
     whiteSpace: "pre-line", // keeps 1.1, 1.2 in new lines
   }}
@@ -836,7 +878,7 @@ const handlePrint = () => {
   style={{
     padding: "8px 14px",
     minHeight: "10px",
-    color: "#2d3748",
+    color: "#333",
     lineHeight: 0.8, // 👈 reduced from 1.6 to 1.3
     whiteSpace: "pre-line", // keeps 1.1, 1.2 in new lines
   }}
@@ -856,7 +898,7 @@ const handlePrint = () => {
   style={{
     padding: "8px 14px",
     minHeight: "10px",
-    color: "#2d3748",
+    color: "#333",
     lineHeight: 1.2, // 👈 reduced from 1.6 to 1.3
     whiteSpace: "pre-line", // keeps 1.1, 1.2 in new lines
   }}
@@ -876,7 +918,7 @@ const handlePrint = () => {
   style={{
     padding: "8px 14px",
     minHeight: "10px",
-    color: "#2d3748",
+    color: "#333",
     lineHeight: 1.2, // 👈 reduced from 1.6 to 1.3
     whiteSpace: "pre-line", // keeps 1.1, 1.2 in new lines
   }}
@@ -897,7 +939,7 @@ const handlePrint = () => {
   style={{
     padding: "8px 14px",
     minHeight: "10px",
-    color: "#2d3748",
+    color: "#333",
     lineHeight: 1.2, // 👈 reduced from 1.6 to 1.3
     whiteSpace: "pre-line", // keeps 1.1, 1.2 in new lines
   }}
@@ -917,7 +959,7 @@ const handlePrint = () => {
   style={{
     padding: "8px 14px",
     minHeight: "10px",
-    color: "#2d3748",
+    color: "#333",
     lineHeight: 1.2, // 👈 reduced from 1.6 to 1.3
     whiteSpace: "pre-line", // keeps 1.1, 1.2 in new lines
   }}
@@ -946,7 +988,7 @@ const handlePrint = () => {
         style={{
           padding: "10px 14px",
           minHeight: "60px",
-          color: "#2d3748",
+          color: "#333",
           lineHeight: 1.6,
         }}
       >
@@ -974,7 +1016,7 @@ const handlePrint = () => {
   style={{
     padding: "8px 14px",
     minHeight: "10px",
-    color: "#2d3748",
+    color: "#333",
     lineHeight: 1.1, // 👈 reduced from 1.6 to 1.3
     whiteSpace: "pre-line", // keeps 1.1, 1.2 in new lines
   }}
@@ -995,7 +1037,7 @@ const handlePrint = () => {
   style={{
     padding: "8px 14px",
     minHeight: "10px",
-    color: "#2d3748",
+    color: "#333",
     lineHeight: 1.2, // 👈 reduced from 1.6 to 1.3
     whiteSpace: "pre-line", // keeps 1.1, 1.2 in new lines
   }}
@@ -1016,7 +1058,7 @@ const handlePrint = () => {
   style={{
     padding: "8px 14px",
     minHeight: "10px",
-    color: "#2d3748",
+    color: "#333",
     lineHeight: 1, // 👈 reduced from 1.6 to 1.3
     whiteSpace: "pre-line", // keeps 1.1, 1.2 in new lines
   }}
@@ -1036,7 +1078,7 @@ const handlePrint = () => {
   style={{
     padding: "8px 14px",
     minHeight: "10px",
-    color: "#2d3748",
+    color: "#333",
     lineHeight: 1.3, // 👈 reduced from 1.6 to 1.3
     whiteSpace: "pre-line", // keeps 1.1, 1.2 in new lines
   }}
@@ -1056,7 +1098,7 @@ const handlePrint = () => {
   style={{
     padding: "8px 14px",
     minHeight: "10px",
-    color: "#2d3748",
+    color: "#333",
     lineHeight: 1.2, // 👈 reduced from 1.6 to 1.3
     whiteSpace: "pre-line", // keeps 1.1, 1.2 in new lines
   }}
@@ -1076,7 +1118,7 @@ const handlePrint = () => {
   style={{
     padding: "8px 14px",
     minHeight: "10px",
-    color: "#2d3748",
+    color: "#333",
     lineHeight: 1.2, // 👈 reduced from 1.6 to 1.3
     whiteSpace: "pre-line", // keeps 1.1, 1.2 in new lines
   }}
@@ -1097,7 +1139,7 @@ const handlePrint = () => {
   style={{
     padding: "8px 14px",
     minHeight: "10px",
-    color: "#2d3748",
+    color: "#333",
     lineHeight: 1.2, // 👈 reduced from 1.6 to 1.3
     whiteSpace: "pre-line", // keeps 1.1, 1.2 in new lines
   }}
@@ -1119,7 +1161,7 @@ const handlePrint = () => {
     style={{
       padding: "6px 14px",
       minHeight: "10px",
-      color: "#2d3748",
+      color: "#333",
       lineHeight: 1.3,
       whiteSpace: "pre-line",
     }}
@@ -1150,7 +1192,7 @@ const handlePrint = () => {
         style={{
           padding: "10px 14px",
           minHeight: "30px",
-          color: "#2d3748",
+          color: "#333",
           lineHeight: 1.6,
         }}
       >
@@ -1180,7 +1222,7 @@ const handlePrint = () => {
     style={{
       padding: "6px 14px",
       minHeight: "10px",
-      color: "#2d3748",
+      color: "#333",
       lineHeight: 1.3,
       whiteSpace: "pre-line",
     }}
@@ -1202,7 +1244,7 @@ const handlePrint = () => {
     style={{
       padding: "6px 14px",
       minHeight: "10px",
-      color: "#2d3748",
+      color: "#333",
       lineHeight: 1.3,
       whiteSpace: "pre-line",
     }}
