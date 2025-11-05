@@ -1367,6 +1367,7 @@ const handlePrint = () => {
           <th style={{ padding: "8px", border: "1px solid #ccc" }}>S.No</th>
           <th style={{ padding: "8px", border: "1px solid #ccc" }}>Item</th>
           <th style={{ padding: "8px", border: "1px solid #ccc" }}>HSN / SAC</th>
+          <th style={{ padding: "8px", border: "1px solid #ccc" }}>Per</th>
           <th style={{ padding: "8px", border: "1px solid #ccc" }}>Rate</th>
               <th style={{ padding: "8px", border: "1px solid #ccc" }}>Quantity</th>
           <th style={{ padding: "8px", border: "1px solid #ccc" }}>Amount</th>
@@ -1381,7 +1382,15 @@ const handlePrint = () => {
             <td style={{ padding: "8px", border: "1px solid #ccc" }}>{index + 1}</td>
             <td style={{ padding: "8px", border: "1px solid #ccc" }}>{item.item}</td>
             <td style={{ padding: "8px", border: "1px solid #ccc" }}>{item.hsnSac}</td>
-          
+                       <td
+              style={{
+                padding: "8px",
+                border: "1px solid #ccc",
+                textAlign: "center",
+              }}
+            >
+              {item.per}
+            </td>
             <td
               style={{
                 padding: "8px",
@@ -1535,6 +1544,7 @@ const handlePrint = () => {
 };
 
 export default PurchaseOrderList;
+
 
 
 
