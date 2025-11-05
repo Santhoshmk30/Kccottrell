@@ -1331,7 +1331,7 @@ const handlePrint = () => {
 {detailedData?.items && detailedData.items.length > 0 && (
   <div
     style={{
-      marginTop: "30px",
+      marginTop: "80px",
       padding: "0 20px",
     }}
   >
@@ -1544,6 +1544,7 @@ const handlePrint = () => {
 };
 
 export default PurchaseOrderList;
+
 
 
 
