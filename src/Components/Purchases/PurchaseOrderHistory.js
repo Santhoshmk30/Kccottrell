@@ -1171,7 +1171,33 @@ const handlePrint = () => {
 </div>
 
 
-
+<div
+      style={{
+        padding: "16px 20px",
+        marginTop: "16px",
+        
+      }}
+    >
+      <p
+        style={{
+          fontWeight: "bold",
+          color: "#1a202c",
+          marginBottom: "8px",
+        }}
+      >
+      
+      </p>
+      <div
+        style={{
+          padding: "10px 14px",
+          minHeight: "30px",
+          color: "#333",
+          lineHeight: 1.6,
+        }}
+      >
+       
+      </div>
+    </div>
  
  
 
@@ -1518,5 +1544,6 @@ const handlePrint = () => {
 };
 
 export default PurchaseOrderList;
+
 
 
