@@ -561,25 +561,25 @@ const handlePrint = () => {
     <td style={{ padding: "8px", fontWeight: "bold", width: "40%", color: "#1a202c" }}>
       Contact Person:
     </td>
-    <td style={{ padding: "8px" }}>{detailedData.supplier_contact || "-"}</td>
+    <td style={{ padding: "8px" }}>{detailedData.supplier_contactPerson1|| "-"}</td>
   </tr>
   <tr>
     <td style={{ padding: "8px", fontWeight: "bold", color: "#1a202c" }}>
       Mobile No:
     </td>
-    <td style={{ padding: "8px" }}>{detailedData.supplier_mobile || "-"}</td>
+    <td style={{ padding: "8px" }}>{detailedData.supplier_mobile1 || "-"}</td>
   </tr>
   <tr>
     <td style={{ padding: "8px", fontWeight: "bold", color: "#1a202c" }}>
       Email:
     </td>
-    <td style={{ padding: "8px" }}>{detailedData.supplier_email || "-"}</td>
+    <td style={{ padding: "8px" }}>{detailedData.supplier_email1 || "-"}</td>
   </tr>
   <tr>
     <td style={{ padding: "8px", fontWeight: "bold", color: "#1a202c" }}>
       GST No:
     </td>
-    <td style={{ padding: "8px" }}>{detailedData.supplier_gst || "-"}</td>
+    <td style={{ padding: "8px" }}>{detailedData.supplier_gst1 || "-"}</td>
   </tr>
   <tr>
     <td style={{ padding: "8px", fontWeight: "bold", color: "#1a202c" }}>
@@ -612,31 +612,31 @@ const handlePrint = () => {
     <td style={{ padding: "8px", fontWeight: "bold", width: "40%", color: "#333" }}>
       Contact Person:
     </td>
-    <td style={{ padding: "8px" }}>{detailedData.purchaser_contact || "-"}</td>
+    <td style={{ padding: "8px" }}>{detailedData.purchaser_contactPerson2 || "-"}</td>
   </tr>
   <tr>
     <td style={{ padding: "8px", fontWeight: "bold", color: "#333" }}>
       Mobile No:
     </td>
-    <td style={{ padding: "8px" }}>{detailedData.purchaser_mobile || "-"}</td>
+    <td style={{ padding: "8px" }}>{detailedData.purchaser_mobile2 || "-"}</td>
   </tr>
   <tr>
     <td style={{ padding: "8px", fontWeight: "bold", color: "#333" }}>
       Email:
     </td>
-    <td style={{ padding: "8px" }}>{detailedData.purchaser_email || "-"}</td>
+    <td style={{ padding: "8px" }}>{detailedData.purchaser_email2 || "-"}</td>
   </tr>
   <tr>
     <td style={{ padding: "8px", fontWeight: "bold", color: "#333" }}>
       GST No:
     </td>
-    <td style={{ padding: "8px" }}>{detailedData.purchaser_gst || "-"}</td>
+    <td style={{ padding: "8px" }}>{detailedData.purchaser_gst2 || "-"}</td>
   </tr>
   <tr>
     <td style={{ padding: "8px", fontWeight: "bold", color: "#333" }}>
       PAN No:
     </td>
-    <td style={{ padding: "8px" }}>{detailedData.purchaser_pan || "-"}</td>
+    <td style={{ padding: "8px" }}>{detailedData.purchaser_pan2 || "-"}</td>
   </tr>
 </tbody>
 
@@ -1517,3 +1517,4 @@ const handlePrint = () => {
 };
 
 export default PurchaseOrderList;
+
