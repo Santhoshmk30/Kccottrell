@@ -1174,7 +1174,7 @@ const handlePrint = () => {
 <div
       style={{
         padding: "16px 20px",
-        marginTop: "16px",
+        marginTop: "36px",
         
       }}
     >
@@ -1544,6 +1544,7 @@ const handlePrint = () => {
 };
 
 export default PurchaseOrderList;
+
 
 
 
