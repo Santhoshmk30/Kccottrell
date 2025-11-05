@@ -1172,40 +1172,7 @@ const handlePrint = () => {
 
 
 
-  <div
-      style={{
-        padding: "16px 20px",
-        marginTop: "16px",
-        
-      }}
-    >
-      <p
-        style={{
-          fontWeight: "bold",
-          color: "#1a202c",
-          marginBottom: "8px",
-        }}
-      >
-      
-      </p>
-      <div
-        style={{
-          padding: "10px 14px",
-          minHeight: "30px",
-          color: "#333",
-          lineHeight: 1.6,
-        }}
-      >
-       
-      </div>
-    </div>
-
-<div
-  style={{
-    padding: "16px 20px",
-    marginTop: "16px",
-  }}
->
+ 
  
 
   {/* --- 17. Sub-Contracting --- */}
@@ -1300,6 +1267,40 @@ const handlePrint = () => {
     </p>
   </div>
 
+ <div
+      style={{
+        padding: "16px 20px",
+        marginTop: "16px",
+        
+      }}
+    >
+      <p
+        style={{
+          fontWeight: "bold",
+          color: "#1a202c",
+          marginBottom: "8px",
+        }}
+      >
+      
+      </p>
+      <div
+        style={{
+          padding: "10px 14px",
+          minHeight: "30px",
+          color: "#333",
+          lineHeight: 1.6,
+        }}
+      >
+       
+      </div>
+    </div>
+
+<div
+  style={{
+    padding: "16px 20px",
+    marginTop: "16px",
+  }}
+>
 {/* --- Annexure - A : Price Break-Up --- */}
 {detailedData?.items && detailedData.items.length > 0 && (
   <div
@@ -1517,4 +1518,5 @@ const handlePrint = () => {
 };
 
 export default PurchaseOrderList;
+
 
