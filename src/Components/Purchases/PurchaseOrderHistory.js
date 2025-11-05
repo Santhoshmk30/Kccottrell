@@ -113,7 +113,7 @@ const handlePrint = () => {
             top: 0;
             left: 0;
             right: 0;
-            height: 100px;
+            height: 80px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -1544,6 +1544,7 @@ const handlePrint = () => {
 };
 
 export default PurchaseOrderList;
+
 
 
 
