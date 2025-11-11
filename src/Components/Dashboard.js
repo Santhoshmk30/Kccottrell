@@ -595,65 +595,7 @@ pieContainer: {
           ))}
         </div>
       </nav>
-<div
-  style={{
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: "30px",
-    padding: "20px",
-  }}
->
-  <h3
-    style={{
-      fontSize: isMobile ? 18 : 22,
-      fontWeight: 600,
-      marginBottom: "15px",
-      color: "#2c3e50",
-      textAlign: "center",
-    }}
-  >
-    Electrostatic Precipitator 3D Model
-  </h3>
 
-  <div
-    style={{
-      position: "relative",
-      width: isMobile ? "90%" : "80%",
-      height: isMobile ? "250px" : "500px",
-      borderRadius: "12px",
-      overflow: "hidden",
-      boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
-    }}
-  >
-    <iframe
-      title="Electrostatic Precipitator 3D"
-      src="https://sketchfab.com/models/cd313f3d4fcf454bb6079f680513d361/embed?"
-      frameBorder="0"
-      allow="autoplay; fullscreen; vr"
-      mozallowfullscreen="true"
-      webkitallowfullscreen="true"
-      style={{
-        width: "100%",
-        height: "100%",
-        border: "none",
-      }}
-    ></iframe>
-  </div>
-
-  <p
-    style={{
-      marginTop: "10px",
-      color: "#555",
-      fontSize: isMobile ? 13 : 14,
-      textAlign: "center",
-    }}
-  >
-    Interactive 3D view of the Electrostatic Precipitator (ESP) model powered by Sketchfab.
-  </p>
-</div>
       {/* Employee ID Card */}
       <div
         style={styles.idCard}
