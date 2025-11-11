@@ -700,7 +700,11 @@ pieContainer: {
 
      
     </div>
-        <div
+        
+
+    </div>
+
+<div
   style={{
     width: "100%",
     display: "flex",
@@ -759,11 +763,10 @@ pieContainer: {
     Interactive 3D view of the Electrostatic Precipitator (ESP) model powered by Sketchfab.
   </p>
 </div>
-
-    </div>
     
   );
 };
 
 export default Dashboard;
+
 
