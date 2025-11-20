@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 /* =============================
    ⚙️ CSS 3D SILO COMPONENT
@@ -65,7 +65,7 @@ function Silo3D({ topDia = 2, Hh = 1, Hc = 2, color = "steel" }) {
 /* =============================
    📐 MAIN CALCULATOR COMPONENT
    ============================= */
-export default function SiloCalculator() {
+export default function Silo() {
   const [inputs, setInputs] = useState({
     totalVolume: "",
     topDia: "",
@@ -98,92 +98,88 @@ export default function SiloCalculator() {
     const cylVolNeeded = Vt - (hopperVol + reposeVol);
     const Hc = cylVolNeeded / (Math.PI * (D1 / 2) ** 2);
 
-    setResults({ hopperVol, reposeVol, cylVolNeeded, Hh, Hc, total: Vt, reposeHeight });
+    setResults({
+      hopperVol,
+      reposeVol,
+      cylVolNeeded,
+      Hh,
+      Hc,
+      total: Vt,
+      reposeHeight,
+    });
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 p-6 max-w-5xl mx-auto">
-      {/* LEFT SIDE UI */}
-      <div className="flex-1 space-y-6">
-        <h1 className="text-3xl font-bold">All-in-One Silo Design Calculator</h1>
+    <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 to-gray-100 p-6 flex justify-center">
+      <div className="flex flex-col md:flex-row gap-8 max-w-6xl w-full">
 
-        <div className="p-4 border rounded bg-gray-50 space-y-2 shadow">
-          <h2 className="text-xl font-semibold">📘 Used Formulas</h2>
-          <p>Hh = (D1 - D2) / (2 × tan(θ/2))</p>
-          <p>Vh = π × Hh × (D1² + D1·D2 + D2²) / 12</p>
-          <p>hf = (D1 / 2) × tan(α)</p>
-          <p>Vr = (1/3) × π × r² × hf</p>
-          <p>Hc = Vc / (π × r²)</p>
-        </div>
+        {/* LEFT PANEL */}
+        <div className="flex-1 bg-white rounded-2xl shadow-xl p-6 border border-gray-200">
+          <h1 className="text-4xl font-bold mb-4 text-gray-800">Silo Design Calculator</h1>
 
-        <div className="grid grid-cols-1 gap-3">
-          {Object.keys(inputs).map((key) => (
-            <input
-              key={key}
-              name={key}
-              value={inputs[key]}
-              onChange={handleChange}
-              placeholder={key}
-              className="border p-2 rounded shadow"
-            />
-          ))}
-        </div>
-
-        <button
-          onClick={calculate}
-          className="bg-blue-600 text-white px-4 py-2 rounded mt-4 shadow hover:bg-blue-700"
-        >
-          Calculate
-        </button>
-
-        {results && (
-          <div className="mt-6 p-4 border rounded space-y-4 shadow bg-white">
-            <h2 className="text-lg font-semibold">📌 Step-by-Step Calculation</h2>
-
-            <div>
-              <p className="font-bold">1️⃣ Hopper Height (Hh)</p>
-              <p>= ({inputs.topDia} - {inputs.bottomDia}) / (2 × tan({inputs.valleyAngle}/2))</p>
-              <p>= {results.Hh.toFixed(3)} m</p>
-            </div>
-
-            <div>
-              <p className="font-bold">2️⃣ Hopper Volume (Vh)</p>
-              <p>= {results.hopperVol.toFixed(3)} m³</p>
-            </div>
-
-            <div>
-              <p className="font-bold">3️⃣ Repose Height (hf)</p>
-              <p>= {results.reposeHeight.toFixed(3)} m</p>
-            </div>
-
-            <div>
-              <p className="font-bold">4️⃣ Repose Volume (Vr)</p>
-              <p>= {results.reposeVol.toFixed(3)} m³</p>
-            </div>
-
-            <div>
-              <p className="font-bold">5️⃣ Cylinder Volume Needed (Vc)</p>
-              <p>= {results.cylVolNeeded.toFixed(3)} m³</p>
-            </div>
-
-            <div>
-              <p className="font-bold">6️⃣ Cylinder Height (Hc)</p>
-              <p>= {results.Hc.toFixed(3)} m</p>
-            </div>
-
-            <h2 className="text-lg font-bold">Total Volume: {results.total.toFixed(2)} m³</h2>
+          {/* FORMULAS */}
+          <div className="bg-gray-100 rounded-xl p-4 mb-6 shadow-inner border border-gray-300">
+            <h2 className="text-lg font-semibold mb-2 text-blue-700">📘 Used Formulas</h2>
+            <p className="text-sm">• Hh = (D1 - D2) / (2 × tan(θ/2))</p>
+            <p className="text-sm">• Vh = π × Hh × (D1² + D1·D2 + D2²) / 12</p>
+            <p className="text-sm">• hf = (D1 / 2) × tan(α)</p>
+            <p className="text-sm">• Vr = (1/3) × π × r² × hf</p>
+            <p className="text-sm">• Hc = Vc / (π × r²)</p>
           </div>
-        )}
-      </div>
 
-      {/* RIGHT SIDE 3D SILO */}
-      <div className="w-full md:w-1/3 flex justify-center items-start">
-        <Silo3D
-          topDia={parseFloat(inputs.topDia) || 2}
-          Hh={results?.Hh || 1}
-          Hc={results?.Hc || 2}
-          color="steel"
-        />
+          {/* INPUTS */}
+          <div className="grid grid-cols-1 gap-3">
+            {Object.keys(inputs).map((key) => (
+              <input
+                key={key}
+                name={key}
+                value={inputs[key]}
+                onChange={handleChange}
+                placeholder={key}
+                className="border p-3 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 outline-none"
+              />
+            ))}
+          </div>
+
+          {/* BUTTON */}
+          <button
+            onClick={calculate}
+            className="w-full mt-5 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all font-semibold"
+          >
+            Calculate
+          </button>
+
+          {/* RESULTS */}
+          {results && (
+            <div className="mt-6 bg-white border border-gray-300 p-5 rounded-xl shadow-lg">
+              <h2 className="text-2xl font-bold mb-4 text-gray-800">📌 Step-by-Step Results</h2>
+
+              <div className="space-y-3 text-gray-700">
+                <p><b>1️⃣ Hopper Height:</b> {results.Hh.toFixed(3)} m</p>
+                <p><b>2️⃣ Hopper Volume:</b> {results.hopperVol.toFixed(3)} m³</p>
+                <p><b>3️⃣ Repose Height:</b> {results.reposeHeight.toFixed(3)} m</p>
+                <p><b>4️⃣ Repose Volume:</b> {results.reposeVol.toFixed(3)} m³</p>
+                <p><b>5️⃣ Cylinder Volume Needed:</b> {results.cylVolNeeded.toFixed(3)} m³</p>
+                <p><b>6️⃣ Cylinder Height:</b> {results.Hc.toFixed(3)} m</p>
+
+                <h2 className="text-xl font-bold text-blue-700 mt-4">
+                  Total Required Volume: {results.total.toFixed(2)} m³
+                </h2>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* RIGHT PANEL – SILO MODEL */}
+        <div className="w-full md:w-1/3 bg-white p-4 rounded-2xl shadow-xl border flex justify-center items-start">
+          <Silo3D
+            topDia={parseFloat(inputs.topDia) || 2}
+            Hh={results?.Hh || 1}
+            Hc={results?.Hc || 2}
+            color="steel"
+          />
+        </div>
+
       </div>
     </div>
   );
