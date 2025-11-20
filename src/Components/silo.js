@@ -263,12 +263,12 @@ function FlowCard() {
           }}
         >
           <h3>📌 Results</h3>
-          <p>flow / 3600 = {extra.F1.toFixed(3)}</p>
-          <p>flow × idc = {extra.F2.toFixed(3)}</p>
-          <p>(flow × idc) ÷ 1000 = {extra.F3.toFixed(3)}</p>
-          <p>× 3600 = {extra.F4.toFixed(3)}</p>
-          <p>× density = {extra.F5.toFixed(3)}</p>
-          <p>× storage = {extra.F6.toFixed(3)}</p>
+          <p>flow Per Sec = {extra.F1.toFixed(3)} Am^3/Sec</p>
+          <p>flow Per Gm = {extra.F2.toFixed(3)}  Gm/Sec</p>
+          <p>flow Per kg = {extra.F3.toFixed(3)} Kg/Sec</p>
+          <p>flow Per Kg/hr = {extra.F4.toFixed(3)} Kg/Hr</p>
+          <p>flow Per Kg/M^3 = {extra.F5.toFixed(3)} M^3/Hr</p>
+          <p>Volume = {extra.F6.toFixed(3)} M^3</p>
         </div>
       )}
     </div>
