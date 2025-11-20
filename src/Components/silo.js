@@ -161,6 +161,7 @@ function SiloCard() {
           <p>Repose Height: {results.reposeHeight.toFixed(3)}</p>
           <p>Repose Volume: {results.reposeVol.toFixed(3)}</p>
           <p>Cylinder Height: {results.Hc.toFixed(3)}</p>
+           <p>Cylinder Volume: {results.cylVolNeeded.toFixed(3)}</p>
         </div>
       )}
     </div>
