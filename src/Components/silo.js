@@ -3,15 +3,7 @@ import React, { useState } from "react";
 /* =============================
    CSS 3D SILO (INLINE CSS)
    ============================= */
-function Silo3D({ topDia = 2, Hh = 1, Hc = 2, color = "steel" }) {
-  const themes = {
-    steel: { cylinder: "#bfc7d1", cone: "#b0b8c4" },
-    cement: { cylinder: "#d8d8d8", cone: "#c0c0c0" },
-    blue: { cylinder: "#7da7d9", cone: "#6c95c8" },
-  };
-
-  const t = themes[color];
-
+function Silo3D({ topDia = 2, Hh = 1, Hc = 2 }) {
   const cylHeight = Hc * 40;
   const coneHeight = Hh * 40;
   const cylWidth = topDia * 15;
@@ -25,31 +17,28 @@ function Silo3D({ topDia = 2, Hh = 1, Hc = 2, color = "steel" }) {
         }
       `}</style>
 
-      {/* Cylinder */}
       <div
         style={{
           width: cylWidth,
           height: cylHeight,
           borderRadius: "20px 20px 0 0",
-          background: `linear-gradient(90deg, ${t.cylinder}, #eef1f4, ${t.cylinder})`,
+          background: `linear-gradient(90deg, #bfc7d1, #eef1f4, #bfc7d1)`,
           border: "2px solid #a5acb8",
           animation: "spinSlow 12s linear infinite",
         }}
       ></div>
 
-      {/* Hopper */}
       <div
         style={{
           width: 0,
           height: 0,
           borderLeft: cylWidth / 2 + "px solid transparent",
           borderRight: cylWidth / 2 + "px solid transparent",
-          borderTop: coneHeight + "px solid " + t.cone,
+          borderTop: coneHeight + "px solid #b0b8c4",
           animation: "spinSlow 12s linear infinite",
         }}
       ></div>
 
-      {/* Shadow */}
       <div
         style={{
           width: cylWidth,
@@ -64,7 +53,7 @@ function Silo3D({ topDia = 2, Hh = 1, Hc = 2, color = "steel" }) {
 }
 
 /* =============================
-   MAIN CALCULATOR (INLINE CSS)
+   MAIN CALCULATOR
    ============================= */
 export default function Silo() {
   const [inputs, setInputs] = useState({
@@ -73,9 +62,17 @@ export default function Silo() {
     bottomDia: "",
     reposeAngle: "",
     valleyAngle: "60",
+
+    // NEW INPUTS
+    flow: "",
+    idc: "",
+    temp: "",
+    density: "",
+    storage: "",
   });
 
   const [results, setResults] = useState(null);
+  const [extra, setExtra] = useState(null);
 
   const handleChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
@@ -88,7 +85,12 @@ export default function Silo() {
     const α = parseFloat(inputs.reposeAngle) * (Math.PI / 180);
     const θ = parseFloat(inputs.valleyAngle) * (Math.PI / 180);
 
-    if (isNaN(Vt) || isNaN(D1) || isNaN(D2) || isNaN(α) || isNaN(θ)) return;
+    const flow = parseFloat(inputs.flow);
+    const idc = parseFloat(inputs.idc);
+    const density = parseFloat(inputs.density);
+    const storage = parseFloat(inputs.storage);
+
+    if (isNaN(Vt) || isNaN(D1) || isNaN(D2) || isNaN(α)) return;
 
     const Hh = (D1 - D2) / (2 * Math.tan(θ / 2));
     const hopperVol = (Math.PI * Hh * (D1 * D1 + D1 * D2 + D2 * D2)) / 12;
@@ -99,15 +101,17 @@ export default function Silo() {
     const cylVolNeeded = Vt - (hopperVol + reposeVol);
     const Hc = cylVolNeeded / (Math.PI * (D1 / 2) ** 2);
 
-    setResults({
-      hopperVol,
-      reposeVol,
-      cylVolNeeded,
-      Hh,
-      Hc,
-      total: Vt,
-      reposeHeight,
-    });
+    setResults({ hopperVol, reposeVol, cylVolNeeded, Hh, Hc, total: Vt, reposeHeight });
+
+    // EXTRA FLOW + IDC + DENSITY + STORAGE CALCULATIONS
+    let F1 = flow / 3600;
+    let F2 = flow * idc;
+    let F3 = (flow * idc) / 1000;
+    let F4 = F3 * 3600;
+    let F5 = F4 * density;
+    let F6 = F5 * storage;
+
+    setExtra({ F1, F2, F3, F4, F5, F6 });
   };
 
   return (
@@ -142,29 +146,10 @@ export default function Silo() {
           }}
         >
           <h1 style={{ fontSize: "32px", fontWeight: "bold", marginBottom: "15px", color: "#222" }}>
-            Silo Design 
+            Silo Design Calculator
           </h1>
 
-          {/* FORMULA BOX */}
-          <div
-            style={{
-              background: "#f7f7f7",
-              padding: "15px",
-              borderRadius: "12px",
-              border: "1px solid #ccc",
-              marginBottom: "20px",
-            }}
-          >
-            <h2 style={{ color: "#1e88e5", fontSize: "18px", marginBottom: "8px" }}> Used Formulas</h2>
-            <p>• Hopper Height = (D1 - D2) / (2 × tan(θ/2))</p>
-            <p>• Hopper Volume = π × Hopper Height × (D1² + D1*D2 + D2²) / 12</p>
-            <p>• Repose Height = (D1 / 2) × tan(α)</p>
-            <p>• Repose Volume = (1/3) × π × r² × Repose Height</p>
-             <p>• Cylidrical Volume = Total Volume - (Hopper Volume + Repose volume )</p>
-            <p>• Cylindrical Height = Cylindrical Volume / (π × r²)</p>
-          </div>
-
-          {/* INPUTS */}
+          {/* INPUT FIELDS */}
           {Object.keys(inputs).map((key) => (
             <input
               key={key}
@@ -192,8 +177,8 @@ export default function Silo() {
               width: "100%",
               padding: "12px",
               background: "linear-gradient(to right, #1e88e5, #3949ab)",
-              border: "none",
               borderRadius: "12px",
+              border: "none",
               color: "#fff",
               fontSize: "18px",
               cursor: "pointer",
@@ -203,7 +188,7 @@ export default function Silo() {
             Calculate
           </button>
 
-          {/* RESULTS */}
+          {/* SILO RESULTS */}
           {results && (
             <div
               style={{
@@ -216,19 +201,44 @@ export default function Silo() {
               }}
             >
               <h2 style={{ fontSize: "22px", fontWeight: "bold", marginBottom: "10px" }}>
-                 Results
+                📌 Silo Results
               </h2>
 
-              <p><b>1️⃣ Hopper Height:</b> {results.Hh.toFixed(3)} m</p>
-              <p><b>2️⃣ Hopper Volume:</b> {results.hopperVol.toFixed(3)} m³</p>
-              <p><b>3️⃣ Repose Height:</b> {results.reposeHeight.toFixed(3)} m</p>
-              <p><b>4️⃣ Repose Volume:</b> {results.reposeVol.toFixed(3)} m³</p>
-              <p><b>5️⃣ Cylinder Volume Needed:</b> {results.cylVolNeeded.toFixed(3)} m³</p>
-              <p><b>6️⃣ Cylinder Height:</b> {results.Hc.toFixed(3)} m</p>
+              <p><b>Hopper Height:</b> {results.Hh.toFixed(3)} m</p>
+              <p><b>Hopper Volume:</b> {results.hopperVol.toFixed(3)} m³</p>
+              <p><b>Repose Height:</b> {results.reposeHeight.toFixed(3)} m</p>
+              <p><b>Repose Volume:</b> {results.reposeVol.toFixed(3)} m³</p>
+              <p><b>Cylinder Volume Needed:</b> {results.cylVolNeeded.toFixed(3)} m³</p>
+              <p><b>Cylinder Height:</b> {results.Hc.toFixed(3)} m</p>
 
               <h3 style={{ marginTop: "12px", color: "#1e88e5", fontSize: "20px" }}>
                 Total Volume: {results.total.toFixed(2)} m³
               </h3>
+            </div>
+          )}
+
+          {/* EXTRA CALCULATIONS */}
+          {extra && (
+            <div
+              style={{
+                marginTop: "20px",
+                background: "#fff",
+                padding: "20px",
+                borderRadius: "15px",
+                border: "1px solid #ccc",
+                boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+              }}
+            >
+              <h2 style={{ fontSize: "22px", fontWeight: "bold", marginBottom: "10px" }}>
+                🔬 Flow + IDC + Density Results
+              </h2>
+
+              <p><b>flow / 3600 :</b> {extra.F1.toFixed(3)}</p>
+              <p><b>flow × idc :</b> {extra.F2.toFixed(3)}</p>
+              <p><b>(flow × idc) ÷ 1000 :</b> {extra.F3.toFixed(3)}</p>
+              <p><b>(flow × idc ÷ 1000) × 3600 :</b> {extra.F4.toFixed(3)}</p>
+              <p><b>Above × density :</b> {extra.F5.toFixed(3)}</p>
+              <p><b>FINAL (× storage) :</b> {extra.F6.toFixed(3)}</p>
             </div>
           )}
         </div>
@@ -241,7 +251,7 @@ export default function Silo() {
             padding: "20px",
             borderRadius: "20px",
             border: "1px solid #ccc",
-            boxShadow: "8px 20px rgba(0,0,0,0.15)",
+            boxShadow: "0px 8px 20px rgba(0,0,0,0.15)",
             display: "flex",
             justifyContent: "center",
           }}
@@ -250,9 +260,9 @@ export default function Silo() {
             topDia={parseFloat(inputs.topDia) || 2}
             Hh={results?.Hh || 1}
             Hc={results?.Hc || 2}
-            color="steel"
           />
         </div>
+
       </div>
     </div>
   );
