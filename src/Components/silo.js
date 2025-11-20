@@ -23,7 +23,7 @@ function Silo3D({ topDia = 2, Hh = 1, Hc = 2 }) {
           height: cylHeight,
           background: "linear-gradient(90deg, #bfc7d1, #eef1f4, #bfc7d1)",
           border: "2px solid #999",
-          borderRadius: "20px 20px 0 0",
+          borderRadius: "0px 20px 20px 0 0",
           animation: "spinSlow 12s linear infinite",
         }}
       ></div>
