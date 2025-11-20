@@ -194,7 +194,7 @@ function FlowCard() {
     let F2 = F1 * idc;
     let F3 = (F1 * idc) / 1000;
     let F4 = F3 * 3600;
-    let F5 = F4 * density;
+    let F5 = F4 / density;
     let F6 = F5 * storage;
 
     setExtra({ F1, F2, F3, F4, F5, F6 });
