@@ -76,6 +76,10 @@ function SiloCard() {
     const cylVolNeeded = Vt - (hopperVol + reposeVol);
     const Hc = cylVolNeeded / (Math.PI * (D1 / 2) ** 2);
 
+    // ⭐ NEW HEIGHT CONDITION
+    const totalHeight = Hh + Hc + reposeHeight;
+    const ratio = totalHeight / D1;
+
     setResults({
       hopperVol,
       reposeVol,
@@ -84,6 +88,8 @@ function SiloCard() {
       Hc,
       total: Vt,
       reposeHeight,
+      totalHeight,
+      ratio
     });
   };
 
@@ -139,12 +145,6 @@ function SiloCard() {
         Calculate
       </button>
 
-      <Silo3D
-        topDia={parseFloat(inputs.topDia) || 2}
-        Hh={results?.Hh || 1}
-        Hc={results?.Hc || 2}
-      />
-
       {results && (
         <div
           style={{
@@ -156,17 +156,35 @@ function SiloCard() {
           }}
         >
           <h3>📌 Results</h3>
+
           <p>Hopper Height: {results.Hh.toFixed(3)}</p>
           <p>Hopper Volume: {results.hopperVol.toFixed(3)}</p>
           <p>Repose Height: {results.reposeHeight.toFixed(3)}</p>
           <p>Repose Volume: {results.reposeVol.toFixed(3)}</p>
           <p>Cylinder Height: {results.Hc.toFixed(3)}</p>
-           <p>Cylinder Volume: {results.cylVolNeeded.toFixed(3)}</p>
+          <p>Cylinder Volume: {results.cylVolNeeded.toFixed(3)}</p>
+
+          <hr style={{ margin: "10px 0" }} />
+
+          <p><b>Total Silo Height:</b> {results.totalHeight.toFixed(3)} m</p>
+          <p><b>Height / TopDia Ratio:</b> {results.ratio.toFixed(3)}</p>
+
+          {/* ⭐ CONDITION CHECK */}
+          {results.ratio < 1.5 || results.ratio > 2 ? (
+            <p style={{ color: "red", fontWeight: "bold" }}>
+              ⚠️ Ratio Out of Range (Must be 1.5 - 2)
+            </p>
+          ) : (
+            <p style={{ color: "green", fontWeight: "bold" }}>
+               Ratio OK
+            </p>
+          )}
         </div>
       )}
     </div>
   );
 }
+
 
 /* =============================
    CARD 2 — FLOW CALCULATOR
