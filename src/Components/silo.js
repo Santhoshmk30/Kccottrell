@@ -155,7 +155,7 @@ export default function Silo() {
               marginBottom: "20px",
             }}
           >
-            <h2 style={{ color: "#1e88e5", fontSize: "18px", marginBottom: "8px" }}>📘 Used Formulas</h2>
+            <h2 style={{ color: "#1e88e5", fontSize: "18px", marginBottom: "8px" }}> Used Formulas</h2>
             <p>• Hopper Height = (D1 - D2) / (2 × tan(θ/2))</p>
             <p>• Hopper Volume = π × Hopper Height × (D1² + D1·D2 + D2²) / 12</p>
             <p>• Repose Height = (D1 / 2) × tan(α)</p>
@@ -216,7 +216,7 @@ export default function Silo() {
               }}
             >
               <h2 style={{ fontSize: "22px", fontWeight: "bold", marginBottom: "10px" }}>
-                📌 Step-by-Step Results
+                 Results
               </h2>
 
               <p><b>1️⃣ Hopper Height:</b> {results.Hh.toFixed(3)} m</p>
@@ -241,7 +241,7 @@ export default function Silo() {
             padding: "20px",
             borderRadius: "20px",
             border: "1px solid #ccc",
-            boxShadow: "0px 8px 20px rgba(0,0,0,0.15)",
+            boxShadow: "8px 20px rgba(0,0,0,0.15)",
             display: "flex",
             justifyContent: "center",
           }}
