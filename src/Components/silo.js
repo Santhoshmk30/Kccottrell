@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 /* =============================
-   ⚙️ CSS 3D SILO COMPONENT
+   CSS 3D SILO (INLINE CSS)
    ============================= */
 function Silo3D({ topDia = 2, Hh = 1, Hc = 2, color = "steel" }) {
   const themes = {
@@ -10,14 +10,14 @@ function Silo3D({ topDia = 2, Hh = 1, Hc = 2, color = "steel" }) {
     blue: { cylinder: "#7da7d9", cone: "#6c95c8" },
   };
 
-  const t = themes[color] || themes.steel;
+  const t = themes[color];
 
   const cylHeight = Hc * 40;
   const coneHeight = Hh * 40;
   const cylWidth = topDia * 15;
 
   return (
-    <div className="w-full flex flex-col items-center mt-4">
+    <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", marginTop: "20px" }}>
       <style>{`
         @keyframes spinSlow {
           0% { transform: rotateY(0deg); }
@@ -27,21 +27,21 @@ function Silo3D({ topDia = 2, Hh = 1, Hc = 2, color = "steel" }) {
 
       {/* Cylinder */}
       <div
-        className="rounded-t-full"
         style={{
-          width: cylWidth + "px",
-          height: cylHeight + "px",
+          width: cylWidth,
+          height: cylHeight,
+          borderRadius: "20px 20px 0 0",
           background: `linear-gradient(90deg, ${t.cylinder}, #eef1f4, ${t.cylinder})`,
           border: "2px solid #a5acb8",
           animation: "spinSlow 12s linear infinite",
         }}
       ></div>
 
-      {/* Hopper / Cone */}
+      {/* Hopper */}
       <div
         style={{
-          width: "0px",
-          height: "0px",
+          width: 0,
+          height: 0,
           borderLeft: cylWidth / 2 + "px solid transparent",
           borderRight: cylWidth / 2 + "px solid transparent",
           borderTop: coneHeight + "px solid " + t.cone,
@@ -51,11 +51,12 @@ function Silo3D({ topDia = 2, Hh = 1, Hc = 2, color = "steel" }) {
 
       {/* Shadow */}
       <div
-        className="mt-2 rounded-full"
         style={{
-          width: cylWidth + "px",
-          height: "18px",
-          background: "radial-gradient(rgba(0,0,0,0.25), transparent)",
+          width: cylWidth,
+          height: 18,
+          marginTop: 10,
+          borderRadius: "50%",
+          background: "radial-gradient(rgba(0,0,0,0.3), transparent)",
         }}
       ></div>
     </div>
@@ -63,7 +64,7 @@ function Silo3D({ topDia = 2, Hh = 1, Hc = 2, color = "steel" }) {
 }
 
 /* =============================
-   📐 MAIN CALCULATOR COMPONENT
+   MAIN CALCULATOR (INLINE CSS)
    ============================= */
 export default function Silo() {
   const [inputs, setInputs] = useState({
@@ -110,68 +111,140 @@ export default function Silo() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 to-gray-100 p-6 flex justify-center">
-      <div className="flex flex-col md:flex-row gap-8 max-w-6xl w-full">
-
+    <div
+      style={{
+        minHeight: "100vh",
+        width: "100%",
+        background: "linear-gradient(135deg, #e3f2fd, #eceff1)",
+        padding: "30px",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: window.innerWidth < 768 ? "column" : "row",
+          gap: "30px",
+          maxWidth: "1200px",
+          width: "100%",
+        }}
+      >
         {/* LEFT PANEL */}
-        <div className="flex-1 bg-white rounded-2xl shadow-xl p-6 border border-gray-200">
-          <h1 className="text-4xl font-bold mb-4 text-gray-800">Silo Design Calculator</h1>
+        <div
+          style={{
+            flex: 1,
+            background: "#fff",
+            padding: "25px",
+            borderRadius: "20px",
+            boxShadow: "0px 8px 20px rgba(0,0,0,0.15)",
+            border: "1px solid #ddd",
+          }}
+        >
+          <h1 style={{ fontSize: "32px", fontWeight: "bold", marginBottom: "15px", color: "#222" }}>
+            Silo Design Calculator
+          </h1>
 
-          {/* FORMULAS */}
-          <div className="bg-gray-100 rounded-xl p-4 mb-6 shadow-inner border border-gray-300">
-            <h2 className="text-lg font-semibold mb-2 text-blue-700">📘 Used Formulas</h2>
-            <p className="text-sm">• Hh = (D1 - D2) / (2 × tan(θ/2))</p>
-            <p className="text-sm">• Vh = π × Hh × (D1² + D1·D2 + D2²) / 12</p>
-            <p className="text-sm">• hf = (D1 / 2) × tan(α)</p>
-            <p className="text-sm">• Vr = (1/3) × π × r² × hf</p>
-            <p className="text-sm">• Hc = Vc / (π × r²)</p>
+          {/* FORMULA BOX */}
+          <div
+            style={{
+              background: "#f7f7f7",
+              padding: "15px",
+              borderRadius: "12px",
+              border: "1px solid #ccc",
+              marginBottom: "20px",
+            }}
+          >
+            <h2 style={{ color: "#1e88e5", fontSize: "18px", marginBottom: "8px" }}>📘 Used Formulas</h2>
+            <p>• Hh = (D1 - D2) / (2 × tan(θ/2))</p>
+            <p>• Vh = π × Hh × (D1² + D1·D2 + D2²) / 12</p>
+            <p>• hf = (D1 / 2) × tan(α)</p>
+            <p>• Vr = (1/3) × π × r² × hf</p>
+            <p>• Hc = Vc / (π × r²)</p>
           </div>
 
           {/* INPUTS */}
-          <div className="grid grid-cols-1 gap-3">
-            {Object.keys(inputs).map((key) => (
-              <input
-                key={key}
-                name={key}
-                value={inputs[key]}
-                onChange={handleChange}
-                placeholder={key}
-                className="border p-3 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 outline-none"
-              />
-            ))}
-          </div>
+          {Object.keys(inputs).map((key) => (
+            <input
+              key={key}
+              name={key}
+              value={inputs[key]}
+              onChange={handleChange}
+              placeholder={key}
+              style={{
+                width: "100%",
+                padding: "12px",
+                marginBottom: "12px",
+                borderRadius: "10px",
+                border: "1px solid #bbb",
+                fontSize: "16px",
+                outline: "none",
+                background: "#fafafa",
+              }}
+            />
+          ))}
 
           {/* BUTTON */}
           <button
             onClick={calculate}
-            className="w-full mt-5 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all font-semibold"
+            style={{
+              width: "100%",
+              padding: "12px",
+              background: "linear-gradient(to right, #1e88e5, #3949ab)",
+              border: "none",
+              borderRadius: "12px",
+              color: "#fff",
+              fontSize: "18px",
+              cursor: "pointer",
+              marginTop: "10px",
+            }}
           >
             Calculate
           </button>
 
           {/* RESULTS */}
           {results && (
-            <div className="mt-6 bg-white border border-gray-300 p-5 rounded-xl shadow-lg">
-              <h2 className="text-2xl font-bold mb-4 text-gray-800">📌 Step-by-Step Results</h2>
+            <div
+              style={{
+                marginTop: "20px",
+                background: "#fff",
+                padding: "20px",
+                borderRadius: "15px",
+                border: "1px solid #ccc",
+                boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+              }}
+            >
+              <h2 style={{ fontSize: "22px", fontWeight: "bold", marginBottom: "10px" }}>
+                📌 Step-by-Step Results
+              </h2>
 
-              <div className="space-y-3 text-gray-700">
-                <p><b>1️⃣ Hopper Height:</b> {results.Hh.toFixed(3)} m</p>
-                <p><b>2️⃣ Hopper Volume:</b> {results.hopperVol.toFixed(3)} m³</p>
-                <p><b>3️⃣ Repose Height:</b> {results.reposeHeight.toFixed(3)} m</p>
-                <p><b>4️⃣ Repose Volume:</b> {results.reposeVol.toFixed(3)} m³</p>
-                <p><b>5️⃣ Cylinder Volume Needed:</b> {results.cylVolNeeded.toFixed(3)} m³</p>
-                <p><b>6️⃣ Cylinder Height:</b> {results.Hc.toFixed(3)} m</p>
+              <p><b>1️⃣ Hopper Height:</b> {results.Hh.toFixed(3)} m</p>
+              <p><b>2️⃣ Hopper Volume:</b> {results.hopperVol.toFixed(3)} m³</p>
+              <p><b>3️⃣ Repose Height:</b> {results.reposeHeight.toFixed(3)} m</p>
+              <p><b>4️⃣ Repose Volume:</b> {results.reposeVol.toFixed(3)} m³</p>
+              <p><b>5️⃣ Cylinder Volume Needed:</b> {results.cylVolNeeded.toFixed(3)} m³</p>
+              <p><b>6️⃣ Cylinder Height:</b> {results.Hc.toFixed(3)} m</p>
 
-                <h2 className="text-xl font-bold text-blue-700 mt-4">
-                  Total Required Volume: {results.total.toFixed(2)} m³
-                </h2>
-              </div>
+              <h3 style={{ marginTop: "12px", color: "#1e88e5", fontSize: "20px" }}>
+                Total Volume: {results.total.toFixed(2)} m³
+              </h3>
             </div>
           )}
         </div>
 
-        {/* RIGHT PANEL – SILO MODEL */}
-        <div className="w-full md:w-1/3 bg-white p-4 rounded-2xl shadow-xl border flex justify-center items-start">
+        {/* RIGHT PANEL */}
+        <div
+          style={{
+            width: "350px",
+            background: "#fff",
+            padding: "20px",
+            borderRadius: "20px",
+            border: "1px solid #ccc",
+            boxShadow: "0px 8px 20px rgba(0,0,0,0.15)",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <Silo3D
             topDia={parseFloat(inputs.topDia) || 2}
             Hh={results?.Hh || 1}
@@ -179,7 +252,6 @@ export default function Silo() {
             color="steel"
           />
         </div>
-
       </div>
     </div>
   );
