@@ -107,7 +107,7 @@ function SiloCard() {
         border: "1px solid #ccc",
       }}
     >
-      <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>🏗️ Silo Calculator</h2>
+      <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>Silo</h2>
 
       {Object.keys(inputs).map((key) => (
         <input
@@ -233,7 +233,7 @@ function FlowCard() {
         border: "1px solid #ccc",
       }}
     >
-      <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>🔬 Flow Calculator</h2>
+      <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>Flow</h2>
 
       {Object.keys(inputs).map((key) => (
         <input
