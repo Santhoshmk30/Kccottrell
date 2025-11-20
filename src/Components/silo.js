@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-/* =============================
-   SILO 3D MODEL (INLINE CSS)
-   ============================= */
+/* =============================================================
+   3D SILO SHAPE MODEL (INLINE CSS)
+   ============================================================= */
 function Silo3D({ topDia = 2, Hh = 1, Hc = 2 }) {
   const cylHeight = Hc * 40;
   const coneHeight = Hh * 40;
@@ -23,7 +23,7 @@ function Silo3D({ topDia = 2, Hh = 1, Hc = 2 }) {
           height: cylHeight,
           background: "linear-gradient(90deg, #bfc7d1, #eef1f4, #bfc7d1)",
           border: "2px solid #999",
-          borderRadius: "0px 20px 20px 0 0",
+          borderRadius: "20px 20px 0 0",
           animation: "spinSlow 12s linear infinite",
         }}
       ></div>
@@ -42,9 +42,9 @@ function Silo3D({ topDia = 2, Hh = 1, Hc = 2 }) {
   );
 }
 
-/* =============================
+/* =============================================================
    CARD 1 — SILO CALCULATOR
-   ============================= */
+   ============================================================= */
 function SiloCard() {
   const [inputs, setInputs] = useState({
     totalVolume: "",
@@ -63,20 +63,22 @@ function SiloCard() {
     const Vt = parseFloat(inputs.totalVolume);
     const D1 = parseFloat(inputs.topDia);
     const D2 = parseFloat(inputs.bottomDia);
-    const α = parseFloat(inputs.reposeAngle) * (Math.PI / 180);
-    const θ = parseFloat(inputs.valleyAngle) * (Math.PI / 180);
+    const alpha = parseFloat(inputs.reposeAngle) * (Math.PI / 180);
+    const theta = parseFloat(inputs.valleyAngle) * (Math.PI / 180);
 
-    const Hh = (D1 - D2) / (2 * Math.tan(θ / 2));
+    const Hh = (D1 - D2) / (2 * Math.tan(theta / 2));
     const hopperVol =
       (Math.PI * Hh * (D1 * D1 + D1 * D2 + D2 * D2)) / 12;
 
-    const reposeHeight = (D1 / 2) * Math.tan(α);
-    const reposeVol = (1 / 3) * Math.PI * (D1 / 2) ** 2 * reposeHeight;
+    const reposeHeight = (D1 / 2) * Math.tan(alpha);
+    const reposeVol =
+      (1 / 3) * Math.PI * (D1 / 2) ** 2 * reposeHeight;
 
     const cylVolNeeded = Vt - (hopperVol + reposeVol);
-    const Hc = cylVolNeeded / (Math.PI * (D1 / 2) ** 2);
+    const Hc =
+      cylVolNeeded / (Math.PI * (D1 / 2) ** 2);
 
-    // ⭐ NEW HEIGHT CONDITION
+    // ⭐ NEW RATIO CHECK
     const totalHeight = Hh + Hc + reposeHeight;
     const ratio = totalHeight / D1;
 
@@ -89,7 +91,7 @@ function SiloCard() {
       total: Vt,
       reposeHeight,
       totalHeight,
-      ratio
+      ratio,
     });
   };
 
@@ -105,9 +107,7 @@ function SiloCard() {
         border: "1px solid #ccc",
       }}
     >
-      <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>
-        🏗️ Silo Calculator
-      </h2>
+      <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>🏗️ Silo Calculator</h2>
 
       {Object.keys(inputs).map((key) => (
         <input
@@ -145,6 +145,12 @@ function SiloCard() {
         Calculate
       </button>
 
+      <Silo3D
+        topDia={parseFloat(inputs.topDia) || 2}
+        Hh={results?.Hh || 1}
+        Hc={results?.Hc || 2}
+      />
+
       {results && (
         <div
           style={{
@@ -155,29 +161,26 @@ function SiloCard() {
             border: "1px solid #ddd",
           }}
         >
-          <h3>📌 Results</h3>
+          <h3>📌 Silo Results</h3>
 
-          <p>Hopper Height: {results.Hh.toFixed(3)}</p>
-          <p>Hopper Volume: {results.hopperVol.toFixed(3)}</p>
-          <p>Repose Height: {results.reposeHeight.toFixed(3)}</p>
-          <p>Repose Volume: {results.reposeVol.toFixed(3)}</p>
-          <p>Cylinder Height: {results.Hc.toFixed(3)}</p>
-          <p>Cylinder Volume: {results.cylVolNeeded.toFixed(3)}</p>
+          <p>Hopper Height: {results.Hh.toFixed(3)} m</p>
+          <p>Hopper Volume: {results.hopperVol.toFixed(3)} m³</p>
+          <p>Repose Height: {results.reposeHeight.toFixed(3)} m</p>
+          <p>Repose Volume: {results.reposeVol.toFixed(3)} m³</p>
+          <p>Cylinder Height: {results.Hc.toFixed(3)} m</p>
+          <p>Cylinder Volume: {results.cylVolNeeded.toFixed(3)} m³</p>
 
-          <hr style={{ margin: "10px 0" }} />
+          <hr style={{ margin: "12px 0" }} />
 
-          <p><b>Total Silo Height:</b> {results.totalHeight.toFixed(3)} m</p>
-          <p><b>Height / TopDia Ratio:</b> {results.ratio.toFixed(3)}</p>
+          <p><b>Total Height:</b> {results.totalHeight.toFixed(3)} m</p>
+          <p><b>Height / TopDia:</b> {results.ratio.toFixed(3)}</p>
 
-          {/* ⭐ CONDITION CHECK */}
           {results.ratio < 1.5 || results.ratio > 2 ? (
             <p style={{ color: "red", fontWeight: "bold" }}>
-              ⚠️ Ratio Out of Range (Must be 1.5 - 2)
+              ⚠️ Ratio Out of Range (1.5 - 2 Required)
             </p>
           ) : (
-            <p style={{ color: "green", fontWeight: "bold" }}>
-               Ratio OK
-            </p>
+            <p style={{ color: "green", fontWeight: "bold" }}>✅ Ratio OK</p>
           )}
         </div>
       )}
@@ -185,10 +188,9 @@ function SiloCard() {
   );
 }
 
-
-/* =============================
+/* =============================================================
    CARD 2 — FLOW CALCULATOR
-   ============================= */
+   ============================================================= */
 function FlowCard() {
   const [inputs, setInputs] = useState({
     flow: "",
@@ -210,10 +212,10 @@ function FlowCard() {
     const storage = parseFloat(inputs.storage);
 
     let F1 = flow / 3600;
-    let F2 = F1 * idc;
-    let F3 = (F1 * idc) / 1000;
+    let F2 = flow * idc;
+    let F3 = (flow * idc) / 1000;
     let F4 = F3 * 3600;
-    let F5 = F4 / density;
+    let F5 = F4 * density;
     let F6 = F5 * storage;
 
     setExtra({ F1, F2, F3, F4, F5, F6 });
@@ -231,9 +233,7 @@ function FlowCard() {
         border: "1px solid #ccc",
       }}
     >
-      <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>
-        🔬 Flow Calculator
-      </h2>
+      <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>🔬 Flow Calculator</h2>
 
       {Object.keys(inputs).map((key) => (
         <input
@@ -280,29 +280,30 @@ function FlowCard() {
             border: "1px solid #ddd",
           }}
         >
-          <h3>📌 Results</h3>
-          <p>flow Per Sec = {extra.F1.toFixed(3)} Am^3/Sec</p>
-          <p>flow Per Gm = {extra.F2.toFixed(3)}  Gm/Sec</p>
-          <p>flow Per kg = {extra.F3.toFixed(3)} Kg/Sec</p>
-          <p>flow Per Kg/hr = {extra.F4.toFixed(3)} Kg/Hr</p>
-          <p>flow Per Kg/M^3 = {extra.F5.toFixed(3)} M^3/Hr</p>
-          <p>Volume = {extra.F6.toFixed(3)} M^3</p>
+          <h3>📌 Flow Outputs</h3>
+
+          <p>flow / 3600 = {extra.F1.toFixed(3)}</p>
+          <p>flow × idc = {extra.F2.toFixed(3)}</p>
+          <p>(flow × idc) ÷ 1000 = {extra.F3.toFixed(3)}</p>
+          <p>× 3600 = {extra.F4.toFixed(3)}</p>
+          <p>× density = {extra.F5.toFixed(3)}</p>
+          <p>× storage = {extra.F6.toFixed(3)}</p>
         </div>
       )}
     </div>
   );
 }
 
-/* =============================
-   FINAL PAGE — BOTH CARDS
-   ============================= */
+/* =============================================================
+   FINAL PAGE — TWO CARDS TOGETHER
+   ============================================================= */
 export default function SiloFlowPage() {
   return (
     <div
       style={{
         minHeight: "100vh",
         padding: "20px",
-        background: "#f1f4f8",
+        background: "#eef2f7",
         display: "flex",
         justifyContent: "center",
       }}
