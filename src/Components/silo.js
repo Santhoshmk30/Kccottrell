@@ -191,8 +191,8 @@ function FlowCard() {
     const storage = parseFloat(inputs.storage);
 
     let F1 = flow / 3600;
-    let F2 = flow * idc;
-    let F3 = (flow * idc) / 1000;
+    let F2 = F1 * idc;
+    let F3 = (F1 * idc) / 1000;
     let F4 = F3 * 3600;
     let F5 = F4 * density;
     let F6 = F5 * storage;
