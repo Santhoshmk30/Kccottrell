@@ -239,6 +239,24 @@ function Login() {
           <p style={styles.message}>{message}</p>
           <p style={styles.registerLink}>
             Don't have an account?{' '}
+              <button
+  onClick={() => navigate("/silo")}
+  style={{
+    marginTop: "20px",
+    width: "100%",
+    padding: "12px",
+    background: "linear-gradient(to right, #ff512f, #dd2476)",
+    color: "#fff",
+    border: "none",
+    borderRadius: "10px",
+    fontSize: "16px",
+    fontWeight: "bold",
+    cursor: "pointer",
+  }}
+>
+  Silo Calculator
+</button>
+
             <Link to="/register" style={{ textDecoration: 'underline', color: '#0072ff', fontWeight: 'bold' }}>
               Create Account
             </Link>
@@ -250,6 +268,7 @@ function Login() {
 }
 
 export default Login;
+
 
 
 
