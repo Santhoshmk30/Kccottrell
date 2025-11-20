@@ -24,7 +24,7 @@ import CertifyReimbursement from './Components/Purchases/CertifyReimbursement';
 import VerifyReimbursement from './Components/Purchases/VerifyReimbursement';
 import PurchaseOrderPage from './Components/Purchases/PurchaseOrderPage';
 import PurchaseOrderHistory from './Components/Purchases/PurchaseOrderHistory';
-import silo from './Components/silo';
+import Silo from './Components/silo';
 
 function App() {
   return (
@@ -53,7 +53,7 @@ function App() {
       <Route path="/verifyreimbursement" element={<VerifyReimbursement/>} />
       <Route path="/purchaseorder" element={<PurchaseOrderPage/>} />
       <Route path="/purchaseorderhistory" element={<PurchaseOrderHistory/>} />
-  <Route path="/silo" element={<silo/>} />
+  <Route path="/silo" element={<Silo/>} />
       </Routes>
     </Router>
   );
