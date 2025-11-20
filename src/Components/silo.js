@@ -142,7 +142,7 @@ export default function Silo() {
           }}
         >
           <h1 style={{ fontSize: "32px", fontWeight: "bold", marginBottom: "15px", color: "#222" }}>
-            Silo Design Calculator
+            Silo Design 
           </h1>
 
           {/* FORMULA BOX */}
@@ -156,11 +156,12 @@ export default function Silo() {
             }}
           >
             <h2 style={{ color: "#1e88e5", fontSize: "18px", marginBottom: "8px" }}>📘 Used Formulas</h2>
-            <p>• Hh = (D1 - D2) / (2 × tan(θ/2))</p>
-            <p>• Vh = π × Hh × (D1² + D1·D2 + D2²) / 12</p>
-            <p>• hf = (D1 / 2) × tan(α)</p>
-            <p>• Vr = (1/3) × π × r² × hf</p>
-            <p>• Hc = Vc / (π × r²)</p>
+            <p>• Hopper Height = (D1 - D2) / (2 × tan(θ/2))</p>
+            <p>• Hopper Volume = π × Hopper Height × (D1² + D1·D2 + D2²) / 12</p>
+            <p>• Repose Height = (D1 / 2) × tan(α)</p>
+            <p>• Repose Volume = (1/3) × π × r² × Repose Height</p>
+             <p>• Cylidrical Volume = Total Volume - (Hopper Volume + Repose volume )</p>
+            <p>• Cylindrical Height = Cylindrical Volume / (π × r²)</p>
           </div>
 
           {/* INPUTS */}
