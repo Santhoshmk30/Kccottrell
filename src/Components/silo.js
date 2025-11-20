@@ -157,7 +157,7 @@ export default function Silo() {
           >
             <h2 style={{ color: "#1e88e5", fontSize: "18px", marginBottom: "8px" }}> Used Formulas</h2>
             <p>• Hopper Height = (D1 - D2) / (2 × tan(θ/2))</p>
-            <p>• Hopper Volume = π × Hopper Height × (D1² + D1·D2 + D2²) / 12</p>
+            <p>• Hopper Volume = π × Hopper Height × (D1² + D1*D2 + D2²) / 12</p>
             <p>• Repose Height = (D1 / 2) × tan(α)</p>
             <p>• Repose Volume = (1/3) × π × r² × Repose Height</p>
              <p>• Cylidrical Volume = Total Volume - (Hopper Volume + Repose volume )</p>
