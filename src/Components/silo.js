@@ -55,7 +55,14 @@ function SiloCard() {
   });
 
   const [results, setResults] = useState(null);
-
+React.useEffect(() => {
+    if (totalVolumeFromFlow) {
+      setInputs((prev) => ({
+        ...prev,
+        totalVolume: totalVolumeFromFlow.toFixed(3),
+      }));
+    }
+  }, [totalVolumeFromFlow]);
   const handleChange = (e) =>
     setInputs({ ...inputs, [e.target.name]: e.target.value });
 
@@ -161,7 +168,7 @@ function SiloCard() {
             border: "1px solid #ddd",
           }}
         >
-          <h3>ðŸ“Œ Silo Results</h3>
+          <h3>📌 Silo Results</h3>
 
           <p>Hopper Height: {results.Hh.toFixed(3)} m</p>
           <p>Hopper Volume: {results.hopperVol.toFixed(3)} mÂ³</p>
@@ -177,7 +184,7 @@ function SiloCard() {
 
           {results.ratio < 1.5 || results.ratio > 2 ? (
             <p style={{ color: "red", fontWeight: "bold" }}>
-              âš ï¸ Ratio Out of Range (1.5 - 2 Required)
+               ⚠️ Ratio Out of Range (1.5 - 2 Required)
             </p>
           ) : (
             <p style={{ color: "green", fontWeight: "bold" }}>âœ… Ratio OK</p>
@@ -189,7 +196,7 @@ function SiloCard() {
 }
 
 /* =============================================================
-   CARD 2 â€” FLOW CALCULATOR
+   CARD 2  FLOW CALCULATOR
    ============================================================= */
 function FlowCard() {
   const [inputs, setInputs] = useState({
