@@ -279,7 +279,7 @@ function FlowCard() {
             border: "1px solid #ddd",
           }}
         >
-          <h3>ðŸ“Œ Flow Outputs</h3>
+          <h3>Flow Outputs</h3>
 
           <p>Flow per Sec = {extra.F1.toFixed(3)} Am^3/Sec</p>
           <p>Flow per Gm = {extra.F2.toFixed(3)} Gm/Sec</p>
