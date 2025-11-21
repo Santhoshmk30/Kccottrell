@@ -281,12 +281,12 @@ function FlowCard() {
         >
           <h3>Flow Outputs</h3>
 
-          <p>Flow per Sec = {extra.F1.toFixed(3)} Am^3/Sec</p>
+          <p>Flow per Sec = {extra.F1.toFixed(3)} Am³/Sec</p>
           <p>Flow per Gm = {extra.F2.toFixed(3)} Gm/Sec</p>
           <p>Flow per Kg = {extra.F3.toFixed(3)} Kg/Sec</p>
           <p>Flow Kg/Hr = {extra.F4.toFixed(3)} Kg/Hr</p>
-          <p>Flow m^3/Hr = {extra.F5.toFixed(3)} m^3/Hr</p>
-          <p>Volume = {extra.F6.toFixed(3)} m^3</p>
+          <p>Flow m³/Hr = {extra.F5.toFixed(3)} m³/Hr</p>
+          <p>Volume = {extra.F6.toFixed(3)} m³</p>
         </div>
       )}
     </div>
