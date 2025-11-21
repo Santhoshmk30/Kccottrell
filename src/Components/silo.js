@@ -59,6 +59,7 @@ function SiloCard() {
   const handleChange = (e) =>
     setInputs({ ...inputs, [e.target.name]: e.target.value });
 
+  /* ------------------ MAIN CALCULATE FUNCTION ----------------- */
   const calculate = () => {
     const Vt = parseFloat(inputs.totalVolume);
     const D1 = parseFloat(inputs.topDia);
@@ -78,7 +79,6 @@ function SiloCard() {
     const Hc =
       cylVolNeeded / (Math.PI * (D1 / 2) ** 2);
 
-    // ⭐ NEW RATIO CHECK
     const totalHeight = Hh + Hc + reposeHeight;
     const ratio = totalHeight / D1;
 
@@ -95,6 +95,27 @@ function SiloCard() {
     });
   };
 
+  /* ------------------ AUTO ADJUST TO RATIO = 2 ----------------- */
+  const autoFixRatio = () => {
+    if (!results) return;
+
+    const oldD1 = parseFloat(inputs.topDia);
+    const oldD2 = parseFloat(inputs.bottomDia);
+
+    const newD1 = results.totalHeight / 2;
+    const scale = newD1 / oldD1;
+    const newD2 = oldD2 * scale;
+
+    setInputs({
+      ...inputs,
+      topDia: newD1.toFixed(3),
+      bottomDia: newD2.toFixed(3),
+    });
+
+    setResults(null); // force user to recalc
+  };
+
+  /* ------------------ UI ----------------- */
   return (
     <div
       style={{
@@ -107,7 +128,7 @@ function SiloCard() {
         border: "1px solid #ccc",
       }}
     >
-      <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>Silo</h2>
+      <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>🏗️ Silo Calculator</h2>
 
       {Object.keys(inputs).map((key) => (
         <input
@@ -145,12 +166,31 @@ function SiloCard() {
         Calculate
       </button>
 
+      {/* 🔥 AUTO FIX BUTTON */}
+      <button
+        onClick={autoFixRatio}
+        style={{
+          width: "100%",
+          padding: "12px",
+          background: "linear-gradient(to right, #00c853, #2e7d32)",
+          borderRadius: "10px",
+          border: "none",
+          color: "#fff",
+          fontSize: "16px",
+          marginBottom: "15px",
+          cursor: "pointer",
+        }}
+      >
+        Auto Fix Ratio = 2
+      </button>
+
       <Silo3D
         topDia={parseFloat(inputs.topDia) || 2}
         Hh={results?.Hh || 1}
         Hc={results?.Hc || 2}
       />
 
+      {/* RESULTS */}
       {results && (
         <div
           style={{
@@ -173,14 +213,16 @@ function SiloCard() {
           <hr style={{ margin: "12px 0" }} />
 
           <p><b>Total Height:</b> {results.totalHeight.toFixed(3)} m</p>
-          <p><b>Height / TopDia:</b> {results.ratio.toFixed(3)}</p>
+          <p><b>Height / TopDia =</b> {results.ratio.toFixed(3)}</p>
 
           {results.ratio < 1.5 || results.ratio > 2 ? (
             <p style={{ color: "red", fontWeight: "bold" }}>
-              ⚠️ Ratio Out of Range (1.5 - 2 Required)
+              ⚠️ Ratio Out of Range (Must be 1.5 - 2)
             </p>
           ) : (
-            <p style={{ color: "green", fontWeight: "bold" }}>✅ Ratio OK</p>
+            <p style={{ color: "green", fontWeight: "bold" }}>
+              ✅ Ratio OK
+            </p>
           )}
         </div>
       )}
@@ -233,7 +275,7 @@ function FlowCard() {
         border: "1px solid #ccc",
       }}
     >
-      <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>Flow</h2>
+      <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>🔬 Flow Calculator</h2>
 
       {Object.keys(inputs).map((key) => (
         <input
@@ -277,11 +319,10 @@ function FlowCard() {
             padding: "15px",
             background: "#fafafa",
             borderRadius: "12px",
-            border: "1px solid #ddd",
+            border: "1px solid "#ddd",
           }}
         >
           <h3>📌 Flow Outputs</h3>
-
           <p>flow / 3600 = {extra.F1.toFixed(3)}</p>
           <p>flow × idc = {extra.F2.toFixed(3)}</p>
           <p>(flow × idc) ÷ 1000 = {extra.F3.toFixed(3)}</p>
