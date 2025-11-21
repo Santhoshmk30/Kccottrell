@@ -212,8 +212,8 @@ function FlowCard() {
     const storage = parseFloat(inputs.storage);
 
     let F1 = flow / 3600;
-    let F2 = flow * idc;
-    let F3 = (flow * idc) / 1000;
+    let F2 = f1 * idc;
+    let F3 = f2 / 1000;
     let F4 = F3 * 3600;
     let F5 = F4 * density;
     let F6 = F5 * storage;
@@ -282,12 +282,12 @@ function FlowCard() {
         >
           <h3>ðŸ“Œ Flow Outputs</h3>
 
-          <p>flow / 3600 = {extra.F1.toFixed(3)}</p>
-          <p>flow Ã— idc = {extra.F2.toFixed(3)}</p>
-          <p>(flow Ã— idc) Ã· 1000 = {extra.F3.toFixed(3)}</p>
-          <p>Ã— 3600 = {extra.F4.toFixed(3)}</p>
-          <p>Ã— density = {extra.F5.toFixed(3)}</p>
-          <p>Ã— storage = {extra.F6.toFixed(3)}</p>
+          <p>Flow per Sec = {extra.F1.toFixed(3)} Am^3/Sec</p>
+          <p>Flow per Gm = {extra.F2.toFixed(3)} Gm/Sec</p>
+          <p>Flow per Kg = {extra.F3.toFixed(3)} Kg/Sec</p>
+          <p>Flow Kg/Hr = {extra.F4.toFixed(3)} Kg/Hr</p>
+          <p>Flow m^3/Hr = {extra.F5.toFixed(3)} m^3/Hr</p>
+          <p>Volume = {extra.F6.toFixed(3)} m^3</p>
         </div>
       )}
     </div>
