@@ -43,7 +43,7 @@ function Silo3D({ topDia = 2, Hh = 1, Hc = 2 }) {
 }
 
 /* =============================================================
-   CARD 1 â€” SILO CALCULATOR
+   CARD 1  SILO CALCULATOR
    ============================================================= */
 function SiloCard() {
   const [inputs, setInputs] = useState({
@@ -55,14 +55,7 @@ function SiloCard() {
   });
 
   const [results, setResults] = useState(null);
-React.useEffect(() => {
-    if (totalVolumeFromFlow) {
-      setInputs((prev) => ({
-        ...prev,
-        totalVolume: totalVolumeFromFlow.toFixed(3),
-      }));
-    }
-  }, [totalVolumeFromFlow]);
+
   const handleChange = (e) =>
     setInputs({ ...inputs, [e.target.name]: e.target.value });
 
