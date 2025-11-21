@@ -78,7 +78,6 @@ function SiloCard() {
     const Hc =
       cylVolNeeded / (Math.PI * (D1 / 2) ** 2);
 
-    // â­ NEW RATIO CHECK
     const totalHeight = Hh + Hc + reposeHeight;
     const ratio = totalHeight / D1;
 
@@ -164,11 +163,11 @@ function SiloCard() {
           <h3>📌 Silo Results</h3>
 
           <p>Hopper Height: {results.Hh.toFixed(3)} m</p>
-          <p>Hopper Volume: {results.hopperVol.toFixed(3)} mÂ³</p>
+          <p>Hopper Volume: {results.hopperVol.toFixed(3)} m³</p>
           <p>Repose Height: {results.reposeHeight.toFixed(3)} m</p>
-          <p>Repose Volume: {results.reposeVol.toFixed(3)} mÂ³</p>
+          <p>Repose Volume: {results.reposeVol.toFixed(3)} m³</p>
           <p>Cylinder Height: {results.Hc.toFixed(3)} m</p>
-          <p>Cylinder Volume: {results.cylVolNeeded.toFixed(3)} mÂ³</p>
+          <p>Cylinder Volume: {results.cylVolNeeded.toFixed(3)} m³</p>
 
           <hr style={{ margin: "12px 0" }} />
 
@@ -212,8 +211,8 @@ function FlowCard() {
     const storage = parseFloat(inputs.storage);
 
     let F1 = flow / 3600;
-    let F2 = f1 * idc;
-    let F3 = f2 / 1000;
+    let F2 = F1 * idc;
+    let F3 = F2 / 1000;
     let F4 = F3 * 3600;
     let F5 = F4 * density;
     let F6 = F5 * storage;
