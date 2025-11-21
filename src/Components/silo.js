@@ -179,7 +179,7 @@ function SiloCard() {
                ⚠️ Ratio Out of Range (1.5 - 2 Required)
             </p>
           ) : (
-            <p style={{ color: "green", fontWeight: "bold" }}>âœ… Ratio OK</p>
+            <p style={{ color: "green", fontWeight: "bold" }}>✅ Ratio OK</p>
           )}
         </div>
       )}
